@@ -1,21 +1,44 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import './common/global.js'
+import LoadingScreen from './common/Loading'
+import LandingScreen from './common/Landing'
+import {
+  createBottomTabNavigator,
+  createSwitchNavigator,
+  createAppContainer
+  } from 'react-navigation';
+import { StatusBar } from 'react-native';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
-    );
+import colorScheme from './common/Colors'
+
+StatusBar.setBarStyle('light-content', true);
+
+const MainNavigator = createBottomTabNavigator(
+  {
+    Landing: { screen: LandingScreen },
+  },{
+    tabBarOptions: {
+      style: {
+        backgroundColor: colorScheme.primary,
+        height:100,
+        paddingBottom: 30
+      },
+      activeTintColor: colorScheme.buttons,
+      labelStyle: {
+        fontSize: 12,
+      },
+    },
   }
-}
+);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const RootStack = createSwitchNavigator(
+  {
+    LoadingScreen: LoadingScreen,
+    App: MainNavigator,
   },
-});
+  {
+    initialRouteName: 'LoadingScreen'
+  });
+
+const App = createAppContainer(RootStack);
+
+export default App;
