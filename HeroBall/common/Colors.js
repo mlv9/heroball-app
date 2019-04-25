@@ -1,8 +1,8 @@
 const colorScheme = {
-  primary : '#2EC4B6',
-  secondary : '#0D3B66',
-  buttons : '#0D3B66',
-  background: '#F7F7F2',
+  primary : '#1d428a',
+  secondary : '#c8102e',
+  buttons : '#F37521',
+  background: '#E5E7E9',
 }
 
 export default colorScheme;
