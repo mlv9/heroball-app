@@ -1,9 +1,10 @@
 import React from 'react';
-import { FlatList, Image, Alert, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, FlatList, Image, Alert, Text, View, ScrollView } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faUsers, faTrophy  } from '@fortawesome/free-solid-svg-icons'
+import { faTrophy } from '@fortawesome/free-solid-svg-icons'
 import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
+import GamesList from './GamesList';
 import Progress from 'react-native-progress/Circle';
 import { ListItem } from 'react-native-elements';
 
@@ -58,6 +59,7 @@ class Competitions extends React.Component {
             />
             <Text>{this.state.compInfo.Competition.League.Name + ' ' + this.state.compInfo.Competition.League.Division}</Text>
             <Text>{this.state.compInfo.Competition.Name}</Text>
+            <Text style={styles.heading}>STANDINGS</Text>
             <FlatList
             data={this.state.compInfo.Teams}
             keyExtractor = {(item, index) => item.Team.TeamId.toString()} 
@@ -75,6 +77,7 @@ class Competitions extends React.Component {
                 }}
               />
             )} />
+            <GamesList games={this.state.compInfo.RecentGames} gameIds={this.state.compInfo.GameIds} />
           </ScrollView>
           }
       </View>
@@ -94,3 +97,12 @@ Competitions.navigationOptions = ({ navigation }) => {
 };
 
 export default Competitions;
+
+const styles = StyleSheet.create({
+  heading: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    backgroundColor:colorScheme.secondary,
+    color: "white"
+  }
+})
