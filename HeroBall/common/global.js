@@ -11,3 +11,12 @@ global.doRPC = (url, payload) => {
     body: JSON.stringify(payload),
   })
 }
+
+global.getAverageStats = (stats, count) => {
+
+  ppg = ((stats.TwoPointFGM * 2 + stats.ThreePointFGM * 3 + stats.FreeThrowsMade) / count).toFixed(1)
+
+  return {
+    'PointsPerGame': ppg
+  }
+}

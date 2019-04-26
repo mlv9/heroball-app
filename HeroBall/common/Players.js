@@ -1,19 +1,18 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faUser  } from '@fortawesome/free-solid-svg-icons'
 import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
-class LandingScreen extends React.Component {
+class Players extends React.Component {
 
   subscription = null
 
   constructor(props) {
     super(props)
 
-    this.state = {
-    }
-
+    this.state = {}
   }
 
   componentDidMount() {
@@ -48,7 +47,7 @@ class LandingScreen extends React.Component {
           backgroundColor: colorScheme.background,
           flex:1,
         }}>
-        <ViewHeader name='Landing Page' />
+        <ViewHeader name='Players' />
         {this.state.gameInfo !== undefined && 
           <Text>{this.state.gameInfo.Game.Location.Name}</Text>}
       </View>
@@ -56,15 +55,15 @@ class LandingScreen extends React.Component {
   }
 }
 
-LandingScreen.navigationOptions = ({ navigation }) => {
+Players.navigationOptions = ({ navigation }) => {
     return {
         tabBarVisible: true,
         tabBarIcon: ({ focused, tintColor }) => {
               return (
-                  <Icon type="MaterialIcons" name='user' color={focused ? tintColor : '#bdbec2'} size={30}/>
+                  <FontAwesomeIcon icon={ faUser } color={focused ? tintColor : '#E5E7E9'} size={45}/>
               )
         }
     }
 };
 
-export default LandingScreen;
+export default Players;

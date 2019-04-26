@@ -32,8 +32,8 @@ export default class LoadingScreen extends React.Component {
       <View style={{flex: 1, backgroundColor: colorScheme.primary}}>
         <View style={{flex:1}}>
           <View style={{flex: 1, marginTop:20, justifyContent: 'center', alignItems: 'center'}}>
-            <FontAwesomeIcon style={{color: colorScheme.buttons, marginBottom: 30}} icon={faBasketballBall} size={150} />
-            <Text style={{fontSize:20, paddingBottom: 20, color: 'black'}}>Welcome to HeroBall</Text>
+            <FontAwesomeIcon style={{color: '#d16d2b', marginBottom: 20}} icon={faBasketballBall} size={150} />
+            <Text style={{fontSize:22, paddingBottom: 20, color: 'white'}}>Welcome to HeroBall</Text>
             <ActivityIndicator />
           </View>
         </View>

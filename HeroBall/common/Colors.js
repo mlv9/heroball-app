@@ -1,7 +1,7 @@
 const colorScheme = {
   primary : '#1d428a',
-  secondary : '#c8102e',
-  buttons : '#F37521',
+  secondary : '#d16d2b',
+  buttons : 'white',
   background: '#E5E7E9',
 }
 
