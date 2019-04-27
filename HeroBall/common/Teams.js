@@ -16,7 +16,6 @@ class Teams extends React.Component {
 
   constructor(props) {
     super(props)
-
     this.state = {}
   }
 
@@ -64,8 +63,9 @@ class Teams extends React.Component {
             games={this.state.teamInfo.RecentGames} 
             gameIds={this.state.teamInfo.GameIds} />
           <PlayerList
-            players={this.state.teamInfo.Players} 
-            ordering={'ReboundsPerGame'} />
+            players={this.state.teamInfo.Players}
+            count={2} 
+            ordering={'PointsPerGame'} />
           <Text style={styles.heading}></Text>
           <ListItem
             chevron
