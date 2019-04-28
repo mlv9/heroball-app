@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import colorScheme from './Colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { withNavigation } from 'react-navigation';
 
 /* a list of players
 options:
@@ -11,7 +12,7 @@ options:
 - count = int = 1-n = number of players to display individually
 */
 
-export default class PlayerList extends React.Component {
+class PlayerList extends React.Component {
 
   constructor(props) {
     super(props)
@@ -140,16 +141,18 @@ export default class PlayerList extends React.Component {
                 keyExtractor = {(item, index) => item.PlayerId.toString()} 
                 renderItem={({index, item }) =>
                 (
-                    <ListItem
-                    chevron
-                    containerStyle={{
-                        borderWidth: 1,
-                    }}
-                    badge={this.getBadgeForPlayer(item)}
-                    title={item.Profile.Name}
-                    subtitle={item.Profile.Position.charAt(0).toUpperCase() + item.Profile.Position.slice(1)}
-                    leftIcon={<FontAwesomeIcon icon={ faUser } size={30}/>}
-                    />
+                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('Players', {playerId: item.PlayerId}) }}>
+                        <ListItem
+                        chevron
+                        containerStyle={{
+                            borderWidth: 1,
+                        }}
+                        badge={this.getBadgeForPlayer(item)}
+                        title={item.Profile.Name}
+                        subtitle={item.Profile.Position.charAt(0).toUpperCase() + item.Profile.Position.slice(1)}
+                        leftIcon={<FontAwesomeIcon icon={ faUser } size={30}/>}
+                        />
+                    </TouchableOpacity>
                 )}
                 />
                 { this.state.players.length < this.props.players.length &&
@@ -173,6 +176,8 @@ export default class PlayerList extends React.Component {
     );
   }
 }
+
+export default withNavigation(PlayerList);
 
 const styles = StyleSheet.create({
   heading: {

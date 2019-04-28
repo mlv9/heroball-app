@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableWithoutFeedback, StyleSheet, FlatList, Image, Alert, Text, View, ScrollView } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, StyleSheet, FlatList, Image, Alert, Text, View, ScrollView } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faTrophy } from '@fortawesome/free-solid-svg-icons'
 import colorScheme from './Colors';
@@ -50,6 +50,9 @@ class Competitions extends React.Component {
           flex:1,
         }}>
         <ViewHeader name='Competitions' />
+        {this.state.compInfo === undefined && 
+          <ActivityIndicator style={{marginTop: 50}}/>        
+        }
         {this.state.compInfo !== undefined &&
           <ScrollView>
             <Image style={{height:150}}
@@ -64,7 +67,7 @@ class Competitions extends React.Component {
             keyExtractor = {(item, index) => item.Team.TeamId.toString()} 
             renderItem={({index, item }) =>
             (
-              <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate('Teams', {teamId: item.Team.TeamId}) }}>
+              <TouchableOpacity onPress={() => { this.props.navigation.navigate('Teams', {teamId: item.Team.TeamId}) }}>
                 <ListItem
                   containerStyle={{
                     borderWidth: 1,
@@ -76,7 +79,7 @@ class Competitions extends React.Component {
                     color: 'grey'
                   }}
                 />
-              </TouchableWithoutFeedback>
+              </TouchableOpacity>
             )} />
             <GamesList games={this.state.compInfo.RecentGames} gameIds={this.state.compInfo.GameIds} />
           </ScrollView>

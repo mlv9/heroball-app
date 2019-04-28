@@ -28,27 +28,25 @@ class GameResult extends React.Component {
     render() {
         return (
             <View>
-                <TouchableWithoutFeedback onPress={() => {this.props.navigation.navigate('GameModal', {gameId: this.props.game.GameId})}}>
-                    <ListItem
-                        containerStyle={{
-                            borderWidth: 1,
-                        }}
-                        contentContainerStyle={{
-                            alignItems: 'center'
-                        }}
-                        leftIcon={<FontAwesomeIcon icon={ faUsers } size={30}/>}
-                        rightIcon={<FontAwesomeIcon icon={ faUsers } size={30}/>}
-                        title={this.gameTitle(this.props.game)}
-                        subtitle={this.gameSubtitle(this.props.game)}
-                        subtitleStyle={{
-                            color: 'grey'
-                        }}
-                    />
-                </TouchableWithoutFeedback>
+                <ListItem
+                    containerStyle={{
+                        borderWidth: 1,
+                    }}
+                    contentContainerStyle={{
+                        alignItems: 'center'
+                    }}
+                    leftIcon={<FontAwesomeIcon icon={ faUsers } size={30}/>}
+                    rightIcon={<FontAwesomeIcon icon={ faUsers } size={30}/>}
+                    title={this.gameTitle(this.props.game)}
+                    subtitle={this.gameSubtitle(this.props.game)}
+                    subtitleStyle={{
+                        color: 'grey'
+                    }}
+                />
             </View>
         );
     }
 }
 
-export default withNavigation(GameResult);
+export default GameResult;
 

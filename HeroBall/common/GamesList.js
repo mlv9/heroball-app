@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, FlatList } from 'react-native';
 import GameResult from './GameResult';
 import { ListItem } from 'react-native-elements';
 import colorScheme from './Colors';
+import { withNavigation } from 'react-navigation';
 
-export default class GamesList extends React.Component {
+class GamesList extends React.Component {
 
   constructor(props) {
 
@@ -25,7 +26,9 @@ export default class GamesList extends React.Component {
             keyExtractor = {(item, index) => item.GameId.toString()} 
             renderItem={({index, item }) =>
             (
-              <GameResult game={item} />
+              <TouchableOpacity onPress={ () => { this.props.navigation.navigate('GameModal', {gameId: item.GameId}) }}>
+                <GameResult game={item} />
+              </TouchableOpacity>
             )}
           />
           { this.props.games.length < this.props.gameIds.length &&
@@ -48,6 +51,8 @@ export default class GamesList extends React.Component {
     );
   }
 }
+
+export default withNavigation(GamesList);
 
 const styles = StyleSheet.create({
   heading: {
