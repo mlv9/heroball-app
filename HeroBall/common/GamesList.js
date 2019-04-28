@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
-import Game from './Game';
+import GameResult from './GameResult';
 import { ListItem } from 'react-native-elements';
 import colorScheme from './Colors';
 
@@ -25,7 +25,7 @@ export default class GamesList extends React.Component {
             keyExtractor = {(item, index) => item.GameId.toString()} 
             renderItem={({index, item }) =>
             (
-              <Game game={item} />
+              <GameResult game={item} />
             )}
           />
           { this.props.games.length < this.props.gameIds.length &&
