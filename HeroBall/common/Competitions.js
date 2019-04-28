@@ -14,22 +14,41 @@ class Competitions extends React.Component {
 
   constructor(props) {
     super(props)
-
-    this.state = {}
+    this.state = {
+    }
   }
 
   componentDidMount() {
-    subscription = this.props.navigation.addListener('willFocus', this.loadCompetition);
+    subscription = this.props.navigation.addListener('willFocus', this.loadPlayer);
   }
 
   componentWillUnmount() {
     subscription.remove()
   }
 
-  loadCompetition = () => {
+  loadPlayer = () => {
+
+    competitionIdToLoad = this.props.navigation.getParam("competitionId", 0)
+
+    console.log("loading competition " + competitionIdToLoad)
+
+    /* for development, lets just show something */
+    if (competitionIdToLoad == 0) {
+      competitionIdToLoad = 1
+    }
+
+    if (this.state.compInfo !== undefined && competitionIdToLoad == this.state.compInfo.Competition.CompetitionId) {
+      return;
+    }
+
+    /* else set blank */
+    this.setState({
+      compInfo: undefined
+    })
+
     return doRPC('https://api.heroball.app/v1/get/competition/info',
         {
-          CompetitionId: parseInt("1"),
+          CompetitionId: competitionIdToLoad
         })
       .then((response) => response.json())
       .then((response) => {

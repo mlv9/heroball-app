@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, Text, View, StyleSheet, ScrollView } from 'react-native';
 import Modal from "react-native-modal";
 import GameResult from './GameResult'
-import GameStats from './GameStats'
+import PlayerGameStats from './PlayerGameStats'
 import { withNavigation } from 'react-navigation';
 import colorScheme from './Colors'
 
@@ -85,9 +85,9 @@ class GameModal extends React.Component {
               <GameResult game={this.state.gameInfo.Game} />
               <ScrollView>
                 <Text style={styles.heading}>{this.state.gameInfo.Game.HomeTeam.Name}</Text>
-                <GameStats stats={this.state.gameInfo.PlayerStats.filter(player => player.Team.TeamId == this.state.gameInfo.Game.HomeTeam.TeamId)} />
+                <PlayerGameStats stats={this.state.gameInfo.PlayerStats.filter(player => player.Team.TeamId == this.state.gameInfo.Game.HomeTeam.TeamId)} />
                 <Text style={styles.heading}>{this.state.gameInfo.Game.AwayTeam.Name}</Text>
-                <GameStats stats={this.state.gameInfo.PlayerStats.filter(player => player.Team.TeamId == this.state.gameInfo.Game.AwayTeam.TeamId)} />
+                <PlayerGameStats stats={this.state.gameInfo.PlayerStats.filter(player => player.Team.TeamId == this.state.gameInfo.Game.AwayTeam.TeamId)} />
               </ScrollView>
             </View>
           }

@@ -6,6 +6,7 @@ import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
 import Progress from 'react-native-progress/Circle';
 import GamesList from './GamesList'
+import PlayerTeamsList from './PlayerTeamsList'
 
 class Players extends React.Component {
 
@@ -28,6 +29,8 @@ class Players extends React.Component {
   loadPlayer = () => {
 
     playerIdToLoad = this.props.navigation.getParam("playerId", 0)
+
+    console.log("loading player " + playerIdToLoad)
 
     /* for development, lets just show something */
     if (playerIdToLoad == 0) {
@@ -79,6 +82,10 @@ class Players extends React.Component {
           <GamesList 
             games={this.state.playerInfo.RecentGames}
             gameIds={this.state.playerInfo.GameIds} />
+          <PlayerTeamsList
+            teams={this.state.playerInfo.Teams}
+            count={3}
+            />
         </ScrollView>
         }
       </View>

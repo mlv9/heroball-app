@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, Image, StyleSheet, ScrollView,  Text, View } from 'react-native';
+import { TouchableOpacity, ActivityIndicator, Image, StyleSheet, ScrollView,  Text, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faUsers  } from '@fortawesome/free-solid-svg-icons'
 import colorScheme from './Colors';
@@ -93,12 +93,18 @@ class Teams extends React.Component {
               borderWidth: 1,
             }}
             title='Team Statistics' />
-          <ListItem
-            chevron
-            containerStyle={{
-              borderWidth: 1,
-            }}
-            title='Competition' />
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate('Competitions', {competitionId: this.state.teamInfo.Competition.CompetitionId})}}>
+              <ListItem
+                chevron
+                containerStyle={{
+                  borderWidth: 1,
+                }}
+                title='View Competition'
+                subtitle={printCompName(this.state.teamInfo.Competition)}
+                subtitleStyle={{
+                    color: 'grey'
+                }} />
+            </TouchableOpacity>
         </ScrollView>}  
       </View>
     )

@@ -8,12 +8,7 @@ import { withNavigation } from 'react-navigation';
 class GamesList extends React.Component {
 
   constructor(props) {
-
-    if (props.gameIds === undefined) {
-      props.gameIds = []
-    }
     super(props)
-
     this.state = {}
   }
   

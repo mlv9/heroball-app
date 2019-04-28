@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, TouchableWithoutFeedback } from 'react-native'
+import { View } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faUsers  } from '@fortawesome/free-solid-svg-icons'
 import { ListItem } from 'react-native-elements';
-import { withNavigation } from 'react-navigation';
 
 class GameResult extends React.Component {
 

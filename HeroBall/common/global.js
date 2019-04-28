@@ -11,3 +11,22 @@ global.doRPC = (url, payload) => {
     body: JSON.stringify(payload),
   })
 }
+
+global.printCompName = (comp) => {
+  return comp.League.Name + ' ' + comp.League.Division + ' ' + comp.Name
+}
+
+global.getAverageStats = (stats, count) => {
+  return {
+  'PointsPerGame': ((stats.TwoPointFGM * 2 + stats.ThreePointFGM * 3 + stats.FreeThrowsMade) / count).toFixed(1),
+  'ReboundsPerGame': ((stats.OffensiveRebounds + stats.DefensiveRebounds) / count).toFixed(1),
+  'AssistsPerGame': ((stats.Assists) / count).toFixed(1),
+  'BlocksPerGame': ((stats.Blocks) / count).toFixed(1),
+  'StealsPerGame': ((stats.Steals) / count).toFixed(1),
+  'TurnoversPerGame': ((stats.Turnovers) / count).toFixed(1),
+  'MinutesPerGame': ((stats.Minutes) / count).toFixed(1),
+  'TwoPointFGP': Math.round((stats.TwoPointFGM / stats.TwoPointFGM) * 100),
+  'ThreePointFGP': Math.round((stats.ThreePointFGM / stats.ThreePointFMA) * 100),
+  'FreeThrowPercent': Math.round((stats.FreeThrowsMade / stats.FreeThrowsAttempted) * 100),
+  }
+}
