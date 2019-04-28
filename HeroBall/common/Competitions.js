@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, FlatList, Image, Alert, Text, View, ScrollView } from 'react-native';
+import { TouchableWithoutFeedback, StyleSheet, FlatList, Image, Alert, Text, View, ScrollView } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faTrophy } from '@fortawesome/free-solid-svg-icons'
 import colorScheme from './Colors';
@@ -19,21 +19,20 @@ class Competitions extends React.Component {
   }
 
   componentDidMount() {
-    subscription = this.props.navigation.addListener('willFocus', this.loadGame);
+    subscription = this.props.navigation.addListener('willFocus', this.loadCompetition);
   }
 
   componentWillUnmount() {
     subscription.remove()
   }
 
-  loadGame = () => {
+  loadCompetition = () => {
     return doRPC('https://api.heroball.app/v1/get/competition/info',
         {
           CompetitionId: parseInt("1"),
         })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response)
         this.setState({
           compInfo: response,
         })
@@ -65,17 +64,19 @@ class Competitions extends React.Component {
             keyExtractor = {(item, index) => item.Team.TeamId.toString()} 
             renderItem={({index, item }) =>
             (
-              <ListItem
-                containerStyle={{
-                  borderWidth: 1,
-                }}
-                leftIcon={<Text>{(index+1) + '.'}</Text>}
-                title={item.Team.Name}
-                rightElement={item.Won + ' - ' + item.Lost + ' - ' + item.Drawn}
-                subtitleStyle={{
-                  color: 'grey'
-                }}
-              />
+              <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate('Teams', {teamId: item.Team.TeamId}) }}>
+                <ListItem
+                  containerStyle={{
+                    borderWidth: 1,
+                  }}
+                  leftIcon={<Text>{(index+1) + '.'}</Text>}
+                  title={item.Team.Name}
+                  rightElement={item.Won + ' - ' + item.Lost + ' - ' + item.Drawn}
+                  subtitleStyle={{
+                    color: 'grey'
+                  }}
+                />
+              </TouchableWithoutFeedback>
             )} />
             <GamesList games={this.state.compInfo.RecentGames} gameIds={this.state.compInfo.GameIds} />
           </ScrollView>

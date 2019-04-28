@@ -1,7 +1,7 @@
 import React from 'react';
-import { Image, StyleSheet, ScrollView, FlatList, Text, View } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, ScrollView,  Text, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faUsers, faUser  } from '@fortawesome/free-solid-svg-icons'
+import { faUsers  } from '@fortawesome/free-solid-svg-icons'
 import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
 import { ListItem } from 'react-native-elements';
@@ -9,32 +9,48 @@ import Progress from 'react-native-progress/Circle';
 import GamesList from './GamesList';
 import PlayerList from './PlayerList';
 
-
 class Teams extends React.Component {
 
   subscription = null
 
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+    }
   }
 
   componentDidMount() {
-    subscription = this.props.navigation.addListener('willFocus', this.loadGame);
+    subscription = this.props.navigation.addListener('willFocus', this.loadTeam);
   }
 
   componentWillUnmount() {
     subscription.remove()
   }
 
-  loadGame = () => {
+  loadTeam = () => {
+
+    teamIdToLoad = this.props.navigation.getParam("teamId", 0)
+
+    /* for development, lets just show something */
+    if (teamIdToLoad == 0) {
+      teamIdToLoad = 1
+    }
+
+    if (this.state.teamInfo !== undefined && teamIdToLoad == this.state.teamInfo.Team.TeamId) {
+      return;
+    }
+
+    /* else set blank */
+    this.setState({
+      teamInfo: undefined
+    })
+
     return doRPC('https://api.heroball.app/v1/get/team/info',
         {
-          TeamId: parseInt("1"),
+          TeamId: teamIdToLoad
         })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response)
         this.setState({
           teamInfo: response,
         })
@@ -45,7 +61,6 @@ class Teams extends React.Component {
       });
   }
 
-
   render() {
     return (
       <View style={{
@@ -53,19 +68,24 @@ class Teams extends React.Component {
           flex:1,
         }}>
         <ViewHeader name='Teams' />
+        {this.state.teamInfo === undefined && 
+          <ActivityIndicator style={{marginTop: 50}}/>
+        }
         {this.state.teamInfo !== undefined && 
         <ScrollView>
           <Image style={{height:200}}
             source={{uri: `http://www-static2.spulsecdn.net/pics/00/01/54/07/1540783_1_M.jpg`}}
             indicator={Progress.Circle}
             />
+            <Text>{this.state.teamInfo.Team.Name}</Text>
           <GamesList 
             games={this.state.teamInfo.RecentGames} 
             gameIds={this.state.teamInfo.GameIds} />
           <PlayerList
             players={this.state.teamInfo.Players}
             count={2} 
-            ordering={'PointsPerGame'} />
+            ordering={'PointsPerGame'}
+            key={this.state.teamInfo.Team.TeamId} />
           <Text style={styles.heading}></Text>
           <ListItem
             chevron

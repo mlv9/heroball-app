@@ -22,7 +22,7 @@ export default class GameStats extends React.Component {
             (
               <ListItem 
                 title={item.Player.Name} 
-                subTitle={item.Player.Position} />
+                subTitle={item.Player.Position}  />
             )}
           />
       </View>

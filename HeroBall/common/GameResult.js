@@ -26,7 +26,6 @@ class GameResult extends React.Component {
     }
 
     render() {
-        console.log(this.props.game)
         return (
             <View>
                 <TouchableWithoutFeedback onPress={() => {this.props.navigation.navigate('GameModal', {gameId: this.props.game.GameId})}}>

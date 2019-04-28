@@ -1,6 +1,6 @@
 import './common/global.js'
 import LoadingScreen from './common/Loading'
-import LandingScreen from './common/Teams'
+import Teams from './common/Teams'
 import Competitions from './common/Competitions'
 import GameModal from './common/GameModal'
 import Players from './common/Players'
@@ -21,7 +21,7 @@ const MainNavigator = createBottomTabNavigator(
   {
     Players: { screen: Players },
     Competitions: { screen: Competitions },
-    Teams: { screen: LandingScreen },
+    Teams: { screen: Teams },
     Statistics: { screen: Statistics },
   },{
     initialRouteName: 'Competitions',

@@ -14,108 +14,105 @@ options:
 export default class PlayerList extends React.Component {
 
   constructor(props) {
+    super(props)
+    this.state = {}
+    if (this.props.players !== undefined) {
+        this.updatePlayerList(this.props.players, this.props.ordering, this.props.count)
+    }
+  }
 
-    var statsMap = {
-        'PointsPerGame': ' PPG',
-        'ReboundsPerGame': ' RPG',
-        'AssistsPerGame': ' APG',
-        'StealsPerGame': ' SPG',
-        'BlocksPerGame': ' BPG',
-        'TurnoversPerGame': ' TPG',
-        'MinutesPerGame': ' MPG',
-        'TwoPointFGP': '% 2PFG',
-        'ThreePointFGP': '% 3PFG',
-        'FreeThrowPercent': '% FT'
+  statsMap = {
+    'PointsPerGame': ' PPG',
+    'ReboundsPerGame': ' RPG',
+    'AssistsPerGame': ' APG',
+    'StealsPerGame': ' SPG',
+    'BlocksPerGame': ' BPG',
+    'TurnoversPerGame': ' TPG',
+    'MinutesPerGame': ' MPG',
+    'TwoPointFGP': '% 2PFG',
+    'ThreePointFGP': '% 3PFG',
+    'FreeThrowPercent': '% FT'
+  }
+
+  getAverageStats = (stats, count) => {
+      return {
+      'PointsPerGame': ((stats.TwoPointFGM * 2 + stats.ThreePointFGM * 3 + stats.FreeThrowsMade) / count).toFixed(1),
+      'ReboundsPerGame': ((stats.OffensiveRebounds + stats.DefensiveRebounds) / count).toFixed(1),
+      'AssistsPerGame': ((stats.Assists) / count).toFixed(1),
+      'BlocksPerGame': ((stats.Blocks) / count).toFixed(1),
+      'StealsPerGame': ((stats.Steals) / count).toFixed(1),
+      'TurnoversPerGame': ((stats.Turnovers) / count).toFixed(1),
+      'MinutesPerGame': ((stats.Minutes) / count).toFixed(1),
+      'TwoPointFGP': Math.round((stats.TwoPointFGM / stats.TwoPointFGM) * 100),
+      'ThreePointFGP': Math.round((stats.ThreePointFGM / stats.ThreePointFMA) * 100),
+      'FreeThrowPercent': Math.round((stats.FreeThrowsMade / stats.FreeThrowsAttempted) * 100),
       }
+  }
 
-    var getAverageStats =   
-        function (stats, count) {
-            return {
-            'PointsPerGame': ((stats.TwoPointFGM * 2 + stats.ThreePointFGM * 3 + stats.FreeThrowsMade) / count).toFixed(1),
-            'ReboundsPerGame': ((stats.OffensiveRebounds + stats.DefensiveRebounds) / count).toFixed(1),
-            'AssistsPerGame': ((stats.Assists) / count).toFixed(1),
-            'BlocksPerGame': ((stats.Blocks) / count).toFixed(1),
-            'StealsPerGame': ((stats.Steals) / count).toFixed(1),
-            'TurnoversPerGame': ((stats.Turnovers) / count).toFixed(1),
-            'MinutesPerGame': ((stats.Minutes) / count).toFixed(1),
-            'TwoPointFGP': Math.round((stats.TwoPointFGM / stats.TwoPointFGM) * 100),
-            'ThreePointFGP': Math.round((stats.ThreePointFGM / stats.ThreePointFMA) * 100),
-            'FreeThrowPercent': Math.round((stats.FreeThrowsMade / stats.FreeThrowsAttempted) * 100),
-            }
-        }
+  updatePlayerList = (players, ordering, count) => {
 
-    if (props.playerIds === undefined) {
-      props.playerIds = []
-    }
-    
-    if (props.count === undefined) {
-        props.count = 3; /* default to 3 players */
-    }
+    this.state.players = undefined
 
-    /* get top stat averages */
-    playerAverages = []
-
-    /* add Averages to all props */
-    for (var i in props.players) {
-        props.players[i].Averages = getAverageStats(props.players[i].Stats.TotalStats, props.players[i].Stats.Count)
+    /* add averages to all players */
+    for (var i in players) {
+        players[i].Averages = this.getAverageStats(players[i].Stats.TotalStats, players[i].Stats.Count)
     }
 
     playersToDisplay = []
 
     /* sort on various values */
-    if (props.ordering == 'PointsPerGame' ||
-        props.ordering == 'ReboundsPerGame' ||
-        props.ordering == 'AssistsPerGame' ||
-        props.ordering == 'StealsPerGame' ||
-        props.ordering == 'BlocksPerGame' ||
-        props.ordering == 'TurnoversPerGame' ||
-        props.ordering == 'MinutesPerGame' ||
-        props.ordering == 'TwoPointFGP' ||
-        props.ordering == 'ThreePointFGP' ||
-        props.ordering == 'FreeThrowPercent') {
+    if (ordering == 'PointsPerGame' ||
+        ordering == 'ReboundsPerGame' ||
+        ordering == 'AssistsPerGame' ||
+        ordering == 'StealsPerGame' ||
+        ordering == 'BlocksPerGame' ||
+        ordering == 'TurnoversPerGame' ||
+        ordering == 'MinutesPerGame' ||
+        ordering == 'TwoPointFGP' ||
+        ordering == 'ThreePointFGP' ||
+        ordering == 'FreeThrowPercent') {
 
-        for (var i in props.players) {
-            props.players[i].BadgeText = props.players[i].Averages[props.ordering] + statsMap[props.ordering]
+        for (var i in players) {
+            players[i].BadgeText = players[i].Averages[ordering] + this.statsMap[ordering]
         }
 
-        props.players.sort(function(a, b) {return b.Averages[props.ordering] - a.Averages[props.ordering]})
+        players.sort(function(a, b) {return b.Averages[ordering] - a.Averages[ordering]})
 
-        /* display all */
-        playersToDisplay = props.players
+        /* display all by default */
+        playersToDisplay = players
 
         /* trim */
-        if (props.count !== undefined && props.players.length > props.count) {
-            playersToDisplay = props.players.slice(0, props.count)
+        if (count !== undefined && players.length > count) {
+            playersToDisplay = players.slice(0, count)
         }
 
-    } else if (props.ordering == 'Leaders') {
+    } else if (ordering == 'Leaders') {
         /* this is a bit tricker, we want to show PPG, RPG, APG, SPG, BPG, in that order */
         /* we need to create a map of playerId to stats info */
         categories = ['PointsPerGame', 'ReboundsPerGame', 'AssistsPerGame', 'StealsPerGame', 'BlocksPerGame']
 
         /* we create a new player array to only include stat leaders */
         for (var i in categories) {
-            props.players.sort(function(a, b) {return b.Averages[categories[i]] - a.Averages[categories[i]]})
-            if (props.players[0].BadgeText !== undefined) {
+            players.sort(function(a, b) {return b.Averages[categories[i]] - a.Averages[categories[i]]})
+            if (players[0].BadgeText !== undefined) {
                 /* becomes an append */
-                props.players[0].BadgeText +=  ', '
+                players[0].BadgeText +=  ', '
             } else {
                 /* an init */
-                props.players[0].BadgeText = ''
+                players[0].BadgeText = ''
             }
-            props.players[0].BadgeText += props.players[0].Averages[categories[i]] + statsMap[categories[i]]
+            players[0].BadgeText += players[0].Averages[categories[i]] + this.statsMap[categories[i]]
         }
 
             
             /* display only stat leaders */
-            for (var i in props.players) {
-                if (props.players[i].BadgeText !== undefined) {
-                    playersToDisplay.push(props.players[i])
+            for (var i in players) {
+                if (players[i].BadgeText !== undefined) {
+                    playersToDisplay.push(players[i])
                 }
             }
         }
 
-        super(props)
         this.state = {
             players: playersToDisplay,
         }
@@ -135,40 +132,43 @@ export default class PlayerList extends React.Component {
   render() {
     return (
       <View>
-        <Text style={styles.heading}>PLAYERS</Text>
-        <FlatList
-        data={this.state.players}
-        keyExtractor = {(item, index) => item.PlayerId.toString()} 
-        renderItem={({index, item }) =>
-        (
-            <ListItem
-            chevron
-            containerStyle={{
-                borderWidth: 1,
-            }}
-            badge={this.getBadgeForPlayer(item)}
-            title={item.Profile.Name}
-            subtitle={item.Profile.Position.charAt(0).toUpperCase() + item.Profile.Position.slice(1)}
-            leftIcon={<FontAwesomeIcon icon={ faUser } size={30}/>}
-            />
-        )}
-        />
-        { this.state.players.length < this.props.players.length &&
-            <ListItem
-              chevron
-              badge={{
-                value: this.props.players.length || 0,
-                badgeStyle: {
-                  backgroundColor: 'grey',
-                  paddingRight: 3,
-                  paddingLeft: 3,
-                }
-              }}
-              containerStyle={{
-                borderWidth: 1,
-              }}
-              title='View All Players'
-            />}
+          {this.state.players !== undefined &&
+            <View>
+                <Text style={styles.heading}>PLAYERS</Text>
+                <FlatList
+                data={this.state.players}
+                keyExtractor = {(item, index) => item.PlayerId.toString()} 
+                renderItem={({index, item }) =>
+                (
+                    <ListItem
+                    chevron
+                    containerStyle={{
+                        borderWidth: 1,
+                    }}
+                    badge={this.getBadgeForPlayer(item)}
+                    title={item.Profile.Name}
+                    subtitle={item.Profile.Position.charAt(0).toUpperCase() + item.Profile.Position.slice(1)}
+                    leftIcon={<FontAwesomeIcon icon={ faUser } size={30}/>}
+                    />
+                )}
+                />
+                { this.state.players.length < this.props.players.length &&
+                    <ListItem
+                    chevron
+                    badge={{
+                        value: this.props.players.length || 0,
+                        badgeStyle: {
+                        backgroundColor: 'grey',
+                        paddingRight: 3,
+                        paddingLeft: 3,
+                        }
+                    }}
+                    containerStyle={{
+                        borderWidth: 1,
+                    }}
+                    title='View All Players'
+                    />}
+            </View>}
       </View>
     );
   }

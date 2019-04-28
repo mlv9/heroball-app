@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView } from 'react-native';
+import { ActivityIndicator, Text, View, StyleSheet, ScrollView } from 'react-native';
 import Modal from "react-native-modal";
 import GameResult from './GameResult'
 import GameStats from './GameStats'
@@ -44,7 +44,14 @@ class GameModal extends React.Component {
    }
 
   loadGame = () => {
+
     gameId = this.props.navigation.getParam("gameId", 0)
+
+    if (this.state.gameInfo !== undefined && game == this.state.gameInfo.Game.GameId) {
+      return;
+    }
+
+    this.state.gameInfo = undefined
 
     return doRPC('https://api.heroball.app/v1/get/game/info',
         {
@@ -52,7 +59,6 @@ class GameModal extends React.Component {
         })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response)
         this.setState({
           gameInfo: response,
         })
@@ -71,8 +77,10 @@ class GameModal extends React.Component {
         animationOutTiming={100}
         animationInTiming={100}
         >
+        {this.state.gameInfo === undefined && (
+          <ActivityIndicator />
+        )}
           {this.state.gameInfo !== undefined && 
-          (
             <View style={styles.modalContent}>
               <GameResult game={this.state.gameInfo.Game} />
               <ScrollView>
@@ -82,7 +90,7 @@ class GameModal extends React.Component {
                 <GameStats stats={this.state.gameInfo.PlayerStats.filter(player => player.Team.TeamId == this.state.gameInfo.Game.AwayTeam.TeamId)} />
               </ScrollView>
             </View>
-          )}
+          }
       </Modal>
     );
   }
