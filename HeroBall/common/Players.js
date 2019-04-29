@@ -81,9 +81,11 @@ class Players extends React.Component {
           <Text>{this.state.playerInfo.Profile.Name}</Text>
           <GamesList 
             games={this.state.playerInfo.RecentGames}
-            gameIds={this.state.playerInfo.GameIds} />
+            gameIds={this.state.playerInfo.GameIds}
+            key={this.state.playerInfo.PlayerId+'_GamesList'} />
           <PlayerTeamsList
             teams={this.state.playerInfo.Teams}
+            key={this.state.playerInfo.PlayerId+'_PlayerTeamsList'}
             count={3}
             />
         </ScrollView>

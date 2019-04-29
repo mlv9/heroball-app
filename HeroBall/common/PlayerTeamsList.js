@@ -48,7 +48,7 @@ class PlayerTeamsList extends React.Component {
                       paddingLeft: 3,
                     }
                   }}
-                  title={item.Team.Name}
+                  title={item.Team.Name + ' Jersey #' + item.JerseyNumbers[0]}
                   subtitle={printCompName(item.Competition)}
                   subtitleStyle={{
                     color: 'grey'

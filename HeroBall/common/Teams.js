@@ -80,12 +80,13 @@ class Teams extends React.Component {
             <Text>{this.state.teamInfo.Team.Name}</Text>
           <GamesList 
             games={this.state.teamInfo.RecentGames} 
-            gameIds={this.state.teamInfo.GameIds} />
+            gameIds={this.state.teamInfo.GameIds}
+            key={this.state.teamInfo.Team.TeamId + '_GamesList'} />
           <PlayerList
             players={this.state.teamInfo.Players}
             count={2} 
             ordering={'PointsPerGame'}
-            key={this.state.teamInfo.Team.TeamId} />
+            key={this.state.teamInfo.Team.TeamId + '_PlayerList'} />
           <Text style={styles.heading}></Text>
           <ListItem
             chevron
