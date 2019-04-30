@@ -30,3 +30,18 @@ global.getAverageStats = (stats, count) => {
   'FreeThrowPercent': Math.round((stats.FreeThrowsMade / stats.FreeThrowsAttempted) * 100),
   }
 }
+
+global.expandStats = (stats) => {
+  stats.Points = (stats.TwoPointFGM * 2 + stats.ThreePointFGM * 3 + stats.FreeThrowsMade)
+  stats.Rebounds = (stats.OffensiveRebounds + stats.DefensiveRebounds)
+  stats.Efficiency = (
+    stats.Points + 
+    stats.Rebounds + 
+    stats.Assists + 
+    stats.Steals + 
+    stats.Blocks - 
+    ((stats.TwoPointFGA + stats.ThreePointFGA) - (stats.TwoPointFGM + stats.ThreePointFGM)) - 
+    (stats.FreeThrowsAttempted - stats.FreeThrowsMade) 
+    - stats.Turnovers)
+  return stats
+}

@@ -2,7 +2,7 @@ import './common/global.js'
 import LoadingScreen from './common/Loading'
 import Teams from './common/Teams'
 import Competitions from './common/Competitions'
-import GameModal from './common/GameModal'
+import GameDetailedView from './common/GameDetailedView'
 import Players from './common/Players'
 import Statistics from './common/Statistics'
 import {
@@ -42,17 +42,10 @@ const MainNavigator = createBottomTabNavigator(
 const AppStack = createStackNavigator(
   {
     Main: { screen: MainNavigator },
-    GameModal: { screen: GameModal }
+    GameDetailedView: {screen: GameDetailedView}
   },
   {
-    mode: 'modal',
     headerMode: 'none',
-    transparentCard: true,
-    transitionConfig: ({ scene }) => ({
-      screenInterpolator: screenProps => {
-        return {}
-      }
-    })
   }
 );
 

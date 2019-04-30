@@ -1,12 +1,12 @@
 import React from 'react';
 import { ActivityIndicator, Text, View, StyleSheet, ScrollView } from 'react-native';
-import Modal from "react-native-modal";
+import ViewHeader from './ViewHeader'
 import GameResult from './GameResult'
 import PlayersStatLine from './PlayersStatLine'
 import { withNavigation } from 'react-navigation';
 import colorScheme from './Colors'
 
-class GameModal extends React.Component {
+class GameDetailedView extends React.Component {
     /* 
         options:
         gameId = int32 = gameId of game to show
@@ -14,40 +14,26 @@ class GameModal extends React.Component {
 
    subscription = null
 
+   constructor(props) {
+     super(props)
+     this.state = {
+     }
+   }
+ 
    componentDidMount() {
-     subscription = this.props.navigation.addListener('willFocus', this.showModal);
-     this.loadGame()
+     subscription = this.props.navigation.addListener('willFocus', this.loadGame);
    }
  
    componentWillUnmount() {
      subscription.remove()
-   }
- 
-   constructor(props) {
-     super(props)
-     this.state = {
-       modalVisible: false,
-     }
-   }
- 
-   showModal = () => {
-     this.setState({
-       modalVisible: true
-     })
-   }
- 
-   hideModal = () => {
-     this.setState({
-       modalVisible: false
-     })
-     this.props.navigation.goBack(null);
    }
 
   loadGame = () => {
 
     gameId = this.props.navigation.getParam("gameId", 0)
 
-    if (this.state.gameInfo !== undefined && game == this.state.gameInfo.Game.GameId) {
+    if (this.state.gameInfo !== undefined && gameId == this.state.gameInfo.Game.GameId) {
+      console.log("not loading game as already loaded")
       return;
     }
 
@@ -59,6 +45,7 @@ class GameModal extends React.Component {
         })
       .then((response) => response.json())
       .then((response) => {
+        console.log('loaded game successfully')
         this.setState({
           gameInfo: response,
         })
@@ -71,17 +58,13 @@ class GameModal extends React.Component {
 
   render() {
     return (
-      <Modal
-        isVisible={this.state.modalVisible}
-        onBackdropPress={this.hideModal}
-        animationOutTiming={100}
-        animationInTiming={100}
-        >
-        {this.state.gameInfo === undefined && (
-          <ActivityIndicator />
-        )}
+      <View>
+        <ViewHeader name='Game Stats' showBack={true}/>
+          {this.state.gameInfo === undefined && (
+            <ActivityIndicator style={{marginTop: 50}}/>
+          )}
           {this.state.gameInfo !== undefined && 
-            <View style={styles.modalContent}>
+            <View>
               <GameResult game={this.state.gameInfo.Game} />
               <ScrollView>
                 <Text style={styles.heading}>{this.state.gameInfo.Game.HomeTeam.Name}</Text>
@@ -91,19 +74,14 @@ class GameModal extends React.Component {
               </ScrollView>
             </View>
           }
-      </Modal>
+      </View>
     );
   }
 }
 
-export default withNavigation(GameModal);
+export default withNavigation(GameDetailedView);
 
 const styles = StyleSheet.create({
-  modalContent: {
-    marginTop: 100,
-    marginBottom: 150,
-    backgroundColor: "white",
-  },
   heading: {
     textAlignVertical: "center",
     textAlign: "center",

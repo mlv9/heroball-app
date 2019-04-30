@@ -8,36 +8,84 @@ class PlayersStatLine extends React.Component {
     /* 
         options:
         players = array of pb.PlayerGameStats to be displayed
+        rowHeader = name / gameInfo = what will be placed in the first row for each stat line
     */
+
+   headingsMap = {
+    TwoPointFGM: '2PM',
+    TwoPointFGA : '2PA',
+    ThreePointFGM: '3PA',
+    ThreePointFGA: '3PM',
+    FreeThrowsAttempted: 'FTA',
+    FreeThrowsMade: 'FTM',
+    OffensiveRebounds: 'OREB',
+    DefensiveRebounds: 'DREB',
+    Assists: 'AST',
+    Blocks: 'BLK',
+    Steals: 'STL',
+    Turnovers: 'TOV',
+    RegularFoulsForced: 'PFF',
+    RegularFoulsCommitted: 'PFC',
+    TechnicalFoulsCommitted: 'TFC',
+    MinutesPlayed: 'MIN',
+    Efficiency: 'EFF',
+    Points: 'PTS',
+    Rebounds: 'REB'
+  }
 
   constructor(props) {
     super(props)
 
-    headings = Object.keys(this.props.players[0].Stats)
-    headings.unshift('Name')
+    players = []
+    
+    for (var i in this.props.players) {
+      player = this.props.players[i]
+      player.Stats = expandStats(player.Stats)
+      players.push(player)
+    }
+
+
+    headings = Object.keys(players[0].Stats)
+
+    mappedHeadings = []
+    for (var i in headings) {
+      title = this.headingsMap[headings[i]]
+
+      if (title !== undefined || title !== '') {
+        mappedHeadings.push(title)
+      } else {
+        mappedHeadings.push(headings[i])
+      }
+    }
+
+    mappedHeadings.unshift('Name')
 
     /* now get values */
     tableData = []
 
-    for (var i in this.props.players) {
-      statLine = Object.values(this.props.players[i].Stats)
-      statLine.unshift(this.props.players[i].Player.Name)
+    for (var i in players) {
+      statLine = Object.values(players[i].Stats)
+      statLine.unshift(players[i].Player.Name)
       tableData.push(statLine)
     }
 
     this.state = {
-      tableHead: headings,
+      tableHead: mappedHeadings,
       tableData: tableData
     }
   }
   
   render() {
+  
     const state = this.state
+    var widthArr = new Array(state.tableHead.length).fill(50)
+    widthArr[0] = 100 /* increase the width of the name column */
+
     return (
       <ScrollView horizontal={true}>
-        <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
-          <Row data={state.tableHead} style={styles.head} textStyle={styles.text}/>
-          <Rows data={state.tableData} textStyle={styles.text}/>
+        <Table borderStyle={{borderWidth: 2, borderColor: 'grey'}}>
+          <Row widthArr={widthArr} data={state.tableHead} style={styles.head} textStyle={styles.text}/>
+          <Rows widthArr={widthArr} data={state.tableData} textStyle={styles.text}/>
         </Table>
       </ScrollView>
     );
@@ -47,7 +95,6 @@ class PlayersStatLine extends React.Component {
 export default withNavigation(PlayersStatLine);
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-  head: { height: 40, backgroundColor: '#f1f8ff' },
-  text: { margin: 6 }
+  head: { height: 40, backgroundColor: 'lightgrey' },
+  text: { margin: 2 }
 });

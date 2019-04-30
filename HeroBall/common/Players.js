@@ -79,6 +79,7 @@ class Players extends React.Component {
             indicator={Progress.Circle}
             />
           <Text>{this.state.playerInfo.Profile.Name}</Text>
+          <Text>{this.state.playerInfo.Profile.Position}</Text>
           <GamesList 
             games={this.state.playerInfo.RecentGames}
             gameIds={this.state.playerInfo.GameIds}

@@ -21,7 +21,7 @@ class GamesList extends React.Component {
             keyExtractor = {(item, index) => item.GameId.toString()} 
             renderItem={({index, item }) =>
             (
-              <TouchableOpacity onPress={ () => { this.props.navigation.navigate('GameModal', {gameId: item.GameId}) }}>
+              <TouchableOpacity onPress={ () => { this.props.navigation.navigate('GameDetailedView', {gameId: item.GameId}) }}>
                 <GameResult game={item} />
               </TouchableOpacity>
             )}
