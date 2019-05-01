@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, ScrollView} from 'react-native';
+import { Text, View, StyleSheet, ScrollView} from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import moment from 'moment';
+import colorScheme from './Colors'
 
 class PlayersStatLine extends React.Component {
     /* 
@@ -10,6 +11,7 @@ class PlayersStatLine extends React.Component {
         players = array of pb.PlayerGameStats to be displayed
         rowHeader = names / games = what will be placed in the first row for each stat line
         games = pb.Game = array of games (only used when rowHeader = games)
+        title = string = value to place as a header to stats
     */
 
    headingsMap = {
@@ -126,12 +128,17 @@ class PlayersStatLine extends React.Component {
     const state = this.state
 
     return (
-      <ScrollView horizontal={true}>
-        <Table borderStyle={{borderWidth: 2, borderColor: 'grey'}}>
-          <Row widthArr={state.widthArr} data={state.tableHead} style={styles.head} textStyle={styles.text}/>
-          <Rows widthArr={state.widthArr} data={state.tableData} style={styles.rows} textStyle={styles.text}/>
-        </Table>
-      </ScrollView>
+      <View>
+        {this.props.title !== undefined && 
+        <Text style={styles.heading}>{this.props.title}</Text>
+        }
+        <ScrollView horizontal={true}>
+          <Table borderStyle={{borderWidth: 2, borderColor: 'grey'}}>
+            <Row widthArr={state.widthArr} data={state.tableHead} style={styles.head} textStyle={styles.text}/>
+            <Rows widthArr={state.widthArr} data={state.tableData} style={styles.rows} textStyle={styles.text}/>
+          </Table>
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -141,5 +148,11 @@ export default withNavigation(PlayersStatLine);
 const styles = StyleSheet.create({
   head: { height: 40, backgroundColor: 'lightgrey' },
   rows: {backgroundColor: 'white'},
-  text: { margin: 2 }
+  text: { margin: 2 },
+  heading: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    backgroundColor:colorScheme.secondary,
+    color: "white"
+  }
 });

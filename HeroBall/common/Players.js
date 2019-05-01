@@ -82,6 +82,7 @@ class Players extends React.Component {
           <Text>{this.state.playerInfo.Profile.Name}</Text>
           <Text>{this.state.playerInfo.Profile.Position}</Text>
           <PlayersStatLine
+            title={'RECENT STATS'}
             rowHeader={'games'}
             players={this.state.playerInfo.RecentStats}
             games={this.state.playerInfo.RecentGames}

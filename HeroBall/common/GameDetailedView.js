@@ -67,10 +67,16 @@ class GameDetailedView extends React.Component {
             <View>
               <GameResult game={this.state.gameInfo.Game} />
               <ScrollView>
-                <Text style={styles.heading}>{this.state.gameInfo.Game.HomeTeam.Name}</Text>
-                <PlayersStatLine players={this.state.gameInfo.PlayerStats.filter(player => player.Team.TeamId == this.state.gameInfo.Game.HomeTeam.TeamId)} />
-                <Text style={styles.heading}>{this.state.gameInfo.Game.AwayTeam.Name}</Text>
-                <PlayersStatLine players={this.state.gameInfo.PlayerStats.filter(player => player.Team.TeamId == this.state.gameInfo.Game.AwayTeam.TeamId)} />
+                <PlayersStatLine 
+                  players={this.state.gameInfo.PlayerStats.filter(player => player.Team.TeamId == this.state.gameInfo.Game.HomeTeam.TeamId)} 
+                  title={this.state.gameInfo.Game.HomeTeam.Name}
+                  rowHeader={'names'}
+                  />
+                <PlayersStatLine 
+                  players={this.state.gameInfo.PlayerStats.filter(player => player.Team.TeamId == this.state.gameInfo.Game.AwayTeam.TeamId)} 
+                  title={this.state.gameInfo.Game.AwayTeam.Name}
+                  rowHeader={'names'}
+                  />
               </ScrollView>
             </View>
           }
@@ -80,12 +86,3 @@ class GameDetailedView extends React.Component {
 }
 
 export default withNavigation(GameDetailedView);
-
-const styles = StyleSheet.create({
-  heading: {
-    textAlignVertical: "center",
-    textAlign: "center",
-    backgroundColor:colorScheme.secondary,
-    color: "white"
-  }
-})
