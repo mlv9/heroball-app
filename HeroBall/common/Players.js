@@ -7,6 +7,7 @@ import ViewHeader from './ViewHeader';
 import Progress from 'react-native-progress/Circle';
 import GamesList from './GamesList'
 import PlayerTeamsList from './PlayerTeamsList'
+import PlayersStatLine from './PlayersStatLine'
 
 class Players extends React.Component {
 
@@ -80,6 +81,11 @@ class Players extends React.Component {
             />
           <Text>{this.state.playerInfo.Profile.Name}</Text>
           <Text>{this.state.playerInfo.Profile.Position}</Text>
+          <PlayersStatLine
+            rowHeader={'games'}
+            players={this.state.playerInfo.RecentStats}
+            games={this.state.playerInfo.RecentGames}
+            />
           <GamesList 
             games={this.state.playerInfo.RecentGames}
             gameIds={this.state.playerInfo.GameIds}

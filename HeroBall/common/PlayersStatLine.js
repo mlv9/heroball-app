@@ -1,14 +1,15 @@
 import React from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity, Text, View, FlatList } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { StyleSheet, ScrollView} from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import moment from 'moment';
 
 class PlayersStatLine extends React.Component {
     /* 
         options:
         players = array of pb.PlayerGameStats to be displayed
-        rowHeader = name / gameInfo = what will be placed in the first row for each stat line
+        rowHeader = names / games = what will be placed in the first row for each stat line
+        games = pb.Game = array of games (only used when rowHeader = games)
     */
 
    headingsMap = {
@@ -36,6 +37,10 @@ class PlayersStatLine extends React.Component {
   constructor(props) {
     super(props)
 
+    if (props.header === undefined) {
+      props.header = 'names'
+    }
+
     players = []
     
     for (var i in this.props.players) {
@@ -58,34 +63,73 @@ class PlayersStatLine extends React.Component {
       }
     }
 
-    mappedHeadings.unshift('Name')
+    if (props.rowHeader == 'names') {
+      mappedHeadings.unshift('Name')
+    } else if (props.rowHeader == 'games') {
+      mappedHeadings.unshift('Game')
+    }
 
     /* now get values */
     tableData = []
 
+    var widthArr = new Array(mappedHeadings.length).fill(50)
+
     for (var i in players) {
       statLine = Object.values(players[i].Stats)
-      statLine.unshift(players[i].Player.Name)
+
+      if (props.rowHeader == 'names') {
+        statLine.unshift(players[i].Player.Name)
+        widthArr[0] = 100 /* increase the width of the name column */
+      } else if (props.rowHeader == 'games') {
+        /* find the matching game */
+        teamId = players[i].Team.TeamId
+        game = null
+
+        for (var j in props.games) {
+          if (players[i].GameId == props.games[j].GameId) {
+            game = props.games[j]
+          }
+        }
+        
+        if (game == null) {
+          console.log("Could not find game for stats")
+          continue
+        }
+
+        /* check if home team */
+        if (teamId == game.HomeTeam.TeamId) {
+          seperator = 'vs'
+        } else {
+          seperator = '@'
+        }
+
+        gameHeader = moment(game.GameTime).format("DD/MM/YY") + ' ' + seperator + ' ' + game.AwayTeam.Name
+
+        // 30/4 @ Raptors
+        // 24/4 vs Raptors
+        statLine.unshift(gameHeader)
+        widthArr[0] = 150 /* increase the width of the game column */
+      }
+      
       tableData.push(statLine)
     }
 
     this.state = {
       tableHead: mappedHeadings,
-      tableData: tableData
+      tableData: tableData,
+      widthArr: widthArr
     }
   }
   
   render() {
   
     const state = this.state
-    var widthArr = new Array(state.tableHead.length).fill(50)
-    widthArr[0] = 100 /* increase the width of the name column */
 
     return (
       <ScrollView horizontal={true}>
         <Table borderStyle={{borderWidth: 2, borderColor: 'grey'}}>
-          <Row widthArr={widthArr} data={state.tableHead} style={styles.head} textStyle={styles.text}/>
-          <Rows widthArr={widthArr} data={state.tableData} textStyle={styles.text}/>
+          <Row widthArr={state.widthArr} data={state.tableHead} style={styles.head} textStyle={styles.text}/>
+          <Rows widthArr={state.widthArr} data={state.tableData} style={styles.rows} textStyle={styles.text}/>
         </Table>
       </ScrollView>
     );
@@ -96,5 +140,6 @@ export default withNavigation(PlayersStatLine);
 
 const styles = StyleSheet.create({
   head: { height: 40, backgroundColor: 'lightgrey' },
+  rows: {backgroundColor: 'white'},
   text: { margin: 2 }
 });
