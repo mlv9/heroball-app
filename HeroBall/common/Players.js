@@ -8,6 +8,7 @@ import Progress from 'react-native-progress/Circle';
 import GamesList from './GamesList'
 import PlayerTeamsList from './PlayerTeamsList'
 import PlayersStatLine from './PlayersStatLine'
+import PlayerAverageStatLine from './PlayerAverageStatLine'
 
 class Players extends React.Component {
 
@@ -81,6 +82,9 @@ class Players extends React.Component {
             />
           <Text>{this.state.playerInfo.Profile.Name}</Text>
           <Text>{this.state.playerInfo.Profile.Position}</Text>
+          <PlayerAverageStatLine
+            player={this.state.playerInfo}
+            />
           <PlayersStatLine
             title={'RECENT STATS'}
             rowHeader={'games'}

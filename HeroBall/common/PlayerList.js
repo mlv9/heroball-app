@@ -8,6 +8,7 @@ import { withNavigation } from 'react-navigation';
 
 /* a list of players
 options:
+- players = pb.PlayerInfo = players to list
 - ordering = string = Leaders / jersey / rpg / apg / bpg / spg / apg = stat to order on
 - count = int = 1-n = number of players to display individually
 */
@@ -22,18 +23,6 @@ class PlayerList extends React.Component {
     }
   }
 
-  statsMap = {
-    'PointsPerGame': ' PPG',
-    'ReboundsPerGame': ' RPG',
-    'AssistsPerGame': ' APG',
-    'StealsPerGame': ' SPG',
-    'BlocksPerGame': ' BPG',
-    'TurnoversPerGame': ' TPG',
-    'MinutesPerGame': ' MPG',
-    'TwoPointFGP': '% 2PFG',
-    'ThreePointFGP': '% 3PFG',
-    'FreeThrowPercent': '% FT'
-  }
 
   updatePlayerList = (players, ordering, count) => {
 
@@ -59,7 +48,7 @@ class PlayerList extends React.Component {
         ordering == 'FreeThrowPercent') {
 
         for (var i in players) {
-            players[i].BadgeText = players[i].Averages[ordering] + this.statsMap[ordering]
+            players[i].BadgeText = players[i].Averages[ordering] + statTrailer[ordering]
         }
 
         players.sort(function(a, b) {return b.Averages[ordering] - a.Averages[ordering]})
@@ -87,7 +76,7 @@ class PlayerList extends React.Component {
                 /* an init */
                 players[0].BadgeText = ''
             }
-            players[0].BadgeText += players[0].Averages[categories[i]] + this.statsMap[categories[i]]
+            players[0].BadgeText += players[0].Averages[categories[i]] + statTrailer[categories[i]]
         }
 
             

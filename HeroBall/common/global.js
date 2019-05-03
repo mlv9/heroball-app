@@ -24,11 +24,37 @@ global.getAverageStats = (stats, count) => {
   'BlocksPerGame': ((stats.Blocks) / count).toFixed(1),
   'StealsPerGame': ((stats.Steals) / count).toFixed(1),
   'TurnoversPerGame': ((stats.Turnovers) / count).toFixed(1),
-  'MinutesPerGame': ((stats.Minutes) / count).toFixed(1),
-  'TwoPointFGP': Math.round((stats.TwoPointFGM / stats.TwoPointFGM) * 100),
-  'ThreePointFGP': Math.round((stats.ThreePointFGM / stats.ThreePointFMA) * 100),
-  'FreeThrowPercent': Math.round((stats.FreeThrowsMade / stats.FreeThrowsAttempted) * 100),
+  'MinutesPerGame': ((stats.MinutesPlayed) / count).toFixed(1),
+  'TwoPointFGP': ((stats.TwoPointFGM / stats.TwoPointFGM) * 100).toFixed(1),
+  'ThreePointFGP': ((stats.ThreePointFGM / stats.ThreePointFGA) * 100).toFixed(1),
+  'FreeThrowPercent': ((stats.FreeThrowsMade / stats.FreeThrowsAttempted) * 100).toFixed(1),
   }
+}
+
+global.statAbbreviation = {
+  'PointsPerGame': 'PPG',
+  'ReboundsPerGame': 'RPG',
+  'AssistsPerGame': 'APG',
+  'StealsPerGame': 'SPG',
+  'BlocksPerGame': 'BPG',
+  'TurnoversPerGame': 'TPG',
+  'MinutesPerGame': 'MPG',
+  'TwoPointFGP': '2PFG',
+  'ThreePointFGP': '3PFG',
+  'FreeThrowPercent': 'FT'
+}
+
+global.statTrailer = {
+  'PointsPerGame': ' ' + statAbbreviation['PointsPerGame'],
+  'ReboundsPerGame': ' ' + statAbbreviation['ReboundsPerGame'],
+  'AssistsPerGame': ' ' + statAbbreviation['AssistsPerGame'],
+  'StealsPerGame': ' ' + statAbbreviation['StealsPerGame'],
+  'BlocksPerGame': ' ' + statAbbreviation['BlocksPerGame'],
+  'TurnoversPerGame': ' ' + statAbbreviation['TurnoversPerGame'],
+  'MinutesPerGame': ' ' + statAbbreviation['MinutesPerGame'],
+  'TwoPointFGP': '% ' + statAbbreviation['TwoPointFGP'],
+  'ThreePointFGP': '% '+ statAbbreviation['ThreePointFGP'],
+  'FreeThrowPercent': '% ' + statAbbreviation['FreeThrowPercent']
 }
 
 global.expandStats = (stats) => {
