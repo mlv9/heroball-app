@@ -51,7 +51,6 @@ class PlayersStatLine extends React.Component {
       players.push(player)
     }
 
-
     headings = Object.keys(players[0].Stats)
 
     mappedHeadings = []
@@ -76,8 +75,19 @@ class PlayersStatLine extends React.Component {
 
     var widthArr = new Array(mappedHeadings.length).fill(50)
 
+    var runningTotals = null
+
     for (var i in players) {
       statLine = Object.values(players[i].Stats)
+
+      /* append to running totals */
+      if (runningTotals == null) {
+        runningTotals = statLine.slice(0)
+      } else {
+        for (var j in statLine) {
+          runningTotals[j] += statLine[j]
+        }
+      }
 
       if (props.rowHeader == 'names') {
         statLine.unshift(players[i].Player.Name)
@@ -107,13 +117,17 @@ class PlayersStatLine extends React.Component {
 
         gameHeader = moment(game.GameTime).format("DD/MM/YY") + ' ' + seperator + ' ' + game.AwayTeam.Name
 
-        // 30/4 @ Raptors
-        // 24/4 vs Raptors
         statLine.unshift(gameHeader)
         widthArr[0] = 150 /* increase the width of the game column */
       }
       
       tableData.push(statLine)
+    }
+
+    /* also totals if requested */
+    if (props.showTotals !== undefined && props.showTotals == true) {
+      runningTotals.unshift('Totals')
+      tableData.push(runningTotals)
     }
 
     this.state = {

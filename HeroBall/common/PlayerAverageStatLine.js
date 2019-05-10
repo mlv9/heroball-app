@@ -1,8 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, ScrollView} from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
-import moment from 'moment';
+import { Table, Row, Rows} from 'react-native-table-component';
 import colorScheme from './Colors'
 
 class PlayerAverageStatLine extends React.Component {

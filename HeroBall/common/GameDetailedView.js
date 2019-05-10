@@ -71,11 +71,13 @@ class GameDetailedView extends React.Component {
                   players={this.state.gameInfo.PlayerStats.filter(player => player.Team.TeamId == this.state.gameInfo.Game.HomeTeam.TeamId)} 
                   title={this.state.gameInfo.Game.HomeTeam.Name}
                   rowHeader={'names'}
+                  showTotals={true}
                   />
                 <PlayersStatLine 
                   players={this.state.gameInfo.PlayerStats.filter(player => player.Team.TeamId == this.state.gameInfo.Game.AwayTeam.TeamId)} 
                   title={this.state.gameInfo.Game.AwayTeam.Name}
                   rowHeader={'names'}
+                  showTotals={true}
                   />
               </ScrollView>
             </View>
