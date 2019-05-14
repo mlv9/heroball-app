@@ -100,7 +100,9 @@ class Competitions extends React.Component {
                 />
               </TouchableOpacity>
             )} />
-            <GamesList games={this.state.compInfo.RecentGames} gameIds={this.state.compInfo.GameIds} />
+            <GamesList 
+              gamesCursor={this.state.compInfo.RecentGames} 
+              showTotal={true}/>
           </ScrollView>
           }
       </View>

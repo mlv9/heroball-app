@@ -97,9 +97,9 @@ class PlayersStatLine extends React.Component {
         teamId = players[i].Team.TeamId
         game = null
 
-        for (var j in props.games) {
-          if (players[i].GameId == props.games[j].GameId) {
-            game = props.games[j]
+        for (var j in props.games.Games) {
+          if (players[i].GameId == props.games.Games[j].GameId) {
+            game = props.games.Games[j]
           }
         }
         

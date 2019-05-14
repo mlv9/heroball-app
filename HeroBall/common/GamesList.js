@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, FlatList } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, StyleSheet, Text, View, FlatList } from 'react-native';
 import GameResult from './GameResult';
 import { ListItem } from 'react-native-elements';
 import colorScheme from './Colors';
@@ -7,17 +7,76 @@ import { withNavigation } from 'react-navigation';
 
 class GamesList extends React.Component {
 
+  /* takes a pb.GamesCursor */
+
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      appending: false,
+      gamesCursor: this.props.gamesCursor
+    }
+    this.onEndReachedCalledDuringMomentum = true;
+
+    if (this.props.minGames !== undefined) {
+      /* do we need to load any more? */
+      if (this.props.gamesCursor.Games.length < this.props.minGames) {
+        this.loadMoreGames(this.props.minGames - this.props.gamesCursor.Games.length)
+      }
+    }
   }
   
+  loadMoreGames = (count) => {
+
+    count = count || 15
+
+    /* we want to do the callback */
+    return doRPC('https://api.heroball.app/v1/get/games',
+        {
+          Filter: this.state.gamesCursor.Filter,
+          Offset: this.state.gamesCursor.Games.length,
+          Count: count,
+        })
+      .then((response) => response.json())
+      .then((response) => {
+        response.Games = this.state.gamesCursor.Games.concat(response.Games)
+        this.setState({
+          gamesCursor: response,
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+        Alert.alert("Error loading games.");
+      });
+  }
+
   render() {
     return (
-      <View>
-        <Text style={styles.heading}>GAMES</Text>
+      <View style={{flex:1}}>
+        {this.props.hideHeader !== true &&
+        <Text style={styles.heading}>GAMES</Text> }
           <FlatList
-            data={this.props.games}
+            contentContainerStyle={{ flexGrow: 1 }}
+            onEndReachedThreshold={0.05}
+            onMomentumScrollBegin={() => { 
+              this.onEndReachedCalledDuringMomentum = false; 
+            }}
+            onEndReached={(distance) => {
+              if (this.props.showTotal === true) {
+                return;
+              }
+              if(!this.onEndReachedCalledDuringMomentum){
+                this.setState({
+                  appending: true
+                })
+                this.loadMoreGames().then(() => {
+                  this.setState({
+                    appending: false
+                  })
+                });
+                this.onEndReachedCalledDuringMomentum = true;
+              }
+            }}
+            data={this.state.gamesCursor.Games}
             keyExtractor = {(item, index) => item.GameId.toString()} 
             renderItem={({index, item }) =>
             (
@@ -26,11 +85,12 @@ class GamesList extends React.Component {
               </TouchableOpacity>
             )}
           />
-          { this.props.games.length < this.props.gameIds.length &&
+          { this.props.showTotal && this.state.gamesCursor.Games.length < this.state.gamesCursor.Total &&
+          <TouchableOpacity onPress={() => {this.props.navigation.navigate("Games", {GamesCursor: this.state.gamesCursor})}}>
             <ListItem
               chevron
               badge={{
-                value: this.props.gameIds.length || 0,
+                value: this.state.gamesCursor.Total || 0,
                 badgeStyle: {
                   backgroundColor: 'grey',
                   paddingRight: 3,
@@ -41,7 +101,11 @@ class GamesList extends React.Component {
                 borderWidth: 1,
               }}
               title='View All Games'
-            />}
+            />
+            </TouchableOpacity>}
+            {  this.state.appending &&
+              <ActivityIndicator style={{flex: 1, paddingTop: 30, paddingBottom: 30}} size='large'/> 
+            }
       </View>
     );
   }

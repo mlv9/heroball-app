@@ -3,6 +3,7 @@ import LoadingScreen from './common/Loading'
 import Teams from './common/Teams'
 import Competitions from './common/Competitions'
 import GameDetailedView from './common/GameDetailedView'
+import Games from './common/Games'
 import Players from './common/Players'
 import Statistics from './common/Statistics'
 import {
@@ -42,7 +43,8 @@ const MainNavigator = createBottomTabNavigator(
 const AppStack = createStackNavigator(
   {
     Main: { screen: MainNavigator },
-    GameDetailedView: {screen: GameDetailedView}
+    GameDetailedView: {screen: GameDetailedView},
+    Games: {screen: Games}
   },
   {
     headerMode: 'none',

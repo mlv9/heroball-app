@@ -92,9 +92,9 @@ class Players extends React.Component {
             games={this.state.playerInfo.RecentGames}
             />
           <GamesList 
-            games={this.state.playerInfo.RecentGames}
-            gameIds={this.state.playerInfo.GameIds}
-            key={this.state.playerInfo.PlayerId+'_GamesList'} />
+            gamesCursor={this.state.playerInfo.RecentGames}
+            key={this.state.playerInfo.PlayerId+'_GamesList'} 
+            showTotal={true}/>
           <PlayerTeamsList
             teams={this.state.playerInfo.Teams}
             key={this.state.playerInfo.PlayerId+'_PlayerTeamsList'}

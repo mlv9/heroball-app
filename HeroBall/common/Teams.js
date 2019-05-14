@@ -84,9 +84,9 @@ class Teams extends React.Component {
             ordering={'PointsPerGame'}
             key={this.state.teamInfo.Team.TeamId + '_PlayerList'} />
           <GamesList 
-            games={this.state.teamInfo.RecentGames} 
-            gameIds={this.state.teamInfo.GameIds}
-            key={this.state.teamInfo.Team.TeamId + '_GamesList'} />
+            gamesCursor={this.state.teamInfo.RecentGames} 
+            key={this.state.teamInfo.Team.TeamId + '_GamesList'} 
+            showTotal={true}/>
           <Text style={styles.heading}></Text>
           <ListItem
             chevron
