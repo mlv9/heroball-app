@@ -1,10 +1,9 @@
 import React from 'react';
-import { ActivityIndicator, Text, View, StyleSheet, ScrollView } from 'react-native';
+import { ActivityIndicator, View, ScrollView } from 'react-native';
 import ViewHeader from './ViewHeader'
 import GameResult from './GameResult'
 import PlayersStatLine from './PlayersStatLine'
 import { withNavigation } from 'react-navigation';
-import colorScheme from './Colors'
 
 class GameBoxScore extends React.Component {
     /* 

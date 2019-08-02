@@ -1,10 +1,9 @@
 import React from 'react';
-import { Alert, Text, View } from 'react-native';
+import { RefreshControl, ScrollView, ActivityIndicator, Alert, Text, View } from 'react-native';
 import ViewHeader from './ViewHeader'
 import GamesList from './GamesList'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faBasketballBall  } from '@fortawesome/free-solid-svg-icons'
-import { faSlidersH  } from '@fortawesome/free-solid-svg-icons'
 
 class GamesView extends React.Component {
 
@@ -61,6 +60,7 @@ class GamesView extends React.Component {
             })
             return
         }
+        /* TODO lets not redraw everything on a refresh - inspect what already is visible to avoid jumpy reloads */
         this.setState({
           gamesCursor: response,
           hasReturns: true,
@@ -80,15 +80,26 @@ class GamesView extends React.Component {
     return (
       <View style={{flex:1}}>
         <ViewHeader name='Games' showMenu={true}/>
-            {this.state.hasReturns === false && 
+            {this.state.loading === true && 
+            <ActivityIndicator size='large' style={{marginTop: 20, marginBottom: 20}}/>
+            }
+            {this.state.hasReturns === false && this.state.loading === false && 
                 <Text>No games found - change filter or date.</Text>
             }
             {this.state.hasReturns === true && 
+            <ScrollView 
+            refreshControl={
+                <RefreshControl
+                  refreshing={this.state.loading}
+                  onRefresh={this.loadGames}
+                />
+              }>
              <GamesList
                 hideHeader={true}
                 minGames={15}
                 gamesCursor={this.state.gamesCursor}
                 showTotal={false} />
+                </ScrollView>
             }
       </View>
     );

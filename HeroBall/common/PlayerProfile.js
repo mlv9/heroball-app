@@ -83,6 +83,7 @@ class PlayerProfile extends React.Component {
           <Text>{this.state.playerInfo.Profile.Position}</Text>
           <PlayerAverageStatLine
             player={this.state.playerInfo}
+            title={'ALL STATS'}
             />
           <PlayersStatLine
             title={'RECENT STATS'}

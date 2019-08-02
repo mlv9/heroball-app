@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, ScrollView} from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import { Table, Row } from 'react-native-table-component';
 import moment from 'moment';
 import colorScheme from './Colors'
 
@@ -10,8 +10,8 @@ class PlayersStatLine extends React.Component {
         options:
         players = array of pb.PlayerGameStats to be displayed
         rowHeader = names / games = what will be placed in the first row for each stat line
-        games = pb.Game = array of games (only used when rowHeader = games)
-        title = string = value to place as a header to stats
+        games = pb.Game = array of games (only used when rowHeader = games) for header info
+        title = string = value to place as a header to stats (e.g. Team name)
     */
 
    headingsMap = {
@@ -64,10 +64,15 @@ class PlayersStatLine extends React.Component {
       }
     }
 
+    /* set up the table based on the first column choice */
+    firstColumnWidth = 100
+    firstColumnData = []
+
     if (props.rowHeader == 'names') {
-      mappedHeadings.unshift('Name')
+      firstColumnData.push(['Name'])
     } else if (props.rowHeader == 'games') {
-      mappedHeadings.unshift('Game')
+      firstColumnData.push(['Game'])
+      firstColumnWidth = 150
     }
 
     /* now get values */
@@ -90,8 +95,7 @@ class PlayersStatLine extends React.Component {
       }
 
       if (props.rowHeader == 'names') {
-        statLine.unshift(players[i].Player.Name)
-        widthArr[0] = 100 /* increase the width of the name column */
+        firstColumnData.push([players[i].Player.Name])
       } else if (props.rowHeader == 'games') {
         /* find the matching game */
         teamId = players[i].Team.TeamId
@@ -116,9 +120,7 @@ class PlayersStatLine extends React.Component {
         }
 
         gameHeader = moment(game.GameTime).format("DD/MM/YY") + ' ' + seperator + ' ' + game.AwayTeam.Name
-
-        statLine.unshift(gameHeader)
-        widthArr[0] = 150 /* increase the width of the game column */
+        firstColumnData.push([gameHeader])
       }
       
       tableData.push(statLine)
@@ -126,7 +128,7 @@ class PlayersStatLine extends React.Component {
 
     /* also totals if requested */
     if (props.showTotals !== undefined && props.showTotals == true) {
-      runningTotals.unshift('Totals')
+      firstColumnData.push(['Totals'])
       tableData.push(runningTotals)
     }
 
@@ -139,6 +141,7 @@ class PlayersStatLine extends React.Component {
   
   render() {
   
+    /* to address data binding performance */
     const state = this.state
 
     return (
@@ -146,12 +149,36 @@ class PlayersStatLine extends React.Component {
         {this.props.title !== undefined && 
         <Text style={styles.heading}>{this.props.title}</Text>
         }
+        <View style={{flexDirection:'row'}}>
+          <Table borderStyle={{borderWidth: 2, borderColor: 'lightsteelblue'}}>
+            <Row widthArr={[firstColumnWidth]} data={firstColumnData[0]} style={styles.head} textStyle={styles.text}/>
+            {firstColumnData.slice(1).map((rowData, index) => (
+                    <Row
+                      key={index}
+                      data={rowData}
+                      widthArr={[firstColumnWidth]}
+                      style={[styles.row, index%2 && {backgroundColor: 'lightsteelblue'}]}
+                      textStyle={styles.text}
+                    />
+                  ))
+            }          
+          </Table>
         <ScrollView horizontal={true}>
-          <Table borderStyle={{borderWidth: 2, borderColor: 'grey'}}>
+          <Table borderStyle={{borderWidth: 2, borderColor: 'lightsteelblue'}}>
             <Row widthArr={state.widthArr} data={state.tableHead} style={styles.head} textStyle={styles.text}/>
-            <Rows widthArr={state.widthArr} data={state.tableData} style={styles.rows} textStyle={styles.text}/>
+            {tableData.map((rowData, index) => (
+                    <Row
+                      key={index}
+                      data={rowData}
+                      widthArr={state.widthArr}
+                      style={[styles.row, index%2 && {backgroundColor: 'lightsteelblue'}]}
+                      textStyle={styles.text}
+                    />
+                  ))
+            }
           </Table>
         </ScrollView>
+        </View>
       </View>
     );
   }
@@ -160,8 +187,8 @@ class PlayersStatLine extends React.Component {
 export default withNavigation(PlayersStatLine);
 
 const styles = StyleSheet.create({
-  head: { height: 40, backgroundColor: 'lightgrey' },
-  rows: {backgroundColor: 'white'},
+  head: { height: 40, backgroundColor: 'lightsteelblue' },
+  row: {backgroundColor: 'white'},
   text: { margin: 2 },
   heading: {
     textAlignVertical: "center",
