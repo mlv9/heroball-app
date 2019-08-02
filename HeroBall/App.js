@@ -3,8 +3,9 @@ import LoadingScreen from './common/Loading'
 import TeamsView from './common/TeamsView'
 import CompetitionsView from './common/CompetitionsView'
 import GameBoxScore from './common/GameBoxScore'
+import GamesPopOver from './common/GamesPopOver'
+import PlayerProfile from './common/PlayerProfile'
 import GamesView from './common/GamesView'
-import PlayersView from './common/PlayersView'
 import StatisticsView from './common/StatisticsView'
 import {
   createBottomTabNavigator,
@@ -20,12 +21,12 @@ StatusBar.setBarStyle('light-content', true);
 
 const MainNavigator = createBottomTabNavigator(
   {
-    Players: { screen: PlayersView },
+    Games: {screen: GamesView },
     Competitions: { screen: CompetitionsView },
     Teams: { screen: TeamsView },
-    Statistics: { screen: StatisticsView },
+    Statistics: { screen: StatisticsView }
   },{
-    initialRouteName: 'Competitions',
+    initialRouteName: 'Games',
     tabBarOptions: {
       style: {
         backgroundColor: colorScheme.primary,
@@ -44,7 +45,8 @@ const AppStack = createStackNavigator(
   {
     Main: { screen: MainNavigator },
     GameBoxScore: {screen: GameBoxScore},
-    Games: {screen: GamesView}
+    GamesPopOver: {screen: GamesPopOver},
+    PlayerProfile: {screen: PlayerProfile}
   },
   {
     headerMode: 'none',

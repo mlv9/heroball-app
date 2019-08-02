@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, TouchableOpacity, StyleSheet, Text, View, FlatList } from 'react-native';
+import { Alert, ActivityIndicator, TouchableOpacity, StyleSheet, Text, View, FlatList } from 'react-native';
 import GameResult from './GameResult';
 import { ListItem } from 'react-native-elements';
 import colorScheme from './Colors';
@@ -17,27 +17,71 @@ class GamesList extends React.Component {
     super(props)
     this.state = {
       appending: false,
+      loading: false,
       gamesCursor: this.props.gamesCursor
     }
     this.onEndReachedCalledDuringMomentum = true;
+  }
 
+  subscription = null
+
+  componentDidMount() {
+    subscription = this.props.navigation.addListener('willFocus', this.showGames);
+  }
+
+  componentWillUnmount() {
+    subscription.remove()
+  }
+
+  showGames = () => {
+    if (this.state.gamesCursor === undefined) {
+      /* we have an error */
+      Alert.alert("Error loading games: cursor undefined.");
+      return;
+    } 
+    
+    /* ensure it is a list */
+    if (this.state.gamesCursor.Games === undefined ) {
+      this.state.gamesCursor.Games = []
+    }
+
+    if (this.state.gamesCursor.Games.length < 1) {
+      /* lets try and load */
+      this.loadMoreGames()
+      return;
+    }
     if (this.props.minGames !== undefined) {
       /* do we need to load any more? */
-      if (this.props.gamesCursor.Games.length < this.props.minGames) {
-        this.loadMoreGames(this.props.minGames - this.props.gamesCursor.Games.length)
+      if (this.state.gamesCursor.Games.length < this.props.minGames) {
+        this.loadMoreGames(this.props.minGames - this.state.gamesCursor.Games.length)
       }
+    } else {
+      console.log('not loading games ' + this.props.minGames + ' ' + this.state.gamesCursor.Games.length)
     }
   }
   
   loadMoreGames = (count) => {
 
+    console.log('loading games...')
+
+    this.setState({
+      loading: true,
+    })
+
     count = count || 15
+
+    /* if nothing loaded, set offset 0 */
+    if (this.state.gamesCursor.Games !== undefined) {
+      offset = this.state.gamesCursor.Games.length
+    } else {
+      offset = 0
+    }
 
     /* we want to do the callback */
     return doRPC('https://api.heroball.app/v1/get/games',
         {
           Filter: this.state.gamesCursor.Filter,
-          Offset: this.state.gamesCursor.Games.length,
+          Offset: offset,
           Count: count,
         })
       .then((response) => response.json())
@@ -45,15 +89,22 @@ class GamesList extends React.Component {
         response.Games = this.state.gamesCursor.Games.concat(response.Games)
         this.setState({
           gamesCursor: response,
+          loading: false,
         })
       })
       .catch((error) => {
         console.log(error)
         Alert.alert("Error loading games.");
+        this.setState({
+          loading: false,
+        })
       });
   }
 
   render() {
+    if (this.state.gamesCursor === undefined) {
+      return (<View style={{flex:1}}></View>)
+    }
     return (
       <View style={{flex:1}}>
         {this.props.hideHeader !== true &&
@@ -90,7 +141,7 @@ class GamesList extends React.Component {
             )}
           />
           { this.props.showTotal && this.state.gamesCursor.Games.length < this.state.gamesCursor.Total &&
-          <TouchableOpacity onPress={() => {this.props.navigation.navigate("Games", {GamesCursor: this.state.gamesCursor})}}>
+          <TouchableOpacity onPress={() => {this.props.navigation.navigate("GamesPopOver", {GamesCursor: this.state.gamesCursor})}}>
             <ListItem
               chevron
               badge={{

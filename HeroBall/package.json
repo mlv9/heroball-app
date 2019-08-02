@@ -15,6 +15,7 @@
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-elements": "^1.1.0",
+    "react-native-material-menu": "^0.6.6",
     "react-native-modal": "^10.0.0",
     "react-native-progress": "^3.6.0",
     "react-native-table-component": "^1.2.0",

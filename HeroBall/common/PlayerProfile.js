@@ -1,7 +1,5 @@
 import React from 'react';
 import { Image, ScrollView, ActivityIndicator, Text, View } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faUser  } from '@fortawesome/free-solid-svg-icons'
 import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
 import Progress from 'react-native-progress/Circle';
@@ -9,8 +7,9 @@ import GamesList from './GamesList'
 import PlayerTeamsList from './PlayerTeamsList'
 import PlayersStatLine from './PlayersStatLine'
 import PlayerAverageStatLine from './PlayerAverageStatLine'
+import { withNavigation } from 'react-navigation';
 
-class PlayersView extends React.Component {
+class PlayerProfile extends React.Component {
 
   subscription = null
 
@@ -70,7 +69,7 @@ class PlayersView extends React.Component {
           backgroundColor: colorScheme.background,
           flex:1,
         }}>
-        <ViewHeader name='Players' />
+        <ViewHeader name='Player Profile' showBack={true} />
         {this.state.playerInfo === undefined && 
           <ActivityIndicator style={{marginTop: 50}}/>
         }
@@ -107,15 +106,4 @@ class PlayersView extends React.Component {
   }
 }
 
-PlayersView.navigationOptions = ({ navigation }) => {
-    return {
-        tabBarVisible: true,
-        tabBarIcon: ({ focused, tintColor }) => {
-              return (
-                  <FontAwesomeIcon icon={ faUser } color={focused ? tintColor : '#E5E7E9'} size={45}/>
-              )
-        }
-    }
-};
-
-export default PlayersView;
+export default withNavigation(PlayerProfile);

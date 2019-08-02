@@ -30,7 +30,7 @@ class PlayerList extends React.Component {
         }
       }
 
-      loadMoreGames = (count) => {
+      loadMorePlayers = (count) => {
 
         count = count || 15
     
@@ -66,7 +66,7 @@ class PlayerList extends React.Component {
                 keyExtractor = {(item, index) => item.PlayerId.toString()} 
                 renderItem={({index, item }) =>
                 (
-                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('Players', {playerId: item.PlayerId}) }}>
+                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('PlayerProfile', {playerId: item.PlayerId}) }}>
                         <ListItem
                         chevron
                         containerStyle={{
