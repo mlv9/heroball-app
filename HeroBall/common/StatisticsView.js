@@ -5,7 +5,7 @@ import { faChalkboardTeacher  } from '@fortawesome/free-solid-svg-icons'
 import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
 
-class Statistics extends React.Component {
+class StatisticsView extends React.Component {
 
   render() {
     return (
@@ -20,7 +20,7 @@ class Statistics extends React.Component {
   }
 }
 
-Statistics.navigationOptions = ({ navigation }) => {
+StatisticsView.navigationOptions = ({ navigation }) => {
     return {
         tabBarVisible: true,
         tabBarIcon: ({ focused, tintColor }) => {
@@ -31,4 +31,4 @@ Statistics.navigationOptions = ({ navigation }) => {
     }
 };
 
-export default Statistics;
+export default StatisticsView;

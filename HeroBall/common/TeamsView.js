@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, ActivityIndicator, Image, StyleSheet, ScrollView,  Text, View } from 'react-native';
+import { Alert, TouchableOpacity, ActivityIndicator, Image, StyleSheet, ScrollView,  Text, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faUsers  } from '@fortawesome/free-solid-svg-icons'
 import colorScheme from './Colors';
@@ -9,7 +9,7 @@ import Progress from 'react-native-progress/Circle';
 import GamesList from './GamesList';
 import PlayerList from './PlayerList';
 
-class Teams extends React.Component {
+class TeamsView extends React.Component {
 
   subscription = null
 
@@ -79,9 +79,7 @@ class Teams extends React.Component {
             />
             <Text>{this.state.teamInfo.Team.Name}</Text>
           <PlayerList
-            players={this.state.teamInfo.Players}
-            count={3} 
-            ordering={'PointsPerGame'}
+            playersCursor={this.state.teamInfo.Players}
             key={this.state.teamInfo.Team.TeamId + '_PlayerList'} />
           <GamesList 
             gamesCursor={this.state.teamInfo.RecentGames} 
@@ -112,7 +110,7 @@ class Teams extends React.Component {
   }
 }
 
-Teams.navigationOptions = ({ navigation }) => {
+TeamsView.navigationOptions = ({ navigation }) => {
     return {
         tabBarVisible: true,
         tabBarIcon: ({ focused, tintColor }) => {
@@ -123,7 +121,7 @@ Teams.navigationOptions = ({ navigation }) => {
     }
 };
 
-export default Teams;
+export default TeamsView;
 
 const styles = StyleSheet.create({
   heading: {

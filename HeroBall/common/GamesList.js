@@ -8,6 +8,10 @@ import { withNavigation } from 'react-navigation';
 class GamesList extends React.Component {
 
   /* takes a pb.GamesCursor */
+  // hideHeader = boolean = hides the Games header
+  // minGames = number of games to load initially (if cursor empty)
+  // gamesCursor = the cursor itself (*pb.GamesCursor)
+  // showTotal = whether we should include a total trailer
 
   constructor(props) {
     super(props)
@@ -80,7 +84,7 @@ class GamesList extends React.Component {
             keyExtractor = {(item, index) => item.GameId.toString()} 
             renderItem={({index, item }) =>
             (
-              <TouchableOpacity onPress={ () => { this.props.navigation.navigate('GameDetailedView', {gameId: item.GameId}) }}>
+              <TouchableOpacity onPress={ () => { this.props.navigation.navigate('GameBoxScore', {gameId: item.GameId}) }}>
                 <GameResult game={item} />
               </TouchableOpacity>
             )}

@@ -1,14 +1,14 @@
 import React from 'react';
-import { ActivityIndicator, TouchableOpacity, StyleSheet, FlatList, Image, Alert, Text, View, ScrollView } from 'react-native';
+import { ActivityIndicator, StyleSheet, Image, Alert, Text, View, ScrollView } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faTrophy } from '@fortawesome/free-solid-svg-icons'
 import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
 import GamesList from './GamesList';
 import Progress from 'react-native-progress/Circle';
-import { ListItem } from 'react-native-elements';
+import CompetitionLadder from './CompetitionLadder';
 
-class Competitions extends React.Component {
+class CompetitionsView extends React.Component {
 
   subscription = null
 
@@ -81,26 +81,8 @@ class Competitions extends React.Component {
             <Text>{this.state.compInfo.Competition.League.Name + ' ' + this.state.compInfo.Competition.League.Division}</Text>
             <Text>{this.state.compInfo.Competition.Name}</Text>
             <Text style={styles.heading}>STANDINGS</Text>
-            <FlatList
-            data={this.state.compInfo.Teams}
-            keyExtractor = {(item, index) => item.Team.TeamId.toString()} 
-            renderItem={({index, item }) =>
-            (
-              <TouchableOpacity onPress={() => { this.props.navigation.navigate('Teams', {teamId: item.Team.TeamId}) }}>
-                <ListItem
-                  containerStyle={{
-                    borderWidth: 1,
-                  }}
-                  leftIcon={<Text>{(index+1) + '.'}</Text>}
-                  title={item.Team.Name}
-                  rightElement={item.Won + ' - ' + item.Lost + ' - ' + item.Drawn}
-                  subtitleStyle={{
-                    color: 'grey'
-                  }}
-                />
-              </TouchableOpacity>
-            )} />
-            <GamesList 
+            <CompetitionLadder teams={this.state.compInfo.Teams} />
+            <GamesList
               gamesCursor={this.state.compInfo.RecentGames} 
               showTotal={true}/>
           </ScrollView>
@@ -110,7 +92,7 @@ class Competitions extends React.Component {
   }
 }
 
-Competitions.navigationOptions = ({ navigation }) => {
+CompetitionsView.navigationOptions = ({ navigation }) => {
     return {
         tabBarVisible: true,
         tabBarIcon: ({ focused, tintColor }) => {
@@ -121,7 +103,7 @@ Competitions.navigationOptions = ({ navigation }) => {
     }
 };
 
-export default Competitions;
+export default CompetitionsView;
 
 const styles = StyleSheet.create({
   heading: {

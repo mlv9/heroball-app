@@ -1,11 +1,11 @@
 import './common/global.js'
 import LoadingScreen from './common/Loading'
-import Teams from './common/Teams'
-import Competitions from './common/Competitions'
-import GameDetailedView from './common/GameDetailedView'
-import Games from './common/Games'
-import Players from './common/Players'
-import Statistics from './common/Statistics'
+import TeamsView from './common/TeamsView'
+import CompetitionsView from './common/CompetitionsView'
+import GameBoxScore from './common/GameBoxScore'
+import GamesView from './common/GamesView'
+import PlayersView from './common/PlayersView'
+import StatisticsView from './common/StatisticsView'
 import {
   createBottomTabNavigator,
   createSwitchNavigator,
@@ -20,10 +20,10 @@ StatusBar.setBarStyle('light-content', true);
 
 const MainNavigator = createBottomTabNavigator(
   {
-    Players: { screen: Players },
-    Competitions: { screen: Competitions },
-    Teams: { screen: Teams },
-    Statistics: { screen: Statistics },
+    Players: { screen: PlayersView },
+    Competitions: { screen: CompetitionsView },
+    Teams: { screen: TeamsView },
+    Statistics: { screen: StatisticsView },
   },{
     initialRouteName: 'Competitions',
     tabBarOptions: {
@@ -43,8 +43,8 @@ const MainNavigator = createBottomTabNavigator(
 const AppStack = createStackNavigator(
   {
     Main: { screen: MainNavigator },
-    GameDetailedView: {screen: GameDetailedView},
-    Games: {screen: Games}
+    GameBoxScore: {screen: GameBoxScore},
+    Games: {screen: GamesView}
   },
   {
     headerMode: 'none',

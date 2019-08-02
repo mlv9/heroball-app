@@ -6,112 +6,63 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { withNavigation } from 'react-navigation';
 
-/* a list of players
-options:
-- players = pb.PlayerInfo = players to list
-- ordering = string = Leaders / jersey / rpg / apg / bpg / spg / apg = stat to order on
-- count = int = 1-n = number of players to display individually
-*/
+  /* takes a pb.PlayersCursor */
+  // hideHeader = boolean = hides the Players header
+  // minPlayers = min number of players to load initially TODO (if cursor empty)
+  // playersCursor = the cursor itself (*pb.PlayersCursor)
+  // showTotal = whether we should include a total trailer
 
 class PlayerList extends React.Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {}
-    if (this.props.players !== undefined) {
-        this.updatePlayerList(this.props.players, this.props.ordering, this.props.count)
-    }
-  }
-
-
-  updatePlayerList = (players, ordering, count) => {
-
-    this.state.players = undefined
-
-    /* add averages to all players */
-    for (var i in players) {
-        players[i].Averages = getAverageStats(players[i].StatsAllTime.TotalStats, players[i].StatsAllTime.Count)
-    }
-
-    playersToDisplay = []
-
-    /* sort on various values */
-    if (ordering == 'PointsPerGame' ||
-        ordering == 'ReboundsPerGame' ||
-        ordering == 'AssistsPerGame' ||
-        ordering == 'StealsPerGame' ||
-        ordering == 'BlocksPerGame' ||
-        ordering == 'TurnoversPerGame' ||
-        ordering == 'MinutesPerGame' ||
-        ordering == 'TwoPointFGP' ||
-        ordering == 'ThreePointFGP' ||
-        ordering == 'FreeThrowPercent') {
-
-        for (var i in players) {
-            players[i].BadgeText = players[i].Averages[ordering] + statTrailer[ordering]
-        }
-
-        players.sort(function(a, b) {return b.Averages[ordering] - a.Averages[ordering]})
-
-        /* display all by default */
-        playersToDisplay = players
-
-        /* trim */
-        if (count !== undefined && players.length > count) {
-            playersToDisplay = players.slice(0, count)
-        }
-
-    } else if (ordering == 'Leaders') {
-        /* this is a bit tricker, we want to show PPG, RPG, APG, SPG, BPG, in that order */
-        /* we need to create a map of playerId to stats info */
-        categories = ['PointsPerGame', 'ReboundsPerGame', 'AssistsPerGame', 'StealsPerGame', 'BlocksPerGame']
-
-        /* we create a new player array to only include stat leaders */
-        for (var i in categories) {
-            players.sort(function(a, b) {return b.Averages[categories[i]] - a.Averages[categories[i]]})
-            if (players[0].BadgeText !== undefined) {
-                /* becomes an append */
-                players[0].BadgeText +=  ', '
-            } else {
-                /* an init */
-                players[0].BadgeText = ''
-            }
-            players[0].BadgeText += players[0].Averages[categories[i]] + statTrailer[categories[i]]
-        }
-
-            
-            /* display only stat leaders */
-            for (var i in players) {
-                if (players[i].BadgeText !== undefined) {
-                    playersToDisplay.push(players[i])
-                }
-            }
-        }
-
+    constructor(props) {
+        super(props)
         this.state = {
-            players: playersToDisplay,
+          appending: false,
+          gamesCursor: this.props.gamesCursor
         }
-    }
-  
-    getBadgeForPlayer = (player) => {
-        return {
-            value: player.BadgeText,
-            badgeStyle: {
-                backgroundColor: 'grey',
-                paddingRight: 3,
-                paddingLeft: 3,
-            }
+        this.onEndReachedCalledDuringMomentum = true;
+    
+        if (this.props.minPlayers !== undefined) {
+          /* do we need to load any more? */
+          if (this.props.playersCursor.Players.length < this.props.minPlayers) {
+            this.loadMorePlayers(this.props.minPlayers - this.props.gamesCursor.Games.length)
+          }
         }
-    }
+      }
 
+      loadMoreGames = (count) => {
+
+        count = count || 15
+    
+        /* we want to do the callback */
+        return doRPC('https://api.heroball.app/v1/get/players',
+            {
+              Filter: this.state.playersCursor.Filter,
+              Offset: this.state.playersCursor.Players.length,
+              Count: count,
+            })
+          .then((response) => response.json())
+          .then((response) => {
+            response.Players = this.state.playersCursor.Players.concat(response.Players)
+            this.setState({
+                playersCursor: response,
+            })
+          })
+          .catch((error) => {
+            console.log(error)
+            Alert.alert("Error loading players.");
+          });
+      }
+  
   render() {
     return (
       <View>
-          {this.state.players !== undefined &&
+          {this.props.playersCursor !== undefined &&
             <View>
-                <Text style={styles.heading}>PLAYERS</Text>
+            {this.props.hideHeader !== true &&
+            <Text style={styles.heading}>PLAYERS</Text> }
                 <FlatList
-                data={this.state.players}
+                data={this.props.playersCursor.Players}
                 keyExtractor = {(item, index) => item.PlayerId.toString()} 
                 renderItem={({index, item }) =>
                 (
@@ -121,19 +72,18 @@ class PlayerList extends React.Component {
                         containerStyle={{
                             borderWidth: 1,
                         }}
-                        badge={this.getBadgeForPlayer(item)}
-                        title={item.Profile.Name}
-                        subtitle={item.Profile.Position.charAt(0).toUpperCase() + item.Profile.Position.slice(1)}
+                        title={item.Name}
+                        subtitle={item.Position.charAt(0).toUpperCase() + item.Position.slice(1)}
                         leftIcon={<FontAwesomeIcon icon={ faUser } size={30}/>}
                         />
                     </TouchableOpacity>
                 )}
                 />
-                { this.state.players.length < this.props.players.length &&
+                { this.props.showTotal && this.props.playersCursor.Players.length < this.props.playersCursor.Players.length &&
                     <ListItem
                     chevron
                     badge={{
-                        value: this.props.players.length || 0,
+                        value: this.props.playersCursor.Players.length || 0,
                         badgeStyle: {
                         backgroundColor: 'grey',
                         paddingRight: 3,

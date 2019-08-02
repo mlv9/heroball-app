@@ -10,7 +10,7 @@ import PlayerTeamsList from './PlayerTeamsList'
 import PlayersStatLine from './PlayersStatLine'
 import PlayerAverageStatLine from './PlayerAverageStatLine'
 
-class Players extends React.Component {
+class PlayersView extends React.Component {
 
   subscription = null
 
@@ -107,7 +107,7 @@ class Players extends React.Component {
   }
 }
 
-Players.navigationOptions = ({ navigation }) => {
+PlayersView.navigationOptions = ({ navigation }) => {
     return {
         tabBarVisible: true,
         tabBarIcon: ({ focused, tintColor }) => {
@@ -118,4 +118,4 @@ Players.navigationOptions = ({ navigation }) => {
     }
 };
 
-export default Players;
+export default PlayersView;

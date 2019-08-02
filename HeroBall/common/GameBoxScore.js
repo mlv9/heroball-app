@@ -6,7 +6,7 @@ import PlayersStatLine from './PlayersStatLine'
 import { withNavigation } from 'react-navigation';
 import colorScheme from './Colors'
 
-class GameDetailedView extends React.Component {
+class GameBoxScore extends React.Component {
     /* 
         options:
         gameId = int32 = gameId of game to show
@@ -59,7 +59,7 @@ class GameDetailedView extends React.Component {
   render() {
     return (
       <View>
-        <ViewHeader name='Game Stats' showBack={true}/>
+        <ViewHeader name='Box Score' showBack={true}/>
           {this.state.gameInfo === undefined && (
             <ActivityIndicator style={{marginTop: 50}}/>
           )}
@@ -87,4 +87,4 @@ class GameDetailedView extends React.Component {
   }
 }
 
-export default withNavigation(GameDetailedView);
+export default withNavigation(GameBoxScore);

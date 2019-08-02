@@ -4,7 +4,7 @@ import ViewHeader from './ViewHeader'
 import GamesList from './GamesList'
 import { withNavigation } from 'react-navigation';
 
-class Games extends React.Component {
+class GamesView extends React.Component {
     /* 
         options:
         gameCursor = pb.GamesCursor
@@ -18,9 +18,7 @@ class Games extends React.Component {
  
 
   render() {
-
     const gamesCursor = this.props.navigation.getParam("GamesCursor", false)
-
     return (
       <View style={{flex:1}}>
         <ViewHeader name='Games' showBack={true}/>
@@ -34,4 +32,4 @@ class Games extends React.Component {
   }
 }
 
-export default withNavigation(Games);
+export default withNavigation(GamesView);
