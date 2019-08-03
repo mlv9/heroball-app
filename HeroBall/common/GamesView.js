@@ -4,6 +4,7 @@ import ViewHeader from './ViewHeader'
 import GamesList from './GamesList'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faBasketballBall, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
+import DatePicker from 'react-native-date-picker';
 
 class GamesView extends React.Component {
 
@@ -13,6 +14,7 @@ class GamesView extends React.Component {
         loading: false,
         hasReturns: false,
         gamesCursor: {},
+        date: new Date(),
      }
    }
 
@@ -79,7 +81,7 @@ class GamesView extends React.Component {
   render() {
     return (
       <View style={{flex:1}}>
-        <ViewHeader name='Games' showMenu={true}/>
+        <ViewHeader name='HeroBall Games' showMenu={true}/>
             {this.state.loading === true && 
             <ActivityIndicator size='large' style={{marginTop: 20, marginBottom: 20}}/>
             }
@@ -88,6 +90,10 @@ class GamesView extends React.Component {
                 <FontAwesomeIcon icon={ faChevronLeft } color={'grey'} size={18}/>
               </TouchableOpacity>
               <Text style={{textAlign: 'center'}}>21 Aug 2019</Text>
+              {/* <DatePicker
+                date={this.state.date}
+                onDateChange={date => this.setState({ date })}
+              /> */}
               <TouchableOpacity style={{paddingLeft: 30, paddingRight: 30}}>
                 <FontAwesomeIcon icon={ faChevronRight } color={'grey'} size={18}/>
               </TouchableOpacity>
