@@ -1,9 +1,9 @@
 import React from 'react';
-import { RefreshControl, ScrollView, ActivityIndicator, Alert, Text, View } from 'react-native';
+import { TouchableOpacity, RefreshControl, ScrollView, ActivityIndicator, Alert, Text, View } from 'react-native';
 import ViewHeader from './ViewHeader'
 import GamesList from './GamesList'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faBasketballBall  } from '@fortawesome/free-solid-svg-icons'
+import { faBasketballBall, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 
 class GamesView extends React.Component {
 
@@ -32,7 +32,7 @@ class GamesView extends React.Component {
 
    loadedGamesFilter = {
         CompetitionIds: [1],
-        PlayerIds: [4],
+        PlayerIds: [4]
     }
 
    loadGames = () => {
@@ -83,6 +83,15 @@ class GamesView extends React.Component {
             {this.state.loading === true && 
             <ActivityIndicator size='large' style={{marginTop: 20, marginBottom: 20}}/>
             }
+            <View style={{paddingTop: 10, paddingBottom: 10, flexDirection: 'row', justifyContent:'center'}}>
+              <TouchableOpacity style={{paddingRight: 30, paddingLeft: 30}}>
+                <FontAwesomeIcon icon={ faChevronLeft } color={'grey'} size={18}/>
+              </TouchableOpacity>
+              <Text style={{textAlign: 'center'}}>21 Aug 2019</Text>
+              <TouchableOpacity style={{paddingLeft: 30, paddingRight: 30}}>
+                <FontAwesomeIcon icon={ faChevronRight } color={'grey'} size={18}/>
+              </TouchableOpacity>
+            </View>
             {this.state.hasReturns === false && this.state.loading === false && 
                 <Text>No games found - change filter or date.</Text>
             }
