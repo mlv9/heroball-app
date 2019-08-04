@@ -3,8 +3,21 @@ import { TouchableOpacity, RefreshControl, ScrollView, ActivityIndicator, Alert,
 import ViewHeader from './ViewHeader'
 import GamesList from './GamesList'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faBasketballBall, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
-import DatePicker from 'react-native-date-picker';
+import { faBasketballBall, faAngleRight, faAngleLeft, faAngleDoubleRight, faAngleDoubleLeft } from '@fortawesome/free-solid-svg-icons'
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import moment from 'moment';
+
+Date.prototype.addDays = function(days) {
+  var date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date;
+}
+
+Date.prototype.subDays = function(days) {
+  var date = new Date(this.valueOf());
+  date.setDate(date.getDate() - days);
+  return date;
+}
 
 class GamesView extends React.Component {
 
@@ -15,6 +28,7 @@ class GamesView extends React.Component {
         hasReturns: false,
         gamesCursor: {},
         date: new Date(),
+        isDateTimePickerVisible: false,
      }
    }
 
@@ -29,13 +43,8 @@ class GamesView extends React.Component {
    }
  
     /* 
-        TODO load our GamesFilter from storage 
+        TODO load our GamesFilter from storage!
     */
-
-   loadedGamesFilter = {
-        CompetitionIds: [1],
-        PlayerIds: [4]
-    }
 
    loadGames = () => {
 
@@ -46,7 +55,15 @@ class GamesView extends React.Component {
     /* lets do a query and pass the results to GamesList - if any */
     return doRPC('https://api.heroball.app/v1/get/games',
         {
-          Filter: this.loadedGamesFilter,
+          Filter: {
+            CompetitionIds: [1],
+            PlayerIds: [4],
+            Date: {
+              Day: this.state.date.getDate(),
+              Month: this.state.date.getMonth() + 1,
+              Year: this.state.date.getFullYear(),
+            }
+          },
           Offset: 0,
           Count: 15,
         })
@@ -78,28 +95,76 @@ class GamesView extends React.Component {
       });
   }
 
+  setGamesDate = (newDate) => {
+    this.setState((previousState) => {
+      return {date: newDate};
+    }, () => {
+      this.loadGames();
+    });
+  }
+
+  incrementDay = () => {
+    this.setGamesDate(this.state.date.addDays(1));
+  }
+
+  decrementDay = () => {
+    this.setGamesDate(this.state.date.subDays(1));
+  }
+
+  incrementWeek = () => {
+    this.setGamesDate(this.state.date.addDays(7));
+  }
+
+  decrementWeek = () => {
+    this.setGamesDate(this.state.date.subDays(7));
+  }
+
+  showDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: true });
+  };
+
+  hideDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: false });
+  };
+
+  handleDatePicked = newDate => {
+    /* to avoid race condition */
+    this.setGamesDate(newDate);
+    this.hideDateTimePicker();
+  };
+
   render() {
     return (
       <View style={{flex:1}}>
         <ViewHeader name='HeroBall Games' showMenu={true}/>
-            {this.state.loading === true && 
-            <ActivityIndicator size='large' style={{marginTop: 20, marginBottom: 20}}/>
-            }
             <View style={{paddingTop: 10, paddingBottom: 10, flexDirection: 'row', justifyContent:'center'}}>
-              <TouchableOpacity style={{paddingRight: 30, paddingLeft: 30}}>
-                <FontAwesomeIcon icon={ faChevronLeft } color={'grey'} size={18}/>
+              <TouchableOpacity onPress={this.decrementWeek} style={{paddingRight: 20}}>
+                <FontAwesomeIcon icon={ faAngleDoubleLeft } color={'grey'} size={20}/>
               </TouchableOpacity>
-              <Text style={{textAlign: 'center'}}>21 Aug 2019</Text>
-              {/* <DatePicker
+              <TouchableOpacity onPress={this.decrementDay} style={{paddingLeft: 30, paddingRight: 30}}>
+                <FontAwesomeIcon icon={ faAngleLeft } color={'grey'} size={20}/>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.showDateTimePicker}>
+                <Text style={{textAlign: 'center'}}>{moment(this.state.date).format("ddd D MMM YYYY")}</Text>
+              </TouchableOpacity>
+              <DateTimePicker
+                isVisible={this.state.isDateTimePickerVisible}
+                onConfirm={this.handleDatePicked}
+                onCancel={this.hideDateTimePicker}
                 date={this.state.date}
-                onDateChange={date => this.setState({ date })}
-              /> */}
-              <TouchableOpacity style={{paddingLeft: 30, paddingRight: 30}}>
-                <FontAwesomeIcon icon={ faChevronRight } color={'grey'} size={18}/>
+              />
+              <TouchableOpacity style={{paddingLeft: 30, paddingRight: 30}} onPress={this.incrementDay}>
+                <FontAwesomeIcon icon={ faAngleRight } color={'grey'} size={20}/>
               </TouchableOpacity>
+              <TouchableOpacity style={{paddingLeft: 20}} onPress={this.incrementWeek}>
+                <FontAwesomeIcon icon={ faAngleDoubleRight } color={'grey'} size={20}/>
+              </TouchableOpacity>        
             </View>
+            {this.state.loading === true && 
+              <ActivityIndicator size='large' style={{marginTop: 20, marginBottom: 20}}/>
+            }            
             {this.state.hasReturns === false && this.state.loading === false && 
-                <Text>No games found - change filter or date.</Text>
+                <Text style={{textAlign: 'center', paddingTop: 10}}>No games found - change your game filter or date.</Text>
             }
             {this.state.hasReturns === true && 
             <ScrollView 

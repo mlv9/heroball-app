@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faUsers  } from '@fortawesome/free-solid-svg-icons'
 import { ListItem } from 'react-native-elements';
+import moment from 'moment';
 
 class GameResult extends React.Component {
 
@@ -21,7 +22,7 @@ class GameResult extends React.Component {
     }
 
     gameSubtitle = (game) => {
-        return new Date(game.GameTime).toLocaleDateString() + ' @ ' + game.Location.Name
+        return moment(new Date(game.GameTime)).format("ddd D MMM YYYY") + ' @ ' + game.Location.Name
     }
 
     render() {
