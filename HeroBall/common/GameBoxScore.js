@@ -57,14 +57,16 @@ class GameBoxScore extends React.Component {
 
   render() {
     return (
-      <View>
+      <View  style={{flex:1}}>
         <ViewHeader name='Box Score' showBack={true}/>
           {this.state.gameInfo === undefined && (
             <ActivityIndicator style={{marginTop: 50}}/>
           )}
           {this.state.gameInfo !== undefined && 
-            <View>
-              <GameResult game={this.state.gameInfo.Game} />
+            <View style={{flex:1}}>
+              <View style={{height:150}}>
+                <GameResult game={this.state.gameInfo.Game}/>
+              </View>
               <ScrollView>
                 <PlayersStatLine 
                   players={this.state.gameInfo.PlayerStats.filter(player => player.Team.TeamId == this.state.gameInfo.Game.HomeTeam.TeamId)} 
