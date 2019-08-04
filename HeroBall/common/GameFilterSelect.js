@@ -69,7 +69,7 @@ class GameFilterSelect extends React.Component {
 
     /* we need to load the values */
     updateGamesFilterValues = () => {
-        doRPC('https://api.heroball.app/v1/get/metadata',{Competition: true, Teams: true, Players: true})
+        doRPC('https://api.heroball.app/v1/get/metadata',{"Competitions": true, "Teams": true, "Players": true})
             .then((response) => response.json())
             .then((response) => {
                 /* now we need to parse them and place into state */
