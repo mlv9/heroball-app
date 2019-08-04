@@ -1,4 +1,5 @@
 // A series of globals to help with development
+import { AsyncStorage } from 'react-native';
 
 global.doRPC = (url, payload) => {
   return fetch(url,
@@ -70,4 +71,36 @@ global.expandStats = (stats) => {
     (stats.FreeThrowsAttempted - stats.FreeThrowsMade) 
     - stats.Turnovers)
   return stats
+}
+
+global.readFilterFromStorage = async () => {
+
+    /* read from storage */
+    filterComps = await AsyncStorage.getItem('Competitions')
+    filterTeams = await AsyncStorage.getItem('Teams'); 
+    filterPlayers = await AsyncStorage.getItem('Players'); 
+
+    /* handle non-existing filters */
+    filterComps = filterComps || "[]"
+    filterTeams = filterTeams || "[]"
+    filterPlayers = filterPlayers || "[]"
+
+    return {
+      'Competitions': JSON.parse(filterComps),
+      'Teams': JSON.parse(filterTeams),
+      'Players': JSON.parse(filterPlayers)
+    }
+}
+
+global.storeFilterInStorage = async (comps, teams, players) => {
+    console.log('storing in storage...')
+    try {
+        await AsyncStorage.setItem('Competitions', JSON.stringify(comps));
+        await AsyncStorage.setItem('Teams', JSON.stringify(teams));
+        await AsyncStorage.setItem('Players', JSON.stringify(players));
+      /* TODO alert */
+    } catch (error) {
+      /* TODO alert */
+        console.log(error)
+    }
 }

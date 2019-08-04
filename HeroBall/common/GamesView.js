@@ -3,9 +3,11 @@ import { TouchableOpacity, RefreshControl, ScrollView, ActivityIndicator, Alert,
 import ViewHeader from './ViewHeader'
 import GamesList from './GamesList'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faBasketballBall, faAngleRight, faAngleLeft, faAngleDoubleRight, faAngleDoubleLeft } from '@fortawesome/free-solid-svg-icons'
+import { faSlidersH, faBasketballBall, faAngleRight, faAngleLeft, faAngleDoubleRight, faAngleDoubleLeft } from '@fortawesome/free-solid-svg-icons'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
+import Menu, { MenuItem } from 'react-native-material-menu';
+import GameFilterSelect from './GameFilterSelect'
 
 Date.prototype.addDays = function(days) {
   var date = new Date(this.valueOf());
@@ -46,8 +48,10 @@ class GamesView extends React.Component {
         TODO load our GamesFilter from storage!
     */
 
-   loadGames = () => {
+   loadGames = async () => {
 
+    filter = await readFilterFromStorage()
+    
     this.setState({
       loading: true,
     })
@@ -56,8 +60,9 @@ class GamesView extends React.Component {
     return doRPC('https://api.heroball.app/v1/get/games',
         {
           Filter: {
-            CompetitionIds: [1],
-            PlayerIds: [4],
+            CompetitionIds: filter.Competitions,
+            TeamIds: filter.Teams,
+            PlayerIds: filter.Players,
             Date: {
               Day: this.state.date.getDate(),
               Month: this.state.date.getMonth() + 1,
@@ -103,6 +108,11 @@ class GamesView extends React.Component {
     });
   }
 
+  showGameFilter = () => {
+    /* lets close the menu item automatically */
+    this._filterSelect.toggleSelect()
+  }
+
   incrementDay = () => {
     this.setGamesDate(this.state.date.addDays(1));
   }
@@ -136,7 +146,14 @@ class GamesView extends React.Component {
   render() {
     return (
       <View style={{flex:1}}>
-        <ViewHeader name='HeroBall Games' showMenu={true}/>
+        <ViewHeader 
+          name='HeroBall Games' 
+          rightComponent={
+                <TouchableOpacity style={{height: 30, justifyContent: 'flex-end', width:50, alignItems: 'center'}} onPress={this.showGameFilter}>
+                  <FontAwesomeIcon icon={ faSlidersH } style={{color:'white'}} name='bars' size={18}/>
+                </TouchableOpacity>
+            }/>
+            <GameFilterSelect ref={(ref) => {this._filterSelect = ref}} />
             <View style={{paddingTop: 10, paddingBottom: 10, flexDirection: 'row', justifyContent:'center'}}>
               <TouchableOpacity onPress={this.decrementWeek} style={{paddingRight: 20}}>
                 <FontAwesomeIcon icon={ faAngleDoubleLeft } color={'grey'} size={20}/>
@@ -162,25 +179,25 @@ class GamesView extends React.Component {
             </View>
             {this.state.loading === true && 
               <ActivityIndicator size='large' style={{marginTop: 20, marginBottom: 20}}/>
-            }            
+            }
+            <ScrollView 
+              refreshControl={
+                  <RefreshControl
+                    refreshing={this.state.loading}
+                    onRefresh={this.loadGames}
+                  />
+              }>
             {this.state.hasReturns === false && this.state.loading === false && 
                 <Text style={{textAlign: 'center', paddingTop: 10}}>No games found - change your game filter or date.</Text>
             }
             {this.state.hasReturns === true && 
-            <ScrollView 
-            refreshControl={
-                <RefreshControl
-                  refreshing={this.state.loading}
-                  onRefresh={this.loadGames}
-                />
-              }>
              <GamesList
                 hideHeader={true}
                 minGames={15}
                 gamesCursor={this.state.gamesCursor}
                 showTotal={false} />
-                </ScrollView>
             }
+            </ScrollView>
       </View>
     );
   }
