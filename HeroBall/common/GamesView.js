@@ -44,17 +44,13 @@ class GamesView extends React.Component {
      subscription.remove()
    }
  
-    /* 
-        TODO load our GamesFilter from storage!
-    */
-
    loadGames = async () => {
 
-    filter = await readFilterFromStorage()
-    
     this.setState({
       loading: true,
     })
+
+    filter = await readFilterFromStorage()
 
     /* lets do a query and pass the results to GamesList - if any */
     return doRPC('https://api.heroball.app/v1/get/games',
@@ -150,7 +146,7 @@ class GamesView extends React.Component {
           name='HeroBall Games' 
           rightComponent={
                 <TouchableOpacity style={{height: 30, justifyContent: 'flex-end', width:50, alignItems: 'center'}} onPress={this.showGameFilter}>
-                  <FontAwesomeIcon icon={ faSlidersH } style={{color:'white'}} name='bars' size={18}/>
+                  <FontAwesomeIcon icon={ faSlidersH } style={{color:'white'}} size={18}/>
                 </TouchableOpacity>
             }/>
             <GameFilterSelect ref={(ref) => {this._filterSelect = ref}} />

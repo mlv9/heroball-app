@@ -69,7 +69,7 @@ class GameFilterSelect extends React.Component {
 
     /* we need to load the values */
     updateGamesFilterValues = () => {
-        doRPC('https://api.heroball.app/v1/get/games/filter',{})
+        doRPC('https://api.heroball.app/v1/get/metadata',{Competition: true, Teams: true, Players: true})
             .then((response) => response.json())
             .then((response) => {
                 /* now we need to parse them and place into state */
@@ -138,7 +138,7 @@ class GameFilterSelect extends React.Component {
               uniqueKey="id"
               subKey="children"
               colors={{
-                primary: colorScheme.secondary
+                primary: colorScheme.primary
               }}
               selectText={"Select Filter"}
               showDropDowns={true}
@@ -183,7 +183,7 @@ class GameFilterSelect extends React.Component {
                   <Button
                     buttonStyle={{
                       marginTop: 10,
-                      backgroundColor: colorScheme.secondary,
+                      backgroundColor: colorScheme.primary,
                       marginRight: 35,
                       marginLeft: 35,
                       borderRadius: 15
@@ -193,7 +193,7 @@ class GameFilterSelect extends React.Component {
                   <Button
                     buttonStyle={{
                       marginTop: 10,
-                      backgroundColor: colorScheme.secondary,
+                      backgroundColor: colorScheme.primary,
                       marginRight: 35,
                       marginLeft: 35,
                       borderRadius: 15

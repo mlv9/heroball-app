@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert, TouchableOpacity, ActivityIndicator, Image, StyleSheet, ScrollView,  Text, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faUsers  } from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faList } from '@fortawesome/free-solid-svg-icons'
 import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
 import { ListItem } from 'react-native-elements';
@@ -67,7 +67,13 @@ class TeamsView extends React.Component {
           backgroundColor: colorScheme.background,
           flex:1,
         }}>
-        <ViewHeader name='Teams' />
+        <ViewHeader name='Teams' 
+          rightComponent={
+            <TouchableOpacity style={{height: 30, justifyContent: 'flex-end', width:50, alignItems: 'center'}} onPress={this.showGameFilter}>
+              <FontAwesomeIcon icon={ faList } style={{color:'white'}} size={18}/>
+            </TouchableOpacity>
+          }
+        />
         {this.state.teamInfo === undefined && 
           <ActivityIndicator style={{marginTop: 50}}/>
         }
