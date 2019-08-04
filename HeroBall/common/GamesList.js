@@ -18,10 +18,20 @@ class GamesList extends React.Component {
     this.state = {
       appending: false,
       loading: false,
-      gamesCursor: this.props.gamesCursor
+      gamesCursor: this.props.gamesCursor //TODO this is an anti-pattern and means I need componentDidUpdate to watch for changes
     }
     this.onEndReachedCalledDuringMomentum = true;
   }
+
+    componentDidUpdate(prevProps) {
+        /* TODO maybe find a better way */
+        if (JSON.stringify(prevProps.gamesCursor) !== JSON.stringify(this.props.gamesCursor)) {
+            /* we need to re-render */
+            this.setState({
+              gamesCursor: this.props.gamesCursor
+            })
+        }
+    }
 
   subscription = null
 
@@ -62,8 +72,6 @@ class GamesList extends React.Component {
   
   loadMoreGames = (count) => {
 
-    console.log('loading games...')
-
     this.setState({
       loading: true,
     })
@@ -77,7 +85,7 @@ class GamesList extends React.Component {
       offset = 0
     }
 
-    /* we want to do the callback */
+    /* we want to do the callback for more games */
     return doRPC('https://api.heroball.app/v1/get/games',
         {
           Filter: this.state.gamesCursor.Filter,
@@ -136,7 +144,7 @@ class GamesList extends React.Component {
             renderItem={({index, item }) =>
             (
               <TouchableOpacity onPress={ () => { this.props.navigation.navigate('GameBoxScore', {gameId: item.GameId}) }}>
-                <GameResult game={item} />
+                <GameResult game={item} key={item.GameId.toString()}/>
               </TouchableOpacity>
             )}
           />
