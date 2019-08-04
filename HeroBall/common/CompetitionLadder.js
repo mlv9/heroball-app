@@ -20,7 +20,7 @@ class CompetitionLadder extends React.Component {
               }}
               leftIcon={<Text>{(index+1) + '.'}</Text>}
               title={item.Team.Name}
-              rightElement={item.Won + ' - ' + item.Lost + ' - ' + item.Drawn}
+              rightElement={<Text>{item.Won + ' - ' + item.Lost + ' - ' + item.Drawn}</Text>}
               subtitleStyle={{
                 color: 'grey'
               }}

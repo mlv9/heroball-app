@@ -13,12 +13,35 @@ class GameFilterSelect extends React.Component {
 
     constructor(props) {
         super(props)
+
         this.state = {
           gamesFilterValues: [],
           gamesFilter: {},
           selectedItems: [],
         }
       }
+
+    async componentDidMount() {
+        /* get the values from storage */
+        filters = await readFilterFromStorage()
+        selections = []
+
+        /* now we need to store them in selectedItems to match the key format */
+        for (var i in filters.Competitions) {
+            selections.push("Competition_" + filters.Competitions[i])
+        }
+
+        for (var i in filters.Teams) {
+            selections.push("Team_" + filters.Competitions[i])
+        }        
+
+        for (var i in filters.Players) {
+            selections.push("Player_" + filters.Competitions[i])
+        }
+        this.setState({
+            selectedItems: selections
+        })
+    }
 
     storeGamesFilterValues = (filterObject) => {
         items = {
