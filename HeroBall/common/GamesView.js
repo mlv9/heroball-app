@@ -151,31 +151,31 @@ class GamesView extends React.Component {
             }/>
             <GameFilterSelect ref={(ref) => {this._filterSelect = ref}} />
             <View style={{paddingTop: 10, paddingBottom: 10, flexDirection: 'row', justifyContent:'center'}}>
-              <TouchableOpacity onPress={this.decrementWeek} style={{paddingRight: 20}}>
+              <TouchableOpacity onPress={this.decrementWeek} style={{flex: 1, alignItems: 'center'}}>
                 <FontAwesomeIcon icon={ faAngleDoubleLeft } color={'grey'} size={20}/>
               </TouchableOpacity>
-              <TouchableOpacity onPress={this.decrementDay} style={{paddingLeft: 30, paddingRight: 30}}>
+              <TouchableOpacity onPress={this.decrementDay} style={{flex:1, alignItems: 'center'}}>
                 <FontAwesomeIcon icon={ faAngleLeft } color={'grey'} size={20}/>
               </TouchableOpacity>
-              <TouchableOpacity onPress={this.showDateTimePicker}>
+              <TouchableOpacity onPress={this.showDateTimePicker} style={{flex:2, alignItems: 'center'}}>
                 <Text style={{textAlign: 'center'}}>{moment(this.state.date).format("ddd D MMM YYYY")}</Text>
               </TouchableOpacity>
-              <DateTimePicker
-                isVisible={this.state.isDateTimePickerVisible}
-                onConfirm={this.handleDatePicked}
-                onCancel={this.hideDateTimePicker}
-                date={this.state.date}
-              />
-              <TouchableOpacity style={{paddingLeft: 30, paddingRight: 30}} onPress={this.incrementDay}>
+              <TouchableOpacity style={{flex:1, alignItems: 'center'}} onPress={this.incrementDay}>
                 <FontAwesomeIcon icon={ faAngleRight } color={'grey'} size={20}/>
               </TouchableOpacity>
-              <TouchableOpacity style={{paddingLeft: 20}} onPress={this.incrementWeek}>
+              <TouchableOpacity style={{flex:1, alignItems: 'center'}} onPress={this.incrementWeek}>
                 <FontAwesomeIcon icon={ faAngleDoubleRight } color={'grey'} size={20}/>
               </TouchableOpacity>        
             </View>
             {this.state.loading === true && 
               <ActivityIndicator size='large' style={{marginTop: 20, marginBottom: 20}}/>
             }
+            <DateTimePicker
+                isVisible={this.state.isDateTimePickerVisible}
+                onConfirm={this.handleDatePicked}
+                onCancel={this.hideDateTimePicker}
+                date={this.state.date}
+              />
             <ScrollView 
               refreshControl={
                   <RefreshControl
