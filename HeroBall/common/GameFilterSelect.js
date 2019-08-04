@@ -7,6 +7,7 @@ import moment from 'moment';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import colorScheme from './Colors'
 import { withNavigation } from 'react-navigation';
+import { Button } from 'react-native-elements';
 
 class GameFilterSelect extends React.Component {
 
@@ -136,14 +137,12 @@ class GameFilterSelect extends React.Component {
               items={this.state.gamesFilterValues}
               uniqueKey="id"
               subKey="children"
-              showChips={false}
               colors={{
                 primary: colorScheme.secondary
               }}
               selectText={"Select Filter"}
               showDropDowns={true}
               hideSelect={true}
-              showCancelButton={true}
               ref={(ref) => this.select = ref}
               confirmText={"Save Filter"}
               noItemsComponent={
@@ -152,11 +151,9 @@ class GameFilterSelect extends React.Component {
               searchPlaceholderText={"Search"}
               styles={{
                 container: {
-                  flex:0,
+                  flex:1,
                   borderRadius:15,
-                  height:350,
                   paddingBottom: 20,
-                  marginTop: 100
                 },
                 button: {
                   marginRight: 35,
@@ -172,8 +169,39 @@ class GameFilterSelect extends React.Component {
               modalWithSafeAreaView={true}
               onSelectedItemsChange={this.selectedItemsChanged}
               onConfirm={this.saveFilter}
+              showChips={false}
               onToggleSelector={this.modalToggled}
               selectedItems={this.state.selectedItems}
+              headerComponent={this.state.selectedItems.length === 0 ?
+                (<View style={{paddingTop: 10, paddingBottom: 10}}>
+                    <Text size={24} style={{textAlign: 'center'}}>You currently have no filter selected and will view all games.  Choose a filter below to only view a subset.</Text>
+                </View>) : (<View></View>)
+              }
+              stickyFooterComponent={
+                <View>
+
+                  <Button
+                    buttonStyle={{
+                      marginTop: 10,
+                      backgroundColor: colorScheme.secondary,
+                      marginRight: 35,
+                      marginLeft: 35,
+                      borderRadius: 15
+                    }}
+                    onPress={() => this.select._removeAllItems()}
+                    title='Clear Selections'/>
+                  <Button
+                    buttonStyle={{
+                      marginTop: 10,
+                      backgroundColor: colorScheme.secondary,
+                      marginRight: 35,
+                      marginLeft: 35,
+                      borderRadius: 15
+                    }}
+                    onPress={() => this.select._toggleSelector()}
+                    title='Close'/>                    
+                </View>
+                }
               />
         );
     }
