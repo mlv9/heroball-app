@@ -14,10 +14,10 @@ class GameResult extends React.Component {
     render() {
         return (
             <View style={{flex: 1, borderTopWidth: 1, borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white'}}>
-                <View style={{flex: 1, flexDirection: 'row', justifyContent:'center', paddingTop: 5, paddingBottom: 5}}>
+                <View style={{height: 16, flexDirection: 'row', justifyContent:'center', marginTop: 5}}>
                     <Text style={{color: 'grey', fontSize: 14}}>{printCompName(this.props.game.Competition)}</Text>
                 </View>
-                <View style={{height:70, flexDirection: 'row', justifyContent:'center', flex: 1}}>
+                <View style={{height:60, flexDirection: 'row', justifyContent:'center'}}>
                     <View style={{flex:1, alignItems:'center'}}>
                         <FontAwesomeIcon icon={ faUsers } color={'black'} size={40}/>
                         <Text style={{fontSize: 20}}>{this.props.game.HomeTeam.Name}</Text>
@@ -33,7 +33,7 @@ class GameResult extends React.Component {
                         <Text style={{fontSize: 20}}>{this.props.game.AwayTeam.Name}</Text>
                     </View>
                 </View>
-                <View style={{flex: 1, flexDirection: 'row', justifyContent:'center', paddingBottom: 5}}>
+                <View style={{height: 16, flexDirection: 'row', justifyContent:'center', marginBottom: 5}}>
                     <Text style={{color: 'grey', fontSize: 14}}>{this.gameSubtitle(this.props.game)}</Text>
                 </View>
             </View>

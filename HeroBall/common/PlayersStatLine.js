@@ -98,7 +98,7 @@ class PlayersStatLine extends React.Component {
         firstColumnData.push([players[i].Player.Name])
       } else if (props.rowHeader == 'games') {
         /* find the matching game */
-        teamId = players[i].Team.TeamId
+        playersTeamId = players[i].Team.TeamId
         game = null
 
         for (var j in props.games.Games) {
@@ -112,14 +112,16 @@ class PlayersStatLine extends React.Component {
           continue
         }
 
-        /* check if home team */
-        if (teamId == game.HomeTeam.TeamId) {
+        /* check if this player is on the home or away team */
+        if (playersTeamId === game.HomeTeam.TeamId) {
           seperator = 'vs'
+          opposingTeam = game.AwayTeam.Name
         } else {
           seperator = '@'
+          opposingTeam = game.HomeTeam.Name
         }
 
-        gameHeader = moment(game.GameTime).format("DD/MM/YY") + ' ' + seperator + ' ' + game.AwayTeam.Name
+        gameHeader = moment(game.GameTime).format("DD/MM/YY") + ' ' + seperator + ' ' + opposingTeam
         firstColumnData.push([gameHeader])
       }
       

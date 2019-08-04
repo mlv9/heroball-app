@@ -64,7 +64,7 @@ class GameBoxScore extends React.Component {
           )}
           {this.state.gameInfo !== undefined && 
             <View style={{flex:1}}>
-              <View style={{height:150}}>
+              <View style={{height:104}}>
                 <GameResult game={this.state.gameInfo.Game}/>
               </View>
               <ScrollView>

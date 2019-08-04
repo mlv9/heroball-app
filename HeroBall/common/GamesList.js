@@ -12,6 +12,7 @@ class GamesList extends React.Component {
   // minGames = number of games to load initially (if cursor empty)
   // gamesCursor = the cursor itself (*pb.GamesCursor)
   // showTotal = whether we should include a total trailer
+  // title = optional title for list, defaults to RECENT GAMES
 
   constructor(props) {
     super(props)
@@ -116,7 +117,7 @@ class GamesList extends React.Component {
     return (
       <View style={{flex:1}}>
         {this.props.hideHeader !== true &&
-        <Text style={styles.heading}>GAMES</Text> }
+        <Text style={styles.heading}>{this.props.title !== undefined ? this.props.title : 'RECENT GAMES'}</Text> }
           <FlatList
             contentContainerStyle={{ flexGrow: 1 }}
             onEndReachedThreshold={0.05}
