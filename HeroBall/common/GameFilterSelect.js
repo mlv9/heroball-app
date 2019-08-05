@@ -6,7 +6,6 @@ import { ListItem } from 'react-native-elements';
 import moment from 'moment';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import colorScheme from './Colors'
-import { withNavigation } from 'react-navigation';
 import { Button } from 'react-native-elements';
 
 class GameFilterSelect extends React.Component {
@@ -21,8 +20,7 @@ class GameFilterSelect extends React.Component {
         }
       }
 
-    async componentDidMount() {
-        /* get the values from storage */
+    loadFilterFromStorage = async () => {
         filters = await readFilterFromStorage()
         selections = []
 
@@ -38,50 +36,22 @@ class GameFilterSelect extends React.Component {
         for (var i in filters.Players) {
             selections.push("Player_" + filters.Competitions[i])
         }
+
+        console.log('setting filter to stored state of')
+        console.log(selections)
         this.setState({
             selectedItems: selections
         })
     }
 
-    storeGamesFilterValues = (filterObject) => {
-        items = {
-                'Competitions': {
-                    name: 'Competitions',
-                    id: 0,
-                    children: [],
-                },
-                'Teams': {
-                    name: 'Teams',
-                    id: 1,
-                    children: [],
-                },
-                'Players': {
-                    name: 'Players',
-                    id: 2,
-                    children: [],
-                }
-            }
+    async componentDidMount() {
+        /* get the values from storage */
+        this.loadFilterFromStorage()
+    }
 
-        for (var i in filterObject.Competitions) {
-            items.Competitions.children.push({
-                name: printCompName(filterObject.Competitions[i]),
-                id: 'Competition_' + filterObject.Competitions[i].CompetitionId,
-            })
-        }
-
-        for (var i in filterObject.Teams) {
-            items.Teams.children.push({
-                name: filterObject.Teams[i].Name,
-                id: 'Team_' + filterObject.Teams[i].TeamId,
-            })
-        }
-
-        for (var i in filterObject.Players) {
-            items.Players.children.push({
-                name: filterObject.Players[i].Name,
-                id: 'Player_' + filterObject.Players[i].PlayerId,
-            })
-        }
+    saveMetadataInState = (metadata) => {
+        
+        items = serialiseMetadataToSelectItems(metadata)
 
         this.setState({
             gamesFilterValues: [items.Competitions, items.Teams, items.Players],
@@ -89,21 +59,6 @@ class GameFilterSelect extends React.Component {
 
         return;
     }
-
-    /* we need to load the values */
-    updateGamesFilterValues = () => {
-        doRPC('https://api.heroball.app/v1/get/metadata',{"Competitions": true, "Teams": true, "Players": true})
-            .then((response) => response.json())
-            .then((response) => {
-                /* now we need to parse them and place into state */
-                this.storeGamesFilterValues(response)
-            })
-            .catch((error) => {
-                console.log(error)
-                Alert.alert("Error loading games filter values.");
-            });
-    }
-
 
     selectedItemsChanged = (selections) => {
         this.setState({
@@ -115,27 +70,10 @@ class GameFilterSelect extends React.Component {
 
         selections = this.state.selectedItems
 
-        competitions = []
-        teams = []
-        players = []
-
-        /* we need to pull the original values out of the saved gamesFilterValues */
-        for (var i in selections) {
-            /* we split on the _ */
-            var fields = selections[i].split('_')
-            if (fields[0] === 'Competition') {
-                competitions.push(fields[1])
-            }
-            if (fields[0] === 'Team') {
-                teams.push(fields[1])
-            }
-            if (fields[0] === 'Player') {
-                players.push(fields[1])
-            }                        
-        }
+        md = deserialiseSelectItemsToMetadata(selections)
 
         /* store in storage */
-        this.storeFilterInStorage(competitions, teams, players)
+        this.storeFilterInStorage(md.Competitions, md.Teams, md.Players)
     }
     
     storeFilterInStorage = async (competitions, teams, players) => {
@@ -150,7 +88,8 @@ class GameFilterSelect extends React.Component {
     
     modalToggled = (open) => {
         if (open === true) {
-            this.updateGamesFilterValues();
+            getMetadata({"Competitions": true, "Teams": true, "Players": true}, this.saveMetadataInState);
+            this.loadFilterFromStorage()
         }
     }
 

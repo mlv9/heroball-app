@@ -1,5 +1,5 @@
 // A series of globals to help with development
-import { AsyncStorage } from 'react-native';
+import { Alert, AsyncStorage } from 'react-native';
 
 global.doRPC = (url, payload) => {
   return fetch(url,
@@ -93,7 +93,7 @@ global.readFilterFromStorage = async () => {
 }
 
 global.storeFilterInStorage = async (comps, teams, players) => {
-    console.log('storing in storage...')
+    console.log('storeFilterInStorage')
     try {
         await AsyncStorage.setItem('Competitions', JSON.stringify(comps));
         await AsyncStorage.setItem('Teams', JSON.stringify(teams));
@@ -103,4 +103,87 @@ global.storeFilterInStorage = async (comps, teams, players) => {
       /* TODO alert */
         console.log(error)
     }
+}
+
+global.getMetadata = (requestObject, callback) => {
+  doRPC('https://api.heroball.app/v1/get/metadata', requestObject)
+    .then((response) => response.json())
+    .then((response) => {
+        /* now we need to parse them and place into state */
+        callback(response)
+    })
+    .catch((error) => {
+        console.log(error)
+        Alert.alert("Error loading required metadata.");
+    });
+}
+
+global.serialiseMetadataToSelectItems = (metadata) => {
+  items = {
+          'Competitions': {
+              name: 'Competitions',
+              id: 0,
+              children: [],
+          },
+          'Teams': {
+              name: 'Teams',
+              id: 1,
+              children: [],
+          },
+          'Players': {
+              name: 'Players',
+              id: 2,
+              children: [],
+          }
+      }
+
+  for (var i in metadata.Competitions) {
+      items.Competitions.children.push({
+          name: printCompName(metadata.Competitions[i]),
+          id: 'Competition_' + metadata.Competitions[i].CompetitionId,
+      })
+  }
+
+  for (var i in metadata.Teams) {
+      items.Teams.children.push({
+          name: metadata.Teams[i].Name,
+          id: 'Team_' + metadata.Teams[i].TeamId,
+      })
+  }
+
+  for (var i in metadata.Players) {
+      items.Players.children.push({
+          name: metadata.Players[i].Name,
+          id: 'Player_' + metadata.Players[i].PlayerId,
+      })
+  }
+  return items
+}
+
+global.deserialiseSelectItemsToMetadata = (selections) => {
+  competitions = []
+  teams = []
+  players = []
+
+  /* we need to pull the original values out of the saved gamesFilterValues */
+  for (var i in selections) {
+      /* we split on the _ */
+      var fields = selections[i].split('_')
+      if (fields[0] === 'Competition') {
+          competitions.push(fields[1])
+      }
+      if (fields[0] === 'Team') {
+          teams.push(fields[1])
+      }
+      if (fields[0] === 'Player') {
+          players.push(fields[1])
+      }                        
+  }
+
+  return {
+    'Competitions': competitions,
+    'Teams': teams,
+    'Players': players
+  }
+
 }
