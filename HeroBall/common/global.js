@@ -141,6 +141,7 @@ global.serialiseMetadataToSelectItems = (metadata) => {
       items.Competitions.children.push({
           name: printCompName(metadata.Competitions[i]),
           id: 'Competition_' + metadata.Competitions[i].CompetitionId,
+          type: 'Competition',
       })
   }
 
@@ -148,6 +149,7 @@ global.serialiseMetadataToSelectItems = (metadata) => {
       items.Teams.children.push({
           name: metadata.Teams[i].Name,
           id: 'Team_' + metadata.Teams[i].TeamId,
+          type: 'Team',
       })
   }
 
@@ -155,6 +157,7 @@ global.serialiseMetadataToSelectItems = (metadata) => {
       items.Players.children.push({
           name: metadata.Players[i].Name,
           id: 'Player_' + metadata.Players[i].PlayerId,
+          type: 'Player',
       })
   }
   return items

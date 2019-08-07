@@ -16,6 +16,8 @@
 - Highest assists player vs my team -> Competition B vs Team C, order by APG
 - Which team do I score the most points against? -> Player A vs Competition B, order by PPG (same as above, not right)???
 
+- Does this need a 'group by' as well as the 'order by'?  If it was against competition, grouped by team...
+
 Limit To
 - Competition
 - Team

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChalkboardTeacher  } from '@fortawesome/free-solid-svg-icons'
 import ViewHeader from './ViewHeader';
@@ -28,7 +28,12 @@ class StatisticsView extends React.Component {
   }
 
   loadStats = () => {
-    
+
+    if (this.state.selectedAgainst.length === 0 && this.state.selectedLimit.length === 0) {
+      Alert.alert("You must select at least one value")
+      return
+    }
+
     forMd = deserialiseSelectItemsToMetadata(this.state.selectedLimit)
     againstMd = deserialiseSelectItemsToMetadata(this.state.selectedAgainst)
     
@@ -77,7 +82,7 @@ class StatisticsView extends React.Component {
           return (
             <View key={item[props.uniqueKey]}>
               <TouchableOpacity onPress={() => { this.select._removeItem(item) }}>
-                  <Text style={{fontSize: 20, textAlign: 'center'}}>{item[props.displayKey]}</Text>
+                  <Text style={{fontSize: 20, textAlign: 'center'}}>{item.type + ': ' + item[props.displayKey]}</Text>
               </TouchableOpacity>
             </View>
             )
