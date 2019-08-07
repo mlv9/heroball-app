@@ -46,17 +46,18 @@ class StatResults extends React.Component {
     /* now do an RPC */
     doRPC('https://api.heroball.app/v1/get/stats', 
     {
-    'For': {
-        'CompetitionIds': againstMd.Competitions,
-        'TeamIds': againstMd.Teams,
-        'PlayerIds': againstMd.Players,
-    },
-    'Against': {
-        'CompetitionIds': againstMd.Competitions,
-        'TeamIds': againstMd.Teams,
-    },
-    'Count': 10,
-    'Offset': 0,
+        'For': {
+            'CompetitionIds': againstMd.Competitions,
+            'TeamIds': againstMd.Teams,
+            'PlayerIds': againstMd.Players,
+        },
+        'Against': {
+            'CompetitionIds': againstMd.Competitions,
+            'TeamIds': againstMd.Teams,
+        },
+        'Count': 10,
+        'Offset': 0,
+        'MinimumGames': 3
     })
     .then((response) => response.json())
     .then((response) => {

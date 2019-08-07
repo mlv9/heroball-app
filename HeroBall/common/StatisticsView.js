@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChalkboardTeacher  } from '@fortawesome/free-solid-svg-icons'
 import ViewHeader from './ViewHeader';
@@ -59,6 +59,26 @@ class StatisticsView extends React.Component {
     }
   }
 
+  customChipsRenderer = (props) => {
+    return (
+      <View style={{backgroundColor: 'grey'}}>
+        {props.selectedItems.map((singleSelectedItem) => {
+          const item = this.select._findItem(singleSelectedItem)
+
+          if (!item || !item[props.displayKey]) return null
+
+          return (
+            <View key={item[props.uniqueKey]}>
+              <TouchableOpacity onPress={() => { this.select._removeItem(item) }}>
+                  <Text style={{textAlign: 'center'}}>{item[props.displayKey]}</Text>
+              </TouchableOpacity>
+            </View>
+            )
+        })} 
+      </View>
+    )
+  }
+
   render() {
     return (
       <View style={{
@@ -99,6 +119,7 @@ class StatisticsView extends React.Component {
           <Text style={{textAlign: 'center'}}>No matching teams, players or competitions</Text>
         )}
         readOnlyHeadings={true}
+        customChipsRenderer={this.customChipsRenderer}
         modalWithTouchable={true}
         modalWithSafeAreaView={true}
         onSelectedItemsChange={this.selectedLimitItemsChangedd}
@@ -137,9 +158,6 @@ class StatisticsView extends React.Component {
             }
         searchPlaceholderText={"Search"}
         styles={{
-          parentChipContainer: {
-            width: 300,
-          },
           container: {
             flex:1,
             borderRadius:15,
@@ -155,6 +173,7 @@ class StatisticsView extends React.Component {
           <Text style={{textAlign: 'center'}}>No matching teams, players or competitions</Text>
         )}
         readOnlyHeadings={true}
+        customChipsRenderer={this.customChipsRenderer}
         modalWithTouchable={true}
         modalWithSafeAreaView={true}
         onSelectedItemsChange={this.selectedAgainstItemsChangedd}
