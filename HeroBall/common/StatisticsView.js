@@ -66,7 +66,7 @@ class StatisticsView extends React.Component {
 
   customChipsRenderer = (props) => {
     return (
-      <View style={{backgroundColor: 'grey'}}>
+      <View style={{backgroundColor: 'grey', marginLeft: 20, marginRight: 20}}>
         {props.selectedItems.map((singleSelectedItem) => {
           const item = this.select._findItem(singleSelectedItem)
 
@@ -75,7 +75,7 @@ class StatisticsView extends React.Component {
           return (
             <View key={item[props.uniqueKey]}>
               <TouchableOpacity onPress={() => { this.select._removeItem(item) }}>
-                  <Text style={{textAlign: 'center'}}>{item[props.displayKey]}</Text>
+                  <Text style={{fontSize: 20, textAlign: 'center'}}>{item[props.displayKey]}</Text>
               </TouchableOpacity>
             </View>
             )
