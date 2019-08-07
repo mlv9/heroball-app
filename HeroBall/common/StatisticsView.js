@@ -76,7 +76,7 @@ class StatisticsView extends React.Component {
 
           return (
             <View key={item[props.uniqueKey]}>
-              <TouchableOpacity onPress={() => { this.item._removeItem(item) }}>
+              <TouchableOpacity onPress={() => { this.select._removeItem(item) }}>
                   <Text style={{fontSize: 20, textAlign: 'center'}}>{item[props.displayKey]}</Text>
               </TouchableOpacity>
             </View>
