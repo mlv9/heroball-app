@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, ScrollView} from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Table, Row} from 'react-native-table-component';
+import AverageStatLines from './AverageStatLines'
 import colorScheme from './Colors'
 
 class PlayerStatsResultLines extends React.Component {
@@ -36,17 +36,11 @@ class PlayerStatsResultLines extends React.Component {
     }
 
     /* lets build the table header */
-    tableHeader = ['GP']
+    tableHead = ['GP']
     for (var i in statCategories) {
-        tableHeader.push(statAbbreviation[statCategories[i]])
+      tableHead.push(statAbbreviation[statCategories[i]])
     }
-    var widthArr = new Array(tableHeader.length).fill(50)
-
-    this.state = {
-      tableHead: tableHeader,
-      tableData: tableData,
-      widthArr: widthArr,
-    }
+    widthArr = new Array(tableHead.length).fill(50)
   }
   
   render() {
@@ -56,36 +50,13 @@ class PlayerStatsResultLines extends React.Component {
         {this.props.title !== undefined && 
         <Text style={styles.heading}>{this.props.title}</Text>
         }
-        <View style={{flexDirection:'row'}}>
-          <Table borderStyle={{borderWidth: 2, borderColor: 'lightsteelblue'}}>
-            <Row widthArr={[150]} data={['Players']} style={styles.head} textStyle={styles.text}/>
-            {firstColumnData.map((rowData, index) => (
-                    <Row
-                      key={index}
-                      data={rowData}
-                      widthArr={[150]}
-                      style={[styles.row, index%2 && {backgroundColor: 'lightsteelblue'}]}
-                      textStyle={styles.text}
-                    />
-                  ))
-            }          
-          </Table>
-        <ScrollView horizontal={true}>
-          <Table borderStyle={{borderWidth: 2, borderColor: 'lightsteelblue'}}>
-            <Row widthArr={state.widthArr} data={state.tableHead} style={styles.head} textStyle={styles.text}/>
-            {tableData.map((rowData, index) => (
-                    <Row
-                      key={index}
-                      data={rowData}
-                      widthArr={state.widthArr}
-                      style={[styles.row, index%2 && {backgroundColor: 'lightsteelblue'}]}
-                      textStyle={styles.text}
-                    />
-                  ))
-            }
-          </Table>
-        </ScrollView>
-        </View>
+        <AverageStatLines
+          firstColumnTitle={'Players'}
+          tableHead={tableHead}
+          tableData={tableData}
+          widthArr={widthArr}
+          firstColumnData={firstColumnData}
+          />
       </View>
     );
   }
