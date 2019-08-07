@@ -38,18 +38,20 @@ class StatResults extends React.Component {
     const againstMd = this.props.navigation.getParam('againstMd', false);
     const forMd = this.props.navigation.getParam('forMd', false);
 
+    console.log(againstMd)
+
     if (againstMd === false || forMd === false) {
         this.setState({loading: false})
         Alert.alert("Error getting query parameters")
     }
 
-    /* now do an RPC */
+    /* now do the RPC */
     doRPC('https://api.heroball.app/v1/get/stats', 
     {
         'For': {
-            'CompetitionIds': againstMd.Competitions,
-            'TeamIds': againstMd.Teams,
-            'PlayerIds': againstMd.Players,
+            'CompetitionIds': forMd.Competitions,
+            'TeamIds': forMd.Teams,
+            'PlayerIds': forMd.Players,
         },
         'Against': {
             'CompetitionIds': againstMd.Competitions,
@@ -57,7 +59,7 @@ class StatResults extends React.Component {
         },
         'Count': 10,
         'Offset': 0,
-        'MinimumGames': 3
+        'MinimumGames': 0
     })
     .then((response) => response.json())
     .then((response) => {
