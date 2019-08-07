@@ -4,50 +4,43 @@ import { withNavigation } from 'react-navigation';
 import { Table, Row} from 'react-native-table-component';
 import colorScheme from './Colors'
 
-class PlayerAverageStatLine extends React.Component {
+class PlayerStatsResultLines extends React.Component {
     /* 
         options:
-        player = pb.PlayerInfo = the player 
+        players = required = []*pb.PlayerAggregateStats
     */
 
   constructor(props) {
     super(props)
 
-    allTimestats = getAverageStats(props.player.AggregateStats.Stats)
-
-    statCategories = ['MinutesPerGame', 'PointsPerGame', 'TwoPointFGP', 'ThreePointFGP', 'ReboundsPerGame', 'AssistsPerGame', 'StealsPerGame', 'BlocksPerGame']
-
     tableData = []
     firstColumnData = []
+
+    /* build the lines for each player */
+    for (var h in props.players) {
+
+        playerAverages = getAverageStats(props.players[h].Stats)
+
+        statCategories = ['MinutesPerGame', 'PointsPerGame', 'TwoPointFGP', 'ThreePointFGP', 'ReboundsPerGame', 'AssistsPerGame', 'StealsPerGame', 'BlocksPerGame']
+
+        playerLine = [props.players[h].Stats.GameCount]
+
+        for (var i in statCategories) {
+            playerLine.push(playerAverages[statCategories[i]])
+        }
+
+
+        /* we want career data last */
+        tableData.push(playerLine)
+        firstColumnData.push([props.players[h].Player.Name])
+    }
+
+    /* lets build the table header */
     tableHeader = ['GP']
-
-    careerData = [props.player.AggregateStats.Stats.GameCount]
-
     for (var i in statCategories) {
-      careerData.push(allTimestats[statCategories[i]])
-      tableHeader.push(statAbbreviation[statCategories[i]])
+        tableHeader.push(statAbbreviation[statCategories[i]])
     }
-
     var widthArr = new Array(tableHeader.length).fill(50)
-
-    /* now for all teams too! */
-    for (var i in props.player.Teams) {
-      teamData = [props.player.Teams[i].AggregateStats.Stats.GameCount]
-      firstColumnData.push([props.player.Teams[i].Team.Name])
-      teamAverageStats = getAverageStats(props.player.Teams[i].AggregateStats.Stats)
-
-      /* generate the table row */
-      for (var i in statCategories) {
-        teamData.push(teamAverageStats[statCategories[i]])
-      }      
-      
-      /* append to the data */
-      tableData.push(teamData)
-    }
-
-    /* we want career data last */
-    tableData.push(careerData)
-    firstColumnData.push(['Career'])
 
     this.state = {
       tableHead: tableHeader,
@@ -65,7 +58,7 @@ class PlayerAverageStatLine extends React.Component {
         }
         <View style={{flexDirection:'row'}}>
           <Table borderStyle={{borderWidth: 2, borderColor: 'lightsteelblue'}}>
-            <Row widthArr={[150]} data={['Stats']} style={styles.head} textStyle={styles.text}/>
+            <Row widthArr={[150]} data={['Players']} style={styles.head} textStyle={styles.text}/>
             {firstColumnData.map((rowData, index) => (
                     <Row
                       key={index}
@@ -98,7 +91,7 @@ class PlayerAverageStatLine extends React.Component {
   }
 }
 
-export default withNavigation(PlayerAverageStatLine);
+export default withNavigation(PlayerStatsResultLines);
 
 const styles = StyleSheet.create({
   head: { height: 40, backgroundColor: 'lightsteelblue' },

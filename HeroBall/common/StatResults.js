@@ -4,9 +4,7 @@ import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
 import Progress from 'react-native-progress/Circle';
 import GamesList from './GamesList'
-import PlayerTeamsList from './PlayerTeamsList'
-import PlayersStatLine from './PlayersStatLine'
-import PlayerAverageStatLine from './PlayerAverageStatLine'
+import PlayerStatsResultLines from './PlayerStatsResultLines'
 import { withNavigation } from 'react-navigation';
 
 class StatResults extends React.Component {
@@ -65,7 +63,7 @@ class StatResults extends React.Component {
         /* now we need to parse them and place into state */
         console.log(response)
         this.setState({
-            results: response,
+            results: response.AggregateStats,
             loading: false,
         })
     })
@@ -79,27 +77,22 @@ class StatResults extends React.Component {
   }
 
   render() {
-
-
     return (
       <View style={{
           backgroundColor: colorScheme.background,
           flex:1,
         }}>
-        <ViewHeader name='Player Profile' showBack={true} />
-        {this.state.loading === undefined && 
+        <ViewHeader name='Stat Search Results' showBack={true} />
+        {this.state.loading === true && 
           <ActivityIndicator style={{marginTop: 50}}/>
         }
+        { this.state.loading === false && this.state.results.length > 0 && 
          <ScrollView>
-
-          <PlayersStatLine
-            title={'RECENT STATS'}
-            rowHeader={'names'}
-            players={this.state.playerInfo.RecentStats}
-            games={this.state.playerInfo.RecentGames}
+          <PlayerStatsResultLines
+            players={this.state.results}
             />
-
         </ScrollView>
+        }
       </View>
     );
   }
