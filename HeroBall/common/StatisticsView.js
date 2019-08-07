@@ -59,6 +59,11 @@ class StatisticsView extends React.Component {
     }
   }
 
+  clearSelects = () => {
+    this.select._removeAllItems()
+    this.select2._removeAllItems()
+  }
+
   customChipsRenderer = (props) => {
     return (
       <View style={{backgroundColor: 'grey'}}>
@@ -200,10 +205,23 @@ class StatisticsView extends React.Component {
             backgroundColor: colorScheme.primary,
             marginRight: 35,
             marginLeft: 35,
-            borderRadius: 15
+            borderRadius: 15,
+          }}
+          titleStyle={{
+            fontWeight: '500'
           }}
           onPress={() => this.loadStats()}
-          title='Load Statistics'/>   
+          title='Load Statistics'/>
+        <Button
+          buttonStyle={{
+            marginTop: 10,
+            backgroundColor: colorScheme.primary,
+            marginRight: 35,
+            marginLeft: 35,
+            borderRadius: 15
+          }}
+          onPress={this.clearSelects}
+          title='Clear Selections'/>             
       </View>
     );
   }
