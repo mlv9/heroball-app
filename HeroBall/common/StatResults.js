@@ -89,6 +89,10 @@ class StatResults extends React.Component {
         {this.state.loading === true && 
           <ActivityIndicator style={{marginTop: 50}}/>
         }
+        {this.state.results.length == 0 && 
+            <Text style={{textAlign: "center", fontSize: 20, marginTop: 50}}>No results found.</Text>
+        
+        }
         { this.state.loading === false && this.state.results.length > 0 && 
          <ScrollView>
           <PlayerStatsResultLines

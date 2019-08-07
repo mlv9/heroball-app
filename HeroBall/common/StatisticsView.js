@@ -9,6 +9,8 @@ import { Button } from 'react-native-elements';
 
 class StatisticsView extends React.Component {
 
+  /* TODO: this.select2 does not allow filter items to be removed */
+
   constructor(props) {
     super(props)
     this.state = {
@@ -68,13 +70,13 @@ class StatisticsView extends React.Component {
     return (
       <View style={{backgroundColor: 'grey', marginLeft: 20, marginRight: 20}}>
         {props.selectedItems.map((singleSelectedItem) => {
-          const item = this.select._findItem(singleSelectedItem)
 
+          const item = this.select._findItem(singleSelectedItem)
           if (!item || !item[props.displayKey]) return null
 
           return (
             <View key={item[props.uniqueKey]}>
-              <TouchableOpacity onPress={() => { this.select._removeItem(item) }}>
+              <TouchableOpacity onPress={() => { this.item._removeItem(item) }}>
                   <Text style={{fontSize: 20, textAlign: 'center'}}>{item[props.displayKey]}</Text>
               </TouchableOpacity>
             </View>
@@ -211,7 +213,7 @@ class StatisticsView extends React.Component {
             fontWeight: '500'
           }}
           onPress={() => this.loadStats()}
-          title='Load Statistics'/>
+          title='Search Statistics'/>
         <Button
           buttonStyle={{
             marginTop: 10,
