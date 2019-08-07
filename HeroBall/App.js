@@ -6,6 +6,7 @@ import GameBoxScore from './common/GameBoxScore'
 import GamesPopOver from './common/GamesPopOver'
 import PlayerProfile from './common/PlayerProfile'
 import GamesView from './common/GamesView'
+import StatResults from './common/StatResults'
 import StatisticsView from './common/StatisticsView'
 import {
   createBottomTabNavigator,
@@ -46,7 +47,8 @@ const AppStack = createStackNavigator(
     Main: { screen: MainNavigator },
     GameBoxScore: {screen: GameBoxScore},
     GamesPopOver: {screen: GamesPopOver},
-    PlayerProfile: {screen: PlayerProfile}
+    PlayerProfile: {screen: PlayerProfile},
+    StatResults: {screen: StatResults}
   },
   {
     headerMode: 'none',

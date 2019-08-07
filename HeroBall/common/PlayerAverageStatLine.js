@@ -8,13 +8,12 @@ class PlayerAverageStatLine extends React.Component {
     /* 
         options:
         player = pb.PlayerInfo = the player 
-        timespan = career / year / team = where the condensed stats should apply to TODO
     */
 
   constructor(props) {
     super(props)
 
-    allTimestats = getAverageStats(props.player.StatsAllTime.TotalStats, props.player.StatsAllTime.Count)
+    allTimestats = getAverageStats(props.player.AggregateStats.Stats)
 
     statCategories = ['MinutesPerGame', 'PointsPerGame', 'TwoPointFGP', 'ThreePointFGP', 'ReboundsPerGame', 'AssistsPerGame', 'StealsPerGame', 'BlocksPerGame']
 
@@ -22,7 +21,7 @@ class PlayerAverageStatLine extends React.Component {
     firstColumnData = []
     tableHeader = ['GP']
 
-    careerData = [props.player.StatsAllTime.Count]
+    careerData = [props.player.AggregateStats.Stats.GameCount]
 
     for (var i in statCategories) {
       careerData.push(allTimestats[statCategories[i]])
@@ -33,9 +32,9 @@ class PlayerAverageStatLine extends React.Component {
 
     /* now for all teams too! */
     for (var i in props.player.Teams) {
-      teamData = [props.player.Teams[i].Stats.Count]
+      teamData = [props.player.Teams[i].AggregateStats.Stats.GameCount]
       firstColumnData.push([props.player.Teams[i].Team.Name])
-      teamAverageStats = getAverageStats(props.player.Teams[i].Stats.TotalStats, props.player.Teams[i].Stats.Count)
+      teamAverageStats = getAverageStats(props.player.Teams[i].AggregateStats.Stats)
 
       /* generate the table row */
       for (var i in statCategories) {
@@ -46,7 +45,7 @@ class PlayerAverageStatLine extends React.Component {
       tableData.push(teamData)
     }
 
-    /* we want it last */
+    /* we want career data last */
     tableData.push(careerData)
     firstColumnData.push(['Career'])
 

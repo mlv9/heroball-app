@@ -27,26 +27,11 @@ class StatisticsView extends React.Component {
 
   loadStats = () => {
     
-    limitMd = deserialiseSelectItemsToMetadata(this.state.selectedLimit)
+    forMd = deserialiseSelectItemsToMetadata(this.state.selectedLimit)
     againstMd = deserialiseSelectItemsToMetadata(this.state.selectedAgainst)
     
-    /* now do an RPC */
-    doRPC('https://api.heroball.app/v1/get/stats', 
-      {
-        'By': limitMd,
-        'Against': againstMd,
-      })
-      .then((response) => response.json())
-      .then((response) => {
-          /* now we need to parse them and place into state */
-          console.log(response)
-      })
-      .catch((error) => {
-          console.log(error)
-          Alert.alert("Error loading stats.");
-      });
-
-
+    /* navigate to Stat Results */
+    this.props.navigation.navigate('StatsView', {'forMd': forMd, 'againstMd': againstMd})
   }
 
   selectedAgainstItemsChangedd = (selections) => {

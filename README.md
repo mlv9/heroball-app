@@ -14,7 +14,7 @@
 ## Use Cases
 - Highest scoring player in a competition -> Competition B vs Competition B, order by PPG
 - Highest assists player vs my team -> Competition B vs Team C, order by APG
-- Who do I score the most points against? -> Player A vs Competition B, order by PPG (same as above, not right)
+- Which team do I score the most points against? -> Player A vs Competition B, order by PPG (same as above, not right)???
 
 Limit To
 - Competition

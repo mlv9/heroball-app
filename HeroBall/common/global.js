@@ -17,15 +17,15 @@ global.printCompName = (comp) => {
   return comp.League.Name + ' ' + comp.League.Division + ' ' + comp.Name
 }
 
-global.getAverageStats = (stats, count) => {
+global.getAverageStats = (stats) => {
   return {
-  'PointsPerGame': ((stats.TwoPointFGM * 2 + stats.ThreePointFGM * 3 + stats.FreeThrowsMade) / count).toFixed(1),
-  'ReboundsPerGame': ((stats.OffensiveRebounds + stats.DefensiveRebounds) / count).toFixed(1),
-  'AssistsPerGame': ((stats.Assists) / count).toFixed(1),
-  'BlocksPerGame': ((stats.Blocks) / count).toFixed(1),
-  'StealsPerGame': ((stats.Steals) / count).toFixed(1),
-  'TurnoversPerGame': ((stats.Turnovers) / count).toFixed(1),
-  'MinutesPerGame': ((stats.MinutesPlayed) / count).toFixed(1),
+  'PointsPerGame': ((stats.TwoPointFGM * 2 + stats.ThreePointFGM * 3 + stats.FreeThrowsMade) / stats.GameCount).toFixed(1),
+  'ReboundsPerGame': ((stats.OffensiveRebounds + stats.DefensiveRebounds) / stats.GameCount).toFixed(1),
+  'AssistsPerGame': ((stats.Assists) / stats.GameCount).toFixed(1),
+  'BlocksPerGame': ((stats.Blocks) / stats.GameCount).toFixed(1),
+  'StealsPerGame': ((stats.Steals) / stats.GameCount).toFixed(1),
+  'TurnoversPerGame': ((stats.Turnovers) / stats.GameCount).toFixed(1),
+  'MinutesPerGame': ((stats.MinutesPlayed) / stats.GameCount).toFixed(1),
   'TwoPointFGP': ((stats.TwoPointFGM / stats.TwoPointFGM) * 100).toFixed(1),
   'ThreePointFGP': ((stats.ThreePointFGM / stats.ThreePointFGA) * 100).toFixed(1),
   'FreeThrowPercent': ((stats.FreeThrowsMade / stats.FreeThrowsAttempted) * 100).toFixed(1),

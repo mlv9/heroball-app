@@ -41,7 +41,7 @@ class PlayerTeamsList extends React.Component {
                     borderWidth: 1,
                   }}
                   badge={{
-                    value: this.getBadgeText(item.Stats.TotalStats, item.Stats.Count),
+                    value: this.getBadgeText(item.AggregateStats.Stats, item.AggregateStats.Stats.GameCount),
                     badgeStyle: {
                       backgroundColor: 'grey',
                       paddingRight: 3,
