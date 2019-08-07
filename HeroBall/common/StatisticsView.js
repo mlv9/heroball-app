@@ -137,6 +137,9 @@ class StatisticsView extends React.Component {
             }
         searchPlaceholderText={"Search"}
         styles={{
+          parentChipContainer: {
+            width: 300,
+          },
           container: {
             flex:1,
             borderRadius:15,

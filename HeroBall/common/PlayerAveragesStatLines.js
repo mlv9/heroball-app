@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView} from 'react-native';
+import { Text, View, StyleSheet} from 'react-native';
 import { withNavigation } from 'react-navigation';
-import AverageStatLines from './AverageStatLines'
+import StatLines from './StatLines'
 import colorScheme from './Colors'
 
 class PlayerAveragesStatLines extends React.Component {
@@ -62,7 +62,7 @@ class PlayerAveragesStatLines extends React.Component {
         {this.props.title !== undefined && 
         <Text style={styles.heading}>{this.props.title}</Text>
         }
-        <AverageStatLines
+        <StatLines
           firstColumnTitle={'Stats'}
           tableHead={tableHead}
           tableData={tableData}
@@ -77,9 +77,6 @@ class PlayerAveragesStatLines extends React.Component {
 export default withNavigation(PlayerAveragesStatLines);
 
 const styles = StyleSheet.create({
-  head: { height: 40, backgroundColor: 'lightsteelblue' },
-  row: {backgroundColor: 'white'},
-  text: { margin: 2 },
   heading: {
     textAlignVertical: "center",
     textAlign: "center",

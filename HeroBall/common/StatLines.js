@@ -4,10 +4,14 @@ import { withNavigation } from 'react-navigation';
 import { Table, Row} from 'react-native-table-component';
 import colorScheme from './Colors'
 
-class AverageStatLines extends React.Component {
+class StatLines extends React.Component {
     /* 
         options:
-        players = required = []*pb.PlayerAggregateStats
+        firstColumnTitle={'Players'}
+        tableHead={tableHead} = array of top row
+        tableData={tableData} = array of remaining rows
+        widthArr={widthArr} = int array for column width
+        firstColumnData={firstColumnData} = array for first column (so it doesnt scroll)
     */
   
   render() {
@@ -46,16 +50,10 @@ class AverageStatLines extends React.Component {
   }
 }
 
-export default withNavigation(AverageStatLines);
+export default withNavigation(StatLines);
 
 const styles = StyleSheet.create({
   head: { height: 40, backgroundColor: 'lightsteelblue' },
   row: {backgroundColor: 'white'},
   text: { margin: 2 },
-  heading: {
-    textAlignVertical: "center",
-    textAlign: "center",
-    backgroundColor:colorScheme.secondary,
-    color: "white"
-  }
 });
