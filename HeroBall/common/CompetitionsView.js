@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faTrophy } from '@fortawesome/free-solid-svg-icons'
 import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
+import moment from 'moment';
 import GamesList from './GamesList';
 import Progress from 'react-native-progress/Circle';
 import CompetitionLadder from './CompetitionLadder';
@@ -80,6 +81,8 @@ class CompetitionsView extends React.Component {
             />
             <Text>{this.state.compInfo.Competition.League.Name + ' ' + this.state.compInfo.Competition.League.Division}</Text>
             <Text>{this.state.compInfo.Competition.Name}</Text>
+            <Text>Played a total of {this.state.compInfo.RecentGames.Total} games from {moment(this.state.compInfo.FirstGameTime).format("ddd D MMM YYYY")} to {moment(this.state.compInfo.LastGameTime).format("ddd D MMM YYYY")}
+            </Text>
             <Text style={styles.heading}>STANDINGS</Text>
             <CompetitionLadder teams={this.state.compInfo.Teams} />
             <GamesList
