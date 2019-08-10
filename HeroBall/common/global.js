@@ -11,9 +11,9 @@ global.doRPC = (url, payload) => {
     },
     body: JSON.stringify(payload),
   }).then((response) => {
-    console.log('error check')
-    console.log(response)
+    console.log('error checking')
     if(response.ok !== true) {
+        console.log(response)
         throw "grpc-error: " + response.error
     }
     return response
@@ -87,6 +87,8 @@ global.readFilterFromStorage = async () => {
     filterComps = await AsyncStorage.getItem('Competitions')
     filterTeams = await AsyncStorage.getItem('Teams'); 
     filterPlayers = await AsyncStorage.getItem('Players'); 
+
+    console.log(filterTeams)
 
     /* handle non-existing filters */
     filterComps = filterComps || "[]"

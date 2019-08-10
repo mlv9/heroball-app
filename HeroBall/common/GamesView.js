@@ -7,6 +7,7 @@ import { faSlidersH, faBasketballBall, faAngleRight, faAngleLeft, faAngleDoubleR
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import GameFilterSelect from './GameFilterSelect'
+import colorScheme from './Colors';
 
 Date.prototype.addDays = function(days) {
   var date = new Date(this.valueOf());
@@ -138,6 +139,10 @@ class GamesView extends React.Component {
     this.hideDateTimePicker();
   };
 
+  setFilterSelected = (value) => {
+    this.setState({filterSelected: value})
+  }
+
   render() {
     return (
       <View style={{flex:1}}>
@@ -145,10 +150,10 @@ class GamesView extends React.Component {
           name='HeroBall Games' 
           rightComponent={
                 <TouchableOpacity style={{height: 30, justifyContent: 'flex-end', width:50, alignItems: 'center'}} onPress={this.showGameFilter}>
-                  <FontAwesomeIcon icon={ faSlidersH } style={{color:'white'}} size={18}/>
+                  <FontAwesomeIcon icon={ faSlidersH } style={this.state.filterSelected === true ? {color : colorScheme.secondary} : {color:'white'}} size={18}/>
                 </TouchableOpacity>
             }/>
-            <GameFilterSelect ref={(ref) => {this._filterSelect = ref}} />
+            <GameFilterSelect onFilterPersistentChange={this.setFilterSelected} ref={(ref) => {this._filterSelect = ref}} />
             <View style={{paddingTop: 10, paddingBottom: 10, flexDirection: 'row', justifyContent:'center'}}>
               <TouchableOpacity onPress={this.decrementWeek} style={{flex: 1, alignItems: 'center'}}>
                 <FontAwesomeIcon icon={ faAngleDoubleLeft } color={'grey'} size={20}/>

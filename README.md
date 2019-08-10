@@ -32,3 +32,9 @@ Order By
 
 Group By
 Team?
+
+
+# Font
+- Heiti TC
+- KohinoorTelugu-Regular
+- GujaratiSangamMN

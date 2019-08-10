@@ -38,7 +38,7 @@ export default class LoadingScreen extends React.Component {
               iterationCount={1}>
               <FontAwesomeIcon style={{color: '#d16d2b', }} icon={faBasketballBall} size={200} />
             </Animatable.View>
-            <Animatable.Text animation="fadeInUp" delay={600} iterationCount={1} style={{fontSize:22, paddingBottom: 20, color: 'white', marginTop: 20}}>Welcome to HeroBall</Animatable.Text>
+            <Animatable.Text animation="flipInX" delay={600} iterationCount={1} style={{fontSize:30, fontFamily: 'GujaratiSangamMN', paddingBottom: 20, color: 'white', marginTop: 20}}>HeroBall</Animatable.Text>
           </View>
         </View>
       </View>

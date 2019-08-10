@@ -81,9 +81,9 @@ class StatisticsView extends React.Component {
           if (!item || !item[props.displayKey]) return null
 
           return (
-            <View key={item[props.uniqueKey]} style={{borderRadius: 15, backgroundColor: colorScheme.primary, marginBottom: 2}}>
+            <View key={item[props.uniqueKey]} style={{borderRadius: 15, borderWidth: 1, borderColor: colorScheme.primary, marginBottom: 2}}>
               <TouchableOpacity onPress={() => { this.select._removeItem(item) }}>
-                  <Text style={{paddingTop: 2, paddingBottom: 2, fontSize: 20, textAlign: 'center', color: 'white'}}>{item.type + ': ' + item[props.displayKey]}</Text>
+                  <Text style={{paddingTop: 2, paddingBottom: 2, fontSize: 20, textAlign: 'center', color: 'black'}}>{item.type + ': ' + item[props.displayKey]}</Text>
               </TouchableOpacity>
             </View>
             )

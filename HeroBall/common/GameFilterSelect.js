@@ -1,18 +1,17 @@
 import React from 'react';
 import { Alert, Text, View } from 'react-native'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faUsers  } from '@fortawesome/free-solid-svg-icons'
-import { ListItem } from 'react-native-elements';
-import moment from 'moment';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import colorScheme from './Colors'
 import { Button } from 'react-native-elements';
 
 class GameFilterSelect extends React.Component {
 
+    /* props
+        - onFilterPersistentChange (optional) = callbac taking boolean indicate if there is a filter or not
+    */
+
     constructor(props) {
         super(props)
-
         this.state = {
           gamesFilterValues: [],
           gamesFilter: {},
@@ -30,15 +29,14 @@ class GameFilterSelect extends React.Component {
         }
 
         for (var i in filters.Teams) {
-            selections.push("Team_" + filters.Competitions[i])
+            selections.push("Team_" + filters.Teams[i])
         }        
 
         for (var i in filters.Players) {
-            selections.push("Player_" + filters.Competitions[i])
+            selections.push("Player_" + filters.Players[i])
         }
 
-        console.log('setting filter to stored state of')
-        console.log(selections)
+        this.props.onFilterPersistentChange(selections.length > 0)
         this.setState({
             selectedItems: selections
         })
@@ -87,6 +85,7 @@ class GameFilterSelect extends React.Component {
     }
     
     modalToggled = (open) => {
+        this.props.onFilterPersistentChange(this.state.selectedItems.length > 0)
         if (open === true) {
             getMetadata({"Competitions": true, "Teams": true, "Players": true}, this.saveMetadataInState);
             this.loadFilterFromStorage()
@@ -168,6 +167,10 @@ class GameFilterSelect extends React.Component {
         );
     }
 }
+
+GameFilterSelect.defaultProps = {
+    onFilterPersistentChange: function(){}
+  };
 
 export default GameFilterSelect;
 
