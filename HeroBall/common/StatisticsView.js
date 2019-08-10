@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Text, TouchableOpacity, View } from 'react-native';
+import { Picker, Alert, Text, TouchableOpacity, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChalkboardTeacher  } from '@fortawesome/free-solid-svg-icons'
 import ViewHeader from './ViewHeader';
@@ -14,6 +14,7 @@ class StatisticsView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      ordering: 'PPG',
       selectedLimit: [],
       selectedAgainst: [],
       limitValues: [],
@@ -38,7 +39,7 @@ class StatisticsView extends React.Component {
     againstMd = deserialiseSelectItemsToMetadata(this.state.selectedAgainst)
     
     /* navigate to Stat Results */
-    this.props.navigation.navigate('StatResults', {'forMd': forMd, 'againstMd': againstMd})
+    this.props.navigation.navigate('StatResults', {'forMd': forMd, 'againstMd': againstMd, 'ordering': this.state.ordering})
   }
 
   selectedAgainstItemsChangedd = (selections) => {
@@ -73,16 +74,16 @@ class StatisticsView extends React.Component {
 
   customChipsRenderer = (props) => {
     return (
-      <View style={{backgroundColor: 'grey', marginLeft: 20, marginRight: 20}}>
+      <View style={{marginLeft: 20, marginRight: 20}}>
         {props.selectedItems.map((singleSelectedItem) => {
 
           const item = this.select._findItem(singleSelectedItem)
           if (!item || !item[props.displayKey]) return null
 
           return (
-            <View key={item[props.uniqueKey]}>
+            <View key={item[props.uniqueKey]} style={{borderRadius: 15, backgroundColor: colorScheme.primary, marginBottom: 2}}>
               <TouchableOpacity onPress={() => { this.select._removeItem(item) }}>
-                  <Text style={{fontSize: 20, textAlign: 'center'}}>{item.type + ': ' + item[props.displayKey]}</Text>
+                  <Text style={{paddingTop: 2, paddingBottom: 2, fontSize: 20, textAlign: 'center', color: 'white'}}>{item.type + ': ' + item[props.displayKey]}</Text>
               </TouchableOpacity>
             </View>
             )
@@ -206,6 +207,24 @@ class StatisticsView extends React.Component {
           </View>
           }
         />
+        <Picker
+          selectedValue={this.state.ordering}
+          onValueChange={(selection, itemIndex) =>
+            this.setState({ordering: selection})
+          }>
+          <Picker.Item label={getStatFriendlyName("PPG")} value="PPG" />
+          <Picker.Item label={getStatFriendlyName("RPG")} value="RPG" />
+          <Picker.Item label={getStatFriendlyName("APG")} value="APG" />
+          <Picker.Item label={getStatFriendlyName("2PFG")} value="2PFG" />
+          <Picker.Item label={getStatFriendlyName("3PFG")} value="3PFG" />
+          <Picker.Item label={getStatFriendlyName("SPG")} value="SPG" />
+          <Picker.Item label={getStatFriendlyName("MPG")} value="MPG" />
+          <Picker.Item label={getStatFriendlyName("BPG")} value="BPG" />
+          <Picker.Item label={getStatFriendlyName("SPG")} value="SPG" />
+          <Picker.Item label={getStatFriendlyName("MPG")} value="MPG" />
+          <Picker.Item label={getStatFriendlyName("TPG")} value="TPG" />
+          <Picker.Item label={getStatFriendlyName("FT")} value="FT" />
+        </Picker>   
         <Button
           buttonStyle={{
             marginTop: 10,
@@ -228,7 +247,8 @@ class StatisticsView extends React.Component {
             borderRadius: 15
           }}
           onPress={this.clearSelects}
-          title='Clear Selections'/>             
+          title='Clear Selections'/> 
+           
       </View>
     );
   }

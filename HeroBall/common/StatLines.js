@@ -15,8 +15,6 @@ class StatLines extends React.Component {
     */
   
   render() {
-
-    console.log(this.props.tableData)
     return (
         <View style={{flexDirection:'row'}}>
           <Table borderStyle={{borderWidth: 2, borderColor: 'lightsteelblue'}}>

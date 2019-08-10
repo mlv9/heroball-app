@@ -21,7 +21,7 @@ class PlayerStatsResultLines extends React.Component {
 
         playerAverages = getAverageStats(props.players[h].Stats)
 
-        statsToDisplay = ['MPG', 'PPG', '2PFG', '3PFG', 'RPG', 'APG', 'TPG', 'SPG', 'BPG']
+        statsToDisplay = ['MPG', 'PPG', '2PFG', '3PFG', 'FT', 'RPG', 'APG', 'TPG', 'SPG', 'BPG']
 
         playerLine = [props.players[h].Stats.GameCount]
 

@@ -10,7 +10,15 @@ global.doRPC = (url, payload) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
-  })
+  }).then((response) => {
+    console.log('error check')
+    console.log(response)
+    if(response.ok !== true) {
+        throw "grpc-error: " + response.error
+    }
+    return response
+    }
+  )
 }
 
 global.printCompName = (comp) => {
@@ -26,7 +34,7 @@ global.getAverageStats = (stats) => {
   'SPG': ((stats.Steals) / stats.GameCount).toFixed(1),
   'TPG': ((stats.Turnovers) / stats.GameCount).toFixed(1),
   'MPG': ((stats.MinutesPlayed) / stats.GameCount).toFixed(1),
-  '2PFG': ((stats.TwoPointFGM / stats.TwoPointFGM) * 100).toFixed(1),
+  '2PFG': ((stats.TwoPointFGM / stats.TwoPointFGA) * 100).toFixed(1),
   '3PFG': ((stats.ThreePointFGM / stats.ThreePointFGA) * 100).toFixed(1),
   'FT': ((stats.FreeThrowsMade / stats.FreeThrowsAttempted) * 100).toFixed(1),
   }

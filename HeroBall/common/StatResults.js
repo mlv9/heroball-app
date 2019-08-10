@@ -1,9 +1,7 @@
 import React from 'react';
-import { Alter, Image, ScrollView, ActivityIndicator, Text, View } from 'react-native';
+import { Alert, ScrollView, ActivityIndicator, Text, View } from 'react-native';
 import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
-import Progress from 'react-native-progress/Circle';
-import GamesList from './GamesList'
 import PlayerStatsResultLines from './PlayerStatsResultLines'
 import { withNavigation } from 'react-navigation';
 
@@ -37,10 +35,11 @@ class StatResults extends React.Component {
 
     const againstMd = this.props.navigation.getParam('againstMd', false);
     const forMd = this.props.navigation.getParam('forMd', false);
+    const ordering = this.props.navigation.getParam('ordering', false);
 
     console.log(againstMd)
 
-    if (againstMd === false || forMd === false) {
+    if (againstMd === false || forMd === false || ordering === false) {
         this.setState({loading: false})
         Alert.alert("Error getting query parameters")
     }
@@ -60,12 +59,11 @@ class StatResults extends React.Component {
         'Count': 10,
         'Offset': 0,
         'MinimumGames': 0,
-        'Ordering': 'RPG'
+        'Ordering': ordering
     })
     .then((response) => response.json())
     .then((response) => {
         /* now we need to parse them and place into state */
-        console.log(response)
         this.setState({
             results: response.AggregateStats,
             loading: false,
@@ -75,7 +73,7 @@ class StatResults extends React.Component {
         console.log(error)
         Alert.alert("Error loading stats.");
         this.setState({
-            loading: false,
+            loading: false
         })
     });
   }
@@ -90,9 +88,8 @@ class StatResults extends React.Component {
         {this.state.loading === true && 
           <ActivityIndicator style={{marginTop: 50}}/>
         }
-        {this.state.results.length == 0 && 
+        {this.state.results.length == 0 && this.state.loading !== true && 
             <Text style={{textAlign: "center", fontSize: 20, marginTop: 50}}>No results found.</Text>
-        
         }
         { this.state.loading === false && this.state.results.length > 0 && 
          <ScrollView>

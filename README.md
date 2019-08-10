@@ -3,8 +3,8 @@
 - Having the same player listed for both teams in a game breaks everything
 
 # TODO
-- pb.Competition should include total games played, and first and last game played (TO DATE) in that comp
 - Filter logis is kind of confusing in that it AND (e.g. If you select a comp and a player, its really only that player in that comp - is this intuitive?)
+- Add the 'number' next to name in stats results (eg. 10 for 10th ranked)
 
 # Statistics Page
 1. Select a Stats GamesFilter (Competition, Player, Team)
