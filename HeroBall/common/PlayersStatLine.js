@@ -14,7 +14,7 @@ class PlayersStatLine extends React.Component {
         title = string = value to place as a header to stats (e.g. Team name)
     */
 
-   headingsMap = {
+   statHeadingsMap = {
     TwoPointFGM: '2PM',
     TwoPointFGA : '2PA',
     ThreePointFGM: '3PA',
@@ -48,6 +48,7 @@ class PlayersStatLine extends React.Component {
     for (var i in this.props.players) {
       player = this.props.players[i]
       player.Stats = expandStats(player.Stats)
+      delete player.Stats["GameCount"] /* this is one game only, lets not display that */
       players.push(player)
     }
 
@@ -55,9 +56,14 @@ class PlayersStatLine extends React.Component {
 
     tableHead = []
     for (var i in headings) {
-      title = this.headingsMap[headings[i]]
 
-      if (title !== undefined || title !== '') {
+      if (headings[i] == 'GameCount') {
+        continue;
+      }
+
+      title = this.statHeadingsMap[headings[i]]
+
+      if (title !== undefined && title !== '') {
         tableHead.push(title)
       } else {
         tableHead.push(headings[i])
@@ -123,7 +129,6 @@ class PlayersStatLine extends React.Component {
         gameHeader = moment(game.GameTime).format("DD/MM/YY") + ' ' + seperator + ' ' + opposingTeam
         firstColumnData.push([gameHeader])
       }
-      
       tableData.push(statLine)
     }
 

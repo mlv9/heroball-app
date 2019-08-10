@@ -19,43 +19,43 @@ global.printCompName = (comp) => {
 
 global.getAverageStats = (stats) => {
   return {
-  'PointsPerGame': ((stats.TwoPointFGM * 2 + stats.ThreePointFGM * 3 + stats.FreeThrowsMade) / stats.GameCount).toFixed(1),
-  'ReboundsPerGame': ((stats.OffensiveRebounds + stats.DefensiveRebounds) / stats.GameCount).toFixed(1),
-  'AssistsPerGame': ((stats.Assists) / stats.GameCount).toFixed(1),
-  'BlocksPerGame': ((stats.Blocks) / stats.GameCount).toFixed(1),
-  'StealsPerGame': ((stats.Steals) / stats.GameCount).toFixed(1),
-  'TurnoversPerGame': ((stats.Turnovers) / stats.GameCount).toFixed(1),
-  'MinutesPerGame': ((stats.MinutesPlayed) / stats.GameCount).toFixed(1),
-  'TwoPointFGP': ((stats.TwoPointFGM / stats.TwoPointFGM) * 100).toFixed(1),
-  'ThreePointFGP': ((stats.ThreePointFGM / stats.ThreePointFGA) * 100).toFixed(1),
-  'FreeThrowPercent': ((stats.FreeThrowsMade / stats.FreeThrowsAttempted) * 100).toFixed(1),
+  'PPG': ((stats.TwoPointFGM * 2 + stats.ThreePointFGM * 3 + stats.FreeThrowsMade) / stats.GameCount).toFixed(1),
+  'RPG': ((stats.OffensiveRebounds + stats.DefensiveRebounds) / stats.GameCount).toFixed(1),
+  'APG': ((stats.Assists) / stats.GameCount).toFixed(1),
+  'BPG': ((stats.Blocks) / stats.GameCount).toFixed(1),
+  'SPG': ((stats.Steals) / stats.GameCount).toFixed(1),
+  'TPG': ((stats.Turnovers) / stats.GameCount).toFixed(1),
+  'MPG': ((stats.MinutesPlayed) / stats.GameCount).toFixed(1),
+  '2PFG': ((stats.TwoPointFGM / stats.TwoPointFGM) * 100).toFixed(1),
+  '3PFG': ((stats.ThreePointFGM / stats.ThreePointFGA) * 100).toFixed(1),
+  'FT': ((stats.FreeThrowsMade / stats.FreeThrowsAttempted) * 100).toFixed(1),
   }
 }
 
-global.statAbbreviation = {
-  'PointsPerGame': 'PPG',
-  'ReboundsPerGame': 'RPG',
-  'AssistsPerGame': 'APG',
-  'StealsPerGame': 'SPG',
-  'BlocksPerGame': 'BPG',
-  'TurnoversPerGame': 'TPG',
-  'MinutesPerGame': 'MPG',
-  'TwoPointFGP': '2PFG',
-  'ThreePointFGP': '3PFG',
-  'FreeThrowPercent': 'FT'
-}
+global.getStatFriendlyName = (statAbbreviation) => {
+    map = {
+    'PPG': 'Points Per Game',
+    'RPG': 'Rebounds Per Game',
+    'APG': 'Assists Per Game',
+    'SPG': 'Steals Per Game',
+    'BPG': 'Blocks Per Game',
+    'TPG': 'Turnovers Per Game',
+    'MPG': 'Minutes Per Game',
+    '2PFG': 'Two Point FG%',
+    '3PFG': 'Three Point FG%',
+    'FT': 'Free Throw %',
+    'EFF': 'Efficiency'
+  }
 
-global.statTrailer = {
-  'PointsPerGame': ' ' + statAbbreviation['PointsPerGame'],
-  'ReboundsPerGame': ' ' + statAbbreviation['ReboundsPerGame'],
-  'AssistsPerGame': ' ' + statAbbreviation['AssistsPerGame'],
-  'StealsPerGame': ' ' + statAbbreviation['StealsPerGame'],
-  'BlocksPerGame': ' ' + statAbbreviation['BlocksPerGame'],
-  'TurnoversPerGame': ' ' + statAbbreviation['TurnoversPerGame'],
-  'MinutesPerGame': ' ' + statAbbreviation['MinutesPerGame'],
-  'TwoPointFGP': '% ' + statAbbreviation['TwoPointFGP'],
-  'ThreePointFGP': '% '+ statAbbreviation['ThreePointFGP'],
-  'FreeThrowPercent': '% ' + statAbbreviation['FreeThrowPercent']
+  return map[statAbbreviation]
+}  
+
+global.getStatTrailer = (statAbbreviation) => {
+
+    if (statAbbreviation === '2PFG' || statAbbreviation === '3PFG' || statAbbreviation === 'FT') {
+        return '% ' + statAbbreviation
+    }
+    return ' ' + statAbbreviation
 }
 
 global.expandStats = (stats) => {

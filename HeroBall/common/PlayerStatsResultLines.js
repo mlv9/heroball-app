@@ -21,12 +21,12 @@ class PlayerStatsResultLines extends React.Component {
 
         playerAverages = getAverageStats(props.players[h].Stats)
 
-        statCategories = ['MinutesPerGame', 'PointsPerGame', 'TwoPointFGP', 'ThreePointFGP', 'ReboundsPerGame', 'AssistsPerGame', 'StealsPerGame', 'BlocksPerGame']
+        statsToDisplay = ['MPG', 'PPG', '2PFG', '3PFG', 'RPG', 'APG', 'TPG', 'SPG', 'BPG']
 
         playerLine = [props.players[h].Stats.GameCount]
 
-        for (var i in statCategories) {
-            playerLine.push(playerAverages[statCategories[i]])
+        for (var i in statsToDisplay) {
+            playerLine.push(playerAverages[statsToDisplay[i]])
         }
 
 
@@ -37,8 +37,8 @@ class PlayerStatsResultLines extends React.Component {
 
     /* lets build the table header */
     tableHead = ['GP']
-    for (var i in statCategories) {
-      tableHead.push(statAbbreviation[statCategories[i]])
+    for (var i in statsToDisplay) {
+      tableHead.push(statsToDisplay[i])
     }
     widthArr = new Array(tableHead.length).fill(50)
   }

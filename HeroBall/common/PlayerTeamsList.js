@@ -20,7 +20,7 @@ class PlayerTeamsList extends React.Component {
 
   getBadgeText = (stats, count) => {
     averages = getAverageStats(stats, count)
-    return averages.PointsPerGame + ' PPG, ' + averages.ReboundsPerGame + ' RPG, ' + averages.AssistsPerGame + ' APG'
+    return averages.PPG + ' PPG' + averages.RPG + ' RPG, ' + averages.APG + ' APG'
   }
   
   

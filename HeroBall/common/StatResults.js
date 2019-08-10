@@ -59,7 +59,8 @@ class StatResults extends React.Component {
         },
         'Count': 10,
         'Offset': 0,
-        'MinimumGames': 0
+        'MinimumGames': 0,
+        'Ordering': 'RPG'
     })
     .then((response) => response.json())
     .then((response) => {

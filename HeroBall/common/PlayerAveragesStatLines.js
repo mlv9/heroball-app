@@ -5,20 +5,32 @@ import StatLines from './StatLines'
 import colorScheme from './Colors'
 
 class PlayerAveragesStatLines extends React.Component {
-    /* 
-        options:
-        player = required = pb.Player
-        teams = optional = pb.PlayerTeam
-        career = required = pb.PlayerAggregateStats
+    
+  /* 
+    options:
+      player = required = pb.Player
+      teams = optional = pb.PlayerTeam
+      career = required = pb.PlayerAggregateStats
         
-    */
+  */
 
   constructor(props) {
     super(props)
 
     allTimestats = getAverageStats(props.career.Stats)
 
-    statCategories = ['MinutesPerGame', 'PointsPerGame', 'TwoPointFGP', 'ThreePointFGP', 'ReboundsPerGame', 'AssistsPerGame', 'StealsPerGame', 'BlocksPerGame']
+    statCategories = [
+      'MPG', 
+      'PPG', 
+      '2PFG', 
+      '3PFG',
+      'FT',
+      'RPG', 
+      'APG', 
+      'SPG', 
+      'BPG',
+      'TPG'
+    ]
 
     tableData = []
     firstColumnData = []
@@ -28,7 +40,7 @@ class PlayerAveragesStatLines extends React.Component {
 
     for (var i in statCategories) {
       careerData.push(allTimestats[statCategories[i]])
-      tableHead.push(statAbbreviation[statCategories[i]])
+      tableHead.push(statCategories[i])
     }
 
     widthArr = new Array(tableHead.length).fill(50)
