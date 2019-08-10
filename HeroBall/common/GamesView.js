@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faSlidersH, faBasketballBall, faAngleRight, faAngleLeft, faAngleDoubleRight, faAngleDoubleLeft } from '@fortawesome/free-solid-svg-icons'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-import Menu, { MenuItem } from 'react-native-material-menu';
 import GameFilterSelect from './GameFilterSelect'
 
 Date.prototype.addDays = function(days) {

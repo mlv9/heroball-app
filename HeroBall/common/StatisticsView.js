@@ -1,5 +1,5 @@
 import React from 'react';
-import { Picker, Alert, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Picker, Alert, Text, TouchableOpacity, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChalkboardTeacher  } from '@fortawesome/free-solid-svg-icons'
 import ViewHeader from './ViewHeader';
@@ -99,156 +99,162 @@ class StatisticsView extends React.Component {
           flex:1,
         }}>
       <ViewHeader name='Statistics' />
-      <SectionedMultiSelect
-        items={this.state.limitValues}
-        uniqueKey="id"
-        subKey="children"
-        colors={{
-          primary: colorScheme.primary
-        }}
-        selectText={"Who's stats are you viewing?"}
-        showDropDowns={true}
-        hideSelect={false}
-        onToggleSelector={this.modalToggled}
-        ref={(ref) => this.select = ref}
-        confirmText={"Finished"}
-        noItemsComponent={
-              <Text style={{textAlign: 'center'}}>No information loaded</Text>
+      <ScrollView>
+        <SectionedMultiSelect
+          items={this.state.limitValues}
+          uniqueKey="id"
+          subKey="children"
+          colors={{
+            primary: colorScheme.primary
+          }}
+          selectText={"Who's stats are you viewing?"}
+          showDropDowns={true}
+          hideSelect={false}
+          onToggleSelector={this.modalToggled}
+          ref={(ref) => this.select = ref}
+          confirmText={"Finished"}
+          noItemsComponent={
+                <Text style={{textAlign: 'center'}}>No information loaded</Text>
+              }
+          searchPlaceholderText={"Search"}
+          styles={{
+            container: {
+              flex:1,
+              borderRadius:15,
+              paddingBottom: 20,
+            },
+            button: {
+              marginRight: 35,
+              marginLeft: 35,
+              borderRadius: 15
             }
-        searchPlaceholderText={"Search"}
-        styles={{
-          container: {
-            flex:1,
-            borderRadius:15,
-            paddingBottom: 20,
-          },
-          button: {
-            marginRight: 35,
-            marginLeft: 35,
-            borderRadius: 15
-          }
-        }}
-        noResultsComponent={(
-          <Text style={{textAlign: 'center'}}>No matching teams, players or competitions</Text>
-        )}
-        readOnlyHeadings={true}
-        customChipsRenderer={this.customChipsRenderer}
-        modalWithTouchable={true}
-        modalWithSafeAreaView={true}
-        onSelectedItemsChange={this.selectedLimitItemsChangedd}
-        showChips={true}
-        selectedItems={this.state.selectedLimit}
-        stickyFooterComponent={
-          <View>
-            <Button
-              buttonStyle={{
-                marginTop: 10,
-                backgroundColor: colorScheme.primary,
-                marginRight: 35,
-                marginLeft: 35,
-                borderRadius: 15
-              }}
-              onPress={() => this.select._removeAllItems()}
-              title='Clear Selections'/>              
-          </View>
-          }
-        />
-      <SectionedMultiSelect
-        items={this.state.againstValues}
-        uniqueKey="id"
-        subKey="children"
-        colors={{
-          primary: colorScheme.primary
-        }}
-        selectText={"Against?"}
-        showDropDowns={true}
-        hideSelect={false}
-        onToggleSelector={this.modalToggled}
-        ref={(ref) => this.select2 = ref}
-        confirmText={"Finished"}
-        noItemsComponent={
-              <Text style={{textAlign: 'center'}}>No information loaded.</Text>
+          }}
+          noResultsComponent={(
+            <Text style={{textAlign: 'center'}}>No matching teams, players or competitions</Text>
+          )}
+          readOnlyHeadings={true}
+          customChipsRenderer={this.customChipsRenderer}
+          modalWithTouchable={true}
+          modalWithSafeAreaView={true}
+          onSelectedItemsChange={this.selectedLimitItemsChangedd}
+          showChips={true}
+          selectedItems={this.state.selectedLimit}
+          stickyFooterComponent={
+            <View>
+              <Button
+                buttonStyle={{
+                  marginTop: 10,
+                  backgroundColor: colorScheme.primary,
+                  marginRight: 35,
+                  marginLeft: 35,
+                  borderRadius: 15
+                }}
+                onPress={() => this.select._removeAllItems()}
+                title='Clear Selections'/>              
+            </View>
             }
-        searchPlaceholderText={"Search"}
-        styles={{
-          container: {
-            flex:1,
-            borderRadius:15,
-            paddingBottom: 20,
-          },
-          button: {
-            marginRight: 35,
-            marginLeft: 35,
-            borderRadius: 15
-          }
-        }}
-        noResultsComponent={(
-          <Text style={{textAlign: 'center'}}>No matching teams, players or competitions</Text>
-        )}
-        readOnlyHeadings={true}
-        customChipsRenderer={this.customChipsRenderer}
-        modalWithTouchable={true}
-        modalWithSafeAreaView={true}
-        onSelectedItemsChange={this.selectedAgainstItemsChangedd}
-        showChips={true}
-        selectedItems={this.state.selectedAgainst}
-        stickyFooterComponent={
-          <View>
-            <Button
-              buttonStyle={{
-                marginTop: 10,
-                backgroundColor: colorScheme.primary,
-                marginRight: 35,
-                marginLeft: 35,
-                borderRadius: 15
-              }}
-              onPress={() => this.select2._removeAllItems()}
-              title='Clear Selections'/>              
-          </View>
-          }
-        />
-        <Picker
-          selectedValue={this.state.ordering}
-          onValueChange={(selection, itemIndex) =>
-            this.setState({ordering: selection})
-          }>
-          <Picker.Item label={getStatFriendlyName("PPG")} value="PPG" />
-          <Picker.Item label={getStatFriendlyName("RPG")} value="RPG" />
-          <Picker.Item label={getStatFriendlyName("APG")} value="APG" />
-          <Picker.Item label={getStatFriendlyName("2PFG")} value="2PFG" />
-          <Picker.Item label={getStatFriendlyName("3PFG")} value="3PFG" />
-          <Picker.Item label={getStatFriendlyName("SPG")} value="SPG" />
-          <Picker.Item label={getStatFriendlyName("MPG")} value="MPG" />
-          <Picker.Item label={getStatFriendlyName("BPG")} value="BPG" />
-          <Picker.Item label={getStatFriendlyName("SPG")} value="SPG" />
-          <Picker.Item label={getStatFriendlyName("MPG")} value="MPG" />
-          <Picker.Item label={getStatFriendlyName("TPG")} value="TPG" />
-          <Picker.Item label={getStatFriendlyName("FT")} value="FT" />
-        </Picker>   
-        <Button
-          buttonStyle={{
-            marginTop: 10,
-            backgroundColor: colorScheme.primary,
-            marginRight: 35,
-            marginLeft: 35,
-            borderRadius: 15,
+          />
+        <SectionedMultiSelect
+          items={this.state.againstValues}
+          uniqueKey="id"
+          subKey="children"
+          colors={{
+            primary: colorScheme.primary
           }}
-          titleStyle={{
-            fontWeight: '500'
+          selectText={"Against?"}
+          showDropDowns={true}
+          hideSelect={false}
+          onToggleSelector={this.modalToggled}
+          ref={(ref) => this.select2 = ref}
+          confirmText={"Finished"}
+          noItemsComponent={
+                <Text style={{textAlign: 'center'}}>No information loaded.</Text>
+              }
+          searchPlaceholderText={"Search"}
+          styles={{
+            container: {
+              flex:1,
+              borderRadius:15,
+              paddingBottom: 20,
+            },
+            button: {
+              marginRight: 35,
+              marginLeft: 35,
+              borderRadius: 15
+            }
           }}
-          onPress={() => this.loadStats()}
-          title='Search Statistics'/>
-        <Button
-          buttonStyle={{
-            marginTop: 10,
-            backgroundColor: colorScheme.primary,
-            marginRight: 35,
-            marginLeft: 35,
-            borderRadius: 15
-          }}
-          onPress={this.clearSelects}
-          title='Clear Selections'/> 
-           
+          noResultsComponent={(
+            <Text style={{textAlign: 'center'}}>No matching teams, players or competitions</Text>
+          )}
+          readOnlyHeadings={true}
+          customChipsRenderer={this.customChipsRenderer}
+          modalWithTouchable={true}
+          modalWithSafeAreaView={true}
+          onSelectedItemsChange={this.selectedAgainstItemsChangedd}
+          showChips={true}
+          selectedItems={this.state.selectedAgainst}
+          stickyFooterComponent={
+            <View>
+              <Button
+                buttonStyle={{
+                  marginTop: 10,
+                  backgroundColor: colorScheme.primary,
+                  marginRight: 35,
+                  marginLeft: 35,
+                  borderRadius: 15
+                }}
+                onPress={() => this.select2._removeAllItems()}
+                title='Clear Selections'/>              
+            </View>
+            }
+          />
+        </ScrollView>
+        <View>
+          <Text style={{fontSize: 20}}>Select a stat to sort by</Text>
+          <Picker
+            selectedValue={this.state.ordering}
+            onValueChange={(selection, itemIndex) =>
+              this.setState({ordering: selection})
+            }>
+            <Picker.Item label={getStatFriendlyName("2PFG")} value="2PFG" />
+            <Picker.Item label={getStatFriendlyName("3PFG")} value="3PFG" />
+            <Picker.Item label={getStatFriendlyName("APG")} value="APG" />
+            <Picker.Item label={getStatFriendlyName("PPG")} value="PPG" />
+            <Picker.Item label={getStatFriendlyName("RPG")} value="RPG" />
+            <Picker.Item label={getStatFriendlyName("SPG")} value="SPG" />
+            <Picker.Item label={getStatFriendlyName("SPG")} value="SPG" />
+            <Picker.Item label={getStatFriendlyName("MPG")} value="MPG" />
+            <Picker.Item label={getStatFriendlyName("BPG")} value="BPG" />
+            <Picker.Item label={getStatFriendlyName("MPG")} value="MPG" />
+            <Picker.Item label={getStatFriendlyName("TPG")} value="TPG" />
+            <Picker.Item label={getStatFriendlyName("FT")} value="FT" />
+          </Picker>   
+        </View>
+        <View style={{paddingBottom: 10}}>
+          <Button
+            buttonStyle={{
+              marginTop: 10,
+              backgroundColor: colorScheme.primary,
+              marginRight: 35,
+              marginLeft: 35,
+              borderRadius: 15,
+            }}
+            titleStyle={{
+              fontWeight: '500'
+            }}
+            onPress={() => this.loadStats()}
+            title='Search Statistics'/>
+          <Button
+            buttonStyle={{
+              marginTop: 10,
+              backgroundColor: colorScheme.primary,
+              marginRight: 35,
+              marginLeft: 35,
+              borderRadius: 15
+            }}
+            onPress={this.clearSelects}
+            title='Clear Selections'/> 
+        </View>
       </View>
     );
   }
