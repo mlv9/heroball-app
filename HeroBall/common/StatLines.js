@@ -1,8 +1,7 @@
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView} from 'react-native';
+import { View, StyleSheet, ScrollView} from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Table, Row} from 'react-native-table-component';
-import colorScheme from './Colors'
 
 class StatLines extends React.Component {
     /* 

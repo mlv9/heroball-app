@@ -88,7 +88,7 @@ class PlayerProfile extends React.Component {
             title={'ALL STATS'}
             />
           <PlayersStatLine
-            title={'RECENT STATS'}
+            title={'RECENT GAME STATS'}
             rowHeader={'games'}
             players={this.state.playerInfo.RecentStats}
             games={this.state.playerInfo.RecentGames}
