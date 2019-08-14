@@ -51,6 +51,8 @@ class PlayerStatsResultLines extends React.Component {
         <Text style={styles.heading}>{this.props.title}</Text>
         }
         <StatLines
+          showRanking={true}
+          startingRank={this.props.startingRank}
           firstColumnTitle={'Players'}
           tableHead={tableHead}
           tableData={tableData}
