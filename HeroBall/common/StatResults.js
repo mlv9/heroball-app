@@ -4,6 +4,7 @@ import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
 import PlayerStatsResultLines from './PlayerStatsResultLines'
 import { withNavigation } from 'react-navigation';
+import { Button } from 'react-native-elements';
 
 class StatResults extends React.Component {
 
@@ -14,10 +15,13 @@ class StatResults extends React.Component {
     this.state = {
         loading: false,
         results: [],
+        startingRank: 1,
     }
   }
 
   subscription = null
+
+  entriesPerPage = 25
 
   componentDidMount() {
     subscription = this.props.navigation.addListener('willFocus', this.loadStatResults);
@@ -25,6 +29,20 @@ class StatResults extends React.Component {
 
   componentWillUnmount() {
     subscription.remove()
+  }
+
+  pageStatsForward = () => {
+    this.setState({
+        startingRank: this.state.startingRank + this.entriesPerPage
+    })
+    this.loadStatResults()
+  }
+
+  pageStatsBackward = () => {
+    this.setState({
+        startingRank: this.state.startingRank - this.entriesPerPage
+    })
+    this.loadStatResults()
   }
 
   loadStatResults = () => {
@@ -56,8 +74,8 @@ class StatResults extends React.Component {
             'CompetitionIds': againstMd.Competitions,
             'TeamIds': againstMd.Teams,
         },
-        'Count': 10,
-        'Offset': 0,
+        'Count': this.entriesPerPage,
+        'Offset': this.state.startingRank - 1,
         'MinimumGames': 0,
         'Ordering': ordering
     })
@@ -94,8 +112,23 @@ class StatResults extends React.Component {
         { this.state.loading === false && this.state.results.length > 0 && 
          <ScrollView>
           <PlayerStatsResultLines
+            startingRank={this.state.startingRank}
             players={this.state.results}
             />
+            <View style={{flex: 1, flexDirection: 'row', marginTop: 10}}>
+                <View style={{flex: 1}}>
+                    {this.state.startingRank > 1 && 
+                        <Button 
+                            buttonStyle={{backgroundColor: colorScheme.primary, marginRight: 5, marginLeft: 10}} 
+                            onPress={this.pageStatsBackward} 
+                            title={'<<  Backward'}
+                            />
+                    }
+                </View>
+                <View style={{flex: 1}}>
+                    <Button buttonStyle={{backgroundColor: colorScheme.primary, marginRight: 10, marginLeft: 5}} onPress={this.pageStatsForward} title={'Forward  >>'}/>
+                </View>
+            </View>
         </ScrollView>
         }
       </View>
