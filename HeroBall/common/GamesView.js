@@ -52,7 +52,7 @@ class GamesView extends React.Component {
 
     if (refreshing !== true) {
       this.setState({
-        gamesCursor: {},
+        gamesCursor: {Games:[]},
       })      
     }
 
