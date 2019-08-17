@@ -44,11 +44,17 @@ class GamesView extends React.Component {
      subscription.remove()
    }
  
-   loadGames = async () => {
+   loadGames = async (refreshing) => {
 
     this.setState({
       loading: true,
     })
+
+    if (refreshing !== true) {
+      this.setState({
+        gamesCursor: {},
+      })      
+    }
 
     filter = await readFilterFromStorage()
 
@@ -184,7 +190,7 @@ class GamesView extends React.Component {
               refreshControl={
                   <RefreshControl
                     refreshing={this.state.loading}
-                    onRefresh={this.loadGames}
+                    onRefresh={() => {this.loadGames(true)}}
                   />
               }>
             {this.state.hasReturns === false && this.state.loading === false && 

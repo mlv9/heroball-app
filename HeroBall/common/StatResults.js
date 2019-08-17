@@ -119,14 +119,14 @@ class StatResults extends React.Component {
                 <View style={{flex: 1}}>
                     {this.state.startingRank > 1 && 
                         <Button 
-                            buttonStyle={{backgroundColor: colorScheme.primary, marginRight: 5, marginLeft: 10}} 
+                            buttonStyle={{backgroundColor: colorScheme.primary, marginRight: 5, marginLeft: 10, borderRadius: 15}} 
                             onPress={this.pageStatsBackward} 
                             title={'<<  Backward'}
                             />
                     }
                 </View>
                 <View style={{flex: 1}}>
-                    <Button buttonStyle={{backgroundColor: colorScheme.primary, marginRight: 10, marginLeft: 5}} onPress={this.pageStatsForward} title={'Forward  >>'}/>
+                    <Button buttonStyle={{backgroundColor: colorScheme.primary, marginRight: 10, marginLeft: 5, borderRadius: 15}} onPress={this.pageStatsForward} title={'Forward  >>'}/>
                 </View>
             </View>
         </ScrollView>
