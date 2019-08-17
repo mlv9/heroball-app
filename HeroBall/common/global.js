@@ -34,9 +34,9 @@ global.getAverageStats = (stats) => {
   'SPG': ((stats.Steals) / stats.GameCount).toFixed(1),
   'TPG': ((stats.Turnovers) / stats.GameCount).toFixed(1),
   'MPG': ((stats.MinutesPlayed) / stats.GameCount).toFixed(1),
-  '2PFG': ((stats.TwoPointFGM / stats.TwoPointFGA) * 100).toFixed(1),
-  '3PFG': ((stats.ThreePointFGM / stats.ThreePointFGA) * 100).toFixed(1),
-  'FT': ((stats.FreeThrowsMade / stats.FreeThrowsAttempted) * 100).toFixed(1),
+  '2PFG': ((stats.TwoPointFGM / ((stats.TwoPointFGA > 0) ? stats.TwoPointFGA : 1)) * 100).toFixed(1),
+  '3PFG': ((stats.ThreePointFGM / ((stats.ThreePointFGA > 0) ? stats.ThreePointFGA : 1)) * 100).toFixed(1),
+  'FT': ((stats.FreeThrowsMade / ((stats.FreeThrowsAttempted > 0) ? stats.FreeThrowsAttempted : 1)) * 100).toFixed(1),
   }
 }
 
