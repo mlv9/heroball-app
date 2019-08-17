@@ -32,17 +32,21 @@ class StatResults extends React.Component {
   }
 
   pageStatsForward = () => {
-    this.setState({
-        startingRank: this.state.startingRank + this.entriesPerPage
-    })
-    this.loadStatResults()
+    /* make sync */
+    this.setState((previousState) => {
+        return {startingRank: this.state.startingRank + this.entriesPerPage};
+      }, () => {
+        this.loadStatResults()
+      });
   }
 
   pageStatsBackward = () => {
-    this.setState({
-        startingRank: this.state.startingRank - this.entriesPerPage
-    })
-    this.loadStatResults()
+    /* make sync */
+    this.setState((previousState) => {
+        return {startingRank: this.state.startingRank - this.entriesPerPage};
+      }, () => {
+        this.loadStatResults()
+      });
   }
 
   loadStatResults = () => {
@@ -55,7 +59,7 @@ class StatResults extends React.Component {
     const forMd = this.props.navigation.getParam('forMd', false);
     const ordering = this.props.navigation.getParam('ordering', false);
 
-    console.log(againstMd)
+    console.log("from " + this.state.startingRank)
 
     if (againstMd === false || forMd === false || ordering === false) {
         this.setState({loading: false})

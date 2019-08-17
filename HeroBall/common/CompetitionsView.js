@@ -71,7 +71,7 @@ class CompetitionsView extends React.Component {
         }}>
         <ViewHeader name='Competitions' />
         {this.state.compInfo === undefined && 
-          <ActivityIndicator style={{marginTop: 50}}/>        
+          <ActivityIndicator style={{marginTop: 50}} size={'large'}/>        
         }
         {this.state.compInfo !== undefined &&
           <ScrollView>
