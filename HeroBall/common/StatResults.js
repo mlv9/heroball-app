@@ -102,9 +102,9 @@ class StatResults extends React.Component {
           backgroundColor: colorScheme.background,
           flex:1,
         }}>
-        <ViewHeader name='Stat Search Results' showBack={true} />
+        <ViewHeader name='Search Results' showBack={true} />
         {this.state.loading === true && 
-          <ActivityIndicator style={{marginTop: 50}}/>
+          <ActivityIndicator style={{marginTop: 50}} size={'large'}/>
         }
         {this.state.results.length == 0 && this.state.loading !== true && 
             <Text style={{textAlign: "center", fontSize: 20, marginTop: 50}}>No results found.</Text>
@@ -126,7 +126,9 @@ class StatResults extends React.Component {
                     }
                 </View>
                 <View style={{flex: 1}}>
-                    <Button buttonStyle={{backgroundColor: colorScheme.primary, marginRight: 10, marginLeft: 5, borderRadius: 15}} onPress={this.pageStatsForward} title={'Forward  >>'}/>
+                    {this.entriesPerPage === this.state.results.length &&
+                       <Button buttonStyle={{backgroundColor: colorScheme.primary, marginRight: 10, marginLeft: 5, borderRadius: 15}} onPress={this.pageStatsForward} title={'Forward  >>'}/>
+                    }
                 </View>
             </View>
         </ScrollView>
