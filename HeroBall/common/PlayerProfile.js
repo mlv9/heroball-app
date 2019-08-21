@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ScrollView, ActivityIndicator, Text, View } from 'react-native';
+import { StyleSheet, Image, ScrollView, ActivityIndicator, Text, View } from 'react-native';
 import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
 import Progress from 'react-native-progress/Circle';
@@ -75,12 +75,15 @@ class PlayerProfile extends React.Component {
         }
         { this.state.playerInfo !== undefined && 
          <ScrollView>
-          <Image style={{height:200}}
-            source={{uri: `http://www-static2.spulsecdn.net/pics/00/01/54/07/1540783_1_M.jpg`}}
-            indicator={Progress.Circle}
-            />
-          <Text>{this.state.playerInfo.Profile.Name}</Text>
-          <Text>{this.state.playerInfo.Profile.Position}</Text>
+            <Image style={{height:200}}
+              source={{uri: `http://www-static2.spulsecdn.net/pics/00/01/54/07/1540783_1_M.jpg`}}
+              indicator={Progress.Circle}
+              />
+            <Text style={styles.heading}>BIO</Text>
+            <View style={{backgroundColor: 'white', padding: 5}}>
+              <Text style={{fontSize: 26}}>{this.state.playerInfo.Profile.Name}</Text>
+              <Text style={{fontSize: 20}}>{this.state.playerInfo.Profile.Position}</Text>
+           </View>
           <PlayerAveragesStatLines
             player={this.state.playerInfo.Player}
             teams={this.state.playerInfo.Teams}
@@ -110,3 +113,12 @@ class PlayerProfile extends React.Component {
 }
 
 export default withNavigation(PlayerProfile);
+
+const styles = StyleSheet.create({
+  heading: {
+    textAlignVertical: "center",
+    textAlign: "center",
+    backgroundColor:colorScheme.secondary,
+    color: "white"
+  }
+});
