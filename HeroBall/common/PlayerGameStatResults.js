@@ -2,20 +2,23 @@ import React from 'react';
 import { Alert, ScrollView, ActivityIndicator, Text, View } from 'react-native';
 import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
-import PlayerStatsResultLines from './PlayerStatsResultLines'
+import PlayersStatLine from './PlayersStatLine'
 import { withNavigation } from 'react-navigation';
 import { Button } from 'react-native-elements';
 
-class StatResults extends React.Component {
+class PlayerGameStatResults extends React.Component {
 
-    /* takes 2 navigation params, againstMd and forMd, to do a RPC and load the results */
+    /* takes two navigation params:
+        playerId  = int = the player who's games we want to see
+        againstRequest = pb.AgainstStatsRequest = filter for games to which we want to see  - empty is no filter*/
 
   constructor(props) {
     super(props)
     this.state = {
         loading: false,
-        results: [],
-        startingRank: 1,
+        playerStats: [],
+        offset: 1,
+        playerGames: [],
     }
   }
 
@@ -34,7 +37,7 @@ class StatResults extends React.Component {
   pageStatsForward = () => {
     /* make sync */
     this.setState((previousState) => {
-        return {startingRank: this.state.startingRank + this.entriesPerPage};
+        return {offset: this.state.offset + this.entriesPerPage};
       }, () => {
         this.loadStatResults()
       });
@@ -43,7 +46,7 @@ class StatResults extends React.Component {
   pageStatsBackward = () => {
     /* make sync */
     this.setState((previousState) => {
-        return {startingRank: this.state.startingRank - this.entriesPerPage};
+        return {offset: this.state.offset - this.entriesPerPage};
       }, () => {
         this.loadStatResults()
       });
@@ -56,38 +59,31 @@ class StatResults extends React.Component {
     })
 
     const againstMd = this.props.navigation.getParam('againstMd', false);
-    const forMd = this.props.navigation.getParam('forMd', false);
-    const ordering = this.props.navigation.getParam('ordering', false);
+    const playerId = this.props.navigation.getParam('playerId', false);
 
-    console.log("from " + this.state.startingRank)
-
-    if (againstMd === false || forMd === false || ordering === false) {
+    if (againstMd === false || playerId === undefined) {
         this.setState({loading: false})
         Alert.alert("Error getting query parameters")
     }
 
     /* now do the RPC */
-    doRPC('https://api.heroball.app/v1/get/stats', 
+    doRPC('https://api.heroball.app/v1/get/stats/player/games', 
     {
-        'For': {
-            'CompetitionIds': forMd.Competitions,
-            'TeamIds': forMd.Teams,
-            'PlayerIds': forMd.Players,
-        },
+        'PlayerId': playerId,
         'Against': {
             'CompetitionIds': againstMd.Competitions,
             'TeamIds': againstMd.Teams,
         },
         'Count': this.entriesPerPage,
-        'Offset': this.state.startingRank - 1,
-        'MinimumGames': 0,
-        'Ordering': ordering
+        'Offset': this.state.offset - 1,
     })
     .then((response) => response.json())
     .then((response) => {
         /* now we need to parse them and place into state */
+        console.log(response)
         this.setState({
-            results: response.AggregateStats,
+            playerGames: response.Games,
+            playerStats: response.Stats,
             loading: false,
         })
     })
@@ -106,22 +102,23 @@ class StatResults extends React.Component {
           backgroundColor: colorScheme.background,
           flex:1,
         }}>
-        <ViewHeader name='Search Results' showBack={true} />
+        <ViewHeader name='Games' showBack={true} />
         {this.state.loading === true && 
           <ActivityIndicator style={{marginTop: 50}} size={'large'}/>
         }
-        {this.state.results.length == 0 && this.state.loading !== true && 
-            <Text style={{textAlign: "center", fontSize: 20, marginTop: 50}}>No results found.</Text>
+        {this.state.playerGames.length == 0 && this.state.loading !== true && 
+            <Text style={{textAlign: "center", fontSize: 20, marginTop: 50}}>No games found.</Text>
         }
-        { this.state.loading === false && this.state.results.length > 0 && 
+        { this.state.loading === false && this.state.playerGames.length > 0 && this.state.playerStats.length > 0 && 
          <ScrollView>
-          <PlayerStatsResultLines
-            startingRank={this.state.startingRank}
-            players={this.state.results}
+          <PlayersStatLine
+            rowHeader={'games'}
+            players={this.state.playerStats}
+            games={this.state.playerGames}
             />
             <View style={{flex: 1, flexDirection: 'row', marginTop: 10}}>
                 <View style={{flex: 1}}>
-                    {this.state.startingRank > 1 && 
+                    {this.state.offset > 1 && 
                         <Button 
                             buttonStyle={{backgroundColor: colorScheme.primary, marginRight: 5, marginLeft: 10, borderRadius: 15}} 
                             onPress={this.pageStatsBackward} 
@@ -130,7 +127,7 @@ class StatResults extends React.Component {
                     }
                 </View>
                 <View style={{flex: 1}}>
-                    {this.entriesPerPage === this.state.results.length &&
+                    {this.entriesPerPage === this.state.playerGames.length &&
                        <Button buttonStyle={{backgroundColor: colorScheme.primary, marginRight: 10, marginLeft: 5, borderRadius: 15}} onPress={this.pageStatsForward} title={'Forward  >>'}/>
                     }
                 </View>
@@ -142,4 +139,4 @@ class StatResults extends React.Component {
   }
 }
 
-export default withNavigation(StatResults);
+export default withNavigation(PlayerGameStatResults);

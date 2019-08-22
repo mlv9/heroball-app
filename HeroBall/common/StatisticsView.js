@@ -39,7 +39,7 @@ class StatisticsView extends React.Component {
     againstMd = deserialiseSelectItemsToMetadata(this.state.selectedAgainst)
     
     /* navigate to Stat Results */
-    this.props.navigation.navigate('StatResults', {'forMd': forMd, 'againstMd': againstMd, 'ordering': this.state.ordering})
+    this.props.navigation.navigate('PlayerAverageStatResults', {'forMd': forMd, 'againstMd': againstMd, 'ordering': this.state.ordering})
   }
 
   selectedAgainstItemsChangedd = (selections) => {

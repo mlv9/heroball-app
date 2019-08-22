@@ -11,7 +11,7 @@ class StatLines extends React.Component {
         tableData={tableData} = array of remaining rows
         widthArr={widthArr} = int array for column width
         firstColumnData={firstColumnData} = array for first column (so it doesnt scroll)
-        showRanking= bool = optional = list the number next to each row
+        showRanking = bool = optional = list the number next to each row
         startingRank= int = optional = starting number for above
     */
     headerWidthArr = [150]

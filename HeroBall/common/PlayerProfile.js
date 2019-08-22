@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Image, ScrollView, ActivityIndicator, Text, View } from 'react-native';
+import { TouchableOpacity, StyleSheet, Image, ScrollView, ActivityIndicator, Text, View } from 'react-native';
+import { ListItem } from 'react-native-elements';
 import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
 import Progress from 'react-native-progress/Circle';
@@ -10,6 +11,8 @@ import PlayerAveragesStatLines from './PlayerAveragesStatLines'
 import { withNavigation } from 'react-navigation';
 
 class PlayerProfile extends React.Component {
+
+  /* this takes a playerId navigation prop */
 
   subscription = null
 
@@ -30,8 +33,6 @@ class PlayerProfile extends React.Component {
   loadPlayer = () => {
 
     playerIdToLoad = this.props.navigation.getParam("playerId", 0)
-
-    console.log("loading player " + playerIdToLoad)
 
     /* for development, lets just show something */
     if (playerIdToLoad == 0) {
@@ -82,7 +83,7 @@ class PlayerProfile extends React.Component {
             <Text style={styles.heading}>BIO</Text>
             <View style={{backgroundColor: 'white', padding: 5}}>
               <Text style={{fontSize: 26}}>{this.state.playerInfo.Profile.Name}</Text>
-              <Text style={{fontSize: 20}}>{this.state.playerInfo.Profile.Position}</Text>
+              <Text style={{fontSize: 20}}>{'A ' + this.state.playerInfo.Profile.Position + ' of ' + this.state.playerInfo.AggregateStats.Stats.GameCount + ' recorded games'}</Text>
            </View>
           <PlayerAveragesStatLines
             player={this.state.playerInfo.Player}
@@ -94,8 +95,35 @@ class PlayerProfile extends React.Component {
             title={'RECENT GAME STATS'}
             rowHeader={'games'}
             players={this.state.playerInfo.RecentStats}
-            games={this.state.playerInfo.RecentGames}
+            games={this.state.playerInfo.RecentGames.Games}
             />
+          {this.state.playerInfo.AggregateStats != undefined && this.state.playerInfo.AggregateStats.Stats.GameCount > this.state.playerInfo.RecentGames.Games.length && 
+          <TouchableOpacity onPress={() => {
+            this.props.navigation.navigate("PlayerGameStatResults", {playerId: this.state.playerInfo.PlayerId, againstMd: {}})
+
+          }}>
+            <ListItem
+              chevron
+              badge={{
+                value: this.state.playerInfo.AggregateStats.Stats.GameCount,
+                badgeStyle: {
+                  backgroundColor: 'lightsteelblue',
+                  paddingRight: 3,
+                  paddingLeft: 3,
+                }
+              }}
+              titleStyle={{
+                fontSize: 14,
+              }}
+              containerStyle={{
+                borderWidth: 1,
+                paddingTop: 5,
+                paddingBottom: 5,
+                paddingLeft: 3,
+              }}
+              title='View All Game Stats'
+            />
+            </TouchableOpacity>}
           <GamesList 
             gamesCursor={this.state.playerInfo.RecentGames}
             key={this.state.playerInfo.PlayerId+'_GamesList'} 
