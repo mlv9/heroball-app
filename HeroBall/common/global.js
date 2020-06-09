@@ -11,7 +11,6 @@ global.doRPC = (url, payload) => {
     },
     body: JSON.stringify(payload),
   }).then((response) => {
-    console.log('error checking')
     if(response.ok !== true) {
         console.log(response)
         throw "grpc-error: " + response.error
