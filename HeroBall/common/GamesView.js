@@ -59,7 +59,7 @@ class GamesView extends React.Component {
     filter = await readFilterFromStorage()
 
     /* lets do a query and pass the results to GamesList - if any */
-    return doRPC('https://api.heroball.app/v1/get/games',
+    return doRPC('v1/get/games',
         {
           Filter: {
             CompetitionIds: filter.Competitions,

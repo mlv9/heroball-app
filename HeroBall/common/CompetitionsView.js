@@ -47,7 +47,7 @@ class CompetitionsView extends React.Component {
       compInfo: undefined
     })
 
-    return doRPC('https://api.heroball.app/v1/get/competition/info',
+    return doRPC('v1/get/competition/info',
         {
           CompetitionId: competitionIdToLoad
         })

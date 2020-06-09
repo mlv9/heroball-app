@@ -2,7 +2,7 @@
 import { Alert, AsyncStorage } from 'react-native';
 
 global.doRPC = (url, payload) => {
-  return fetch(url,
+  return fetch("https://api.heroball.xyz/" + url,
   {
     method: 'POST',
     headers: {
@@ -116,7 +116,7 @@ global.storeFilterInStorage = async (comps, teams, players) => {
 }
 
 global.getMetadata = (requestObject, callback) => {
-  doRPC('https://api.heroball.app/v1/get/metadata', requestObject)
+  doRPC('v1/get/metadata', requestObject)
     .then((response) => response.json())
     .then((response) => {
         /* now we need to parse them and place into state */

@@ -48,7 +48,7 @@ class PlayerProfile extends React.Component {
       playerInfo: undefined
     })
 
-    return doRPC('https://api.heroball.app/v1/get/player/info',
+    return doRPC('v1/get/player/info',
         {
           PlayerId: playerIdToLoad
         })

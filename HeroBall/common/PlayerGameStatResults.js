@@ -67,7 +67,7 @@ class PlayerGameStatResults extends React.Component {
     }
 
     /* now do the RPC */
-    doRPC('https://api.heroball.app/v1/get/stats/player/games', 
+    doRPC('v1/get/stats/player/games', 
     {
         'PlayerId': playerId,
         'Against': {

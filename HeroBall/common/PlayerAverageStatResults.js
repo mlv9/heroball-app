@@ -67,7 +67,7 @@ class PlayerAverageStatResults extends React.Component {
     }
 
     /* now do the RPC */
-    doRPC('https://api.heroball.app/v1/get/stats/player/average', 
+    doRPC('v1/get/stats/player/average', 
     {
         'For': {
             'CompetitionIds': forMd.Competitions,

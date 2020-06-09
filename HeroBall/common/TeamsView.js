@@ -45,7 +45,7 @@ class TeamsView extends React.Component {
       teamInfo: undefined
     })
 
-    return doRPC('https://api.heroball.app/v1/get/team/info',
+    return doRPC('v1/get/team/info',
         {
           TeamId: teamIdToLoad
         })

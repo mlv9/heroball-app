@@ -35,7 +35,7 @@ class PlayerList extends React.Component {
         count = count || 15
     
         /* we want to do the callback */
-        return doRPC('https://api.heroball.app/v1/get/players',
+        return doRPC('v1/get/players',
             {
               Filter: this.state.playersCursor.Filter,
               Offset: this.state.playersCursor.Players.length,

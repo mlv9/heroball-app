@@ -87,7 +87,7 @@ class GamesList extends React.Component {
     }
 
     /* we want to do the callback for more games */
-    return doRPC('https://api.heroball.app/v1/get/games',
+    return doRPC('v1/get/games',
         {
           Filter: this.state.gamesCursor.Filter,
           Offset: offset,

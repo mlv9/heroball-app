@@ -38,7 +38,7 @@ class GameBoxScore extends React.Component {
 
     this.state.gameInfo = undefined
 
-    return doRPC('https://api.heroball.app/v1/get/game/info',
+    return doRPC('v1/get/game/info',
         {
           GameId: gameId,
         })
