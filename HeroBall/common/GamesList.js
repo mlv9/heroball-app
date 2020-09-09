@@ -155,16 +155,16 @@ class GamesList extends React.Component {
               containerStyle={{
                 borderWidth: 1,
               }}>
-              <Badge
-                value={this.state.gamesCursor.Total || 0}
-                containerStyle={{
-                  backgroundColor: 'grey',
-                  paddingRight: 3,
-                  paddingLeft: 3,
-                }}/>
               <ListItem.Content>
                 <ListItem.Title>View All Games</ListItem.Title>
               </ListItem.Content>
+              <Badge
+                status="primary"
+                value={this.state.gamesCursor.Total || 0}
+                containerStyle={{
+                  paddingRight: 3,
+                  paddingLeft: 3,
+                }}/>
               <ListItem.Chevron />
             </ListItem>
             </TouchableOpacity>}

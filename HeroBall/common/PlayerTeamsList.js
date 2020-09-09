@@ -49,8 +49,8 @@ class PlayerTeamsList extends React.Component {
                   </ListItem.Content>
                   <Badge 
                       value={this.getBadgeText(item.AggregateStats.Stats, item.AggregateStats.Stats.GameCount)}
+                      status="primary"
                       containerStyle={{
-                        backgroundColor: 'grey',
                         paddingRight: 3,
                         paddingLeft: 3,
                       }}
@@ -71,8 +71,8 @@ class PlayerTeamsList extends React.Component {
               </ListItem.Content>
               <Badge 
                   value={this.props.teams.length || 0}
+                  status="primary"
                   containerStyle={{
-                    backgroundColor: 'grey',
                     paddingRight: 3,
                     paddingLeft: 3,
                   }}/> 

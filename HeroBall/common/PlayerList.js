@@ -94,8 +94,8 @@ class PlayerList extends React.Component {
                         <ListItem.Title>View All Players</ListItem.Title>
                         <Badge
                           value={this.props.playersCursor.Players.length || 0}
+                          status="primary"
                           containerStyle={{
-                            backgroundColor: 'grey',
                             paddingRight: 3,
                             paddingLeft: 3,
                         }}/>

@@ -119,8 +119,8 @@ class PlayerProfile extends React.Component {
               </ListItem.Content>
               <Badge 
                   value={this.state.playerInfo.AggregateStats.Stats.GameCount}
+                  status="primary"
                   containerStyle={{
-                    backgroundColor: 'lightsteelblue',
                     paddingRight: 3,
                     paddingLeft: 3,
                   }}
