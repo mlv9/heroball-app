@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert, ActivityIndicator, TouchableOpacity, StyleSheet, Text, View, FlatList } from 'react-native';
 import GameResult from './GameResult';
-import { ListItem } from 'react-native-elements';
+import { Badge, ListItem } from 'react-native-elements';
 import colorScheme from './Colors';
 import { withNavigation } from 'react-navigation';
 
@@ -152,20 +152,21 @@ class GamesList extends React.Component {
           { this.props.showTotal && this.state.gamesCursor.Games.length < this.state.gamesCursor.Total &&
           <TouchableOpacity onPress={() => {this.props.navigation.navigate("GamesPopOver", {GamesCursor: this.state.gamesCursor})}}>
             <ListItem
-              chevron
-              badge={{
-                value: this.state.gamesCursor.Total || 0,
-                badgeStyle: {
+              containerStyle={{
+                borderWidth: 1,
+              }}>
+              <Badge
+                value={this.state.gamesCursor.Total || 0}
+                containerStyle={{
                   backgroundColor: 'grey',
                   paddingRight: 3,
                   paddingLeft: 3,
-                }
-              }}
-              containerStyle={{
-                borderWidth: 1,
-              }}
-              title='View All Games'
-            />
+                }}/>
+              <ListItem.Content>
+                <ListItem.Title>View All Games</ListItem.Title>
+              </ListItem.Content>
+              <ListItem.Chevron />
+            </ListItem>
             </TouchableOpacity>}
             {  this.state.appending &&
               <ActivityIndicator style={{flex: 1, paddingTop: 30, paddingBottom: 30}} size='large'/> 

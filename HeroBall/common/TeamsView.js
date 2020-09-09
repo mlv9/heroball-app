@@ -93,22 +93,30 @@ class TeamsView extends React.Component {
             showTotal={true}/>
           <Text style={styles.heading}></Text>
           <ListItem
-            chevron
             containerStyle={{
               borderWidth: 1,
-            }}
-            title='Team Statistics' />
-            <TouchableOpacity onPress={() => { this.props.navigation.navigate('Competitions', {competitionId: this.state.teamInfo.Competition.CompetitionId})}}>
-              <ListItem
-                chevron
+            }}>
+            <ListItem.Content>
+              <ListItem.Title>
+                Team Statistics
+              </ListItem.Title>
+              <ListItem.Subtitle
                 containerStyle={{
+                  color: 'grey'
+              }}>
+                {printCompName(this.state.teamInfo.Competition)}
+              </ListItem.Subtitle>
+              <ListItem.Chevron />
+            </ListItem.Content>
+          </ListItem>
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate('Competitions', {competitionId: this.state.teamInfo.Competition.CompetitionId})}}>
+              <ListItem containerStyle={{
                   borderWidth: 1,
-                }}
-                title='View Competition'
-                subtitle={printCompName(this.state.teamInfo.Competition)}
-                subtitleStyle={{
-                    color: 'grey'
-                }} />
+                }}>
+                <ListItem.Content>
+                  <ListItem.Chevron />
+                </ListItem.Content>
+              </ListItem>
             </TouchableOpacity>
         </ScrollView>}  
       </View>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, View, FlatList } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { Badge, ListItem, Avatar } from 'react-native-elements';
 import colorScheme from './Colors';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons'
@@ -68,33 +68,39 @@ class PlayerList extends React.Component {
                 (
                     <TouchableOpacity onPress={() => { this.props.navigation.navigate('PlayerProfile', {playerId: item.PlayerId}) }}>
                         <ListItem
-                        chevron
-                        containerStyle={{
+                          containerStyle={{
                             borderWidth: 1,
-                        }}
-                        title={item.Name}
-                        subtitle={item.Position.charAt(0).toUpperCase() + item.Position.slice(1)}
-                        leftIcon={<FontAwesomeIcon icon={ faUser } size={30}/>}
-                        />
+                          }}>
+                          <Avatar>{<FontAwesomeIcon icon={ faUser } size={30}/>}</Avatar>
+                          <ListItem.Content>
+                            <ListItem.Title>
+                              {item.Name}
+                            </ListItem.Title>
+                            <ListItem.Subtitle>
+                              {item.Position.charAt(0).toUpperCase() + item.Position.slice(1)}
+                            </ListItem.Subtitle>
+                          </ListItem.Content>
+                        </ListItem>
                     </TouchableOpacity>
                 )}
                 />
                 { this.props.showTotal && this.props.playersCursor.Players.length < this.props.playersCursor.Players.length &&
                     <ListItem
-                    chevron
-                    badge={{
-                        value: this.props.playersCursor.Players.length || 0,
-                        badgeStyle: {
-                        backgroundColor: 'grey',
-                        paddingRight: 3,
-                        paddingLeft: 3,
-                        }
-                    }}
-                    containerStyle={{
-                        borderWidth: 1,
-                    }}
-                    title='View All Players'
-                    />}
+                        containerStyle={{
+                          borderWidth: 1,
+                      }}>
+                      <ListItem.Content>
+                        <ListItem.Chevron />
+                        <ListItem.Title>View All Players</ListItem.Title>
+                        <Badge
+                          value={this.props.playersCursor.Players.length || 0}
+                          containerStyle={{
+                            backgroundColor: 'grey',
+                            paddingRight: 3,
+                            paddingLeft: 3,
+                        }}/>
+                      </ListItem.Content>
+                    </ListItem>}
             </View>}
       </View>
     );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, View, FlatList } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { Avatar, Badge, ListItem } from 'react-native-elements';
 import colorScheme from './Colors';
 import { withNavigation } from 'react-navigation';
 import { faUsers  } from '@fortawesome/free-solid-svg-icons'
@@ -34,45 +34,50 @@ class PlayerTeamsList extends React.Component {
             renderItem={({index, item }) =>
             (
               <TouchableOpacity onPress={ () => { this.props.navigation.navigate('Teams', {gameId: item.Team.TeamId}) }}>
-                <ListItem
-                  chevron
-                  leftIcon={<FontAwesomeIcon icon={ faUsers } size={30}/>}
-                  containerStyle={{
-                    borderWidth: 1,
-                  }}
-                  badge={{
-                    value: this.getBadgeText(item.AggregateStats.Stats, item.AggregateStats.Stats.GameCount),
-                    badgeStyle: {
-                      backgroundColor: 'grey',
-                      paddingRight: 3,
-                      paddingLeft: 3,
-                    }
-                  }}
-                  title={item.Team.Name + ' Jersey #' + item.JerseyNumbers[0]}
-                  subtitle={printCompName(item.Competition)}
-                  subtitleStyle={{
-                    color: 'grey'
-                }} 
-                />
+                <ListItem>
+                  <Avatar>{<FontAwesomeIcon icon={ faUsers } size={30}/>}</Avatar>
+                  <ListItem.Content>
+                    <ListItem.Title>
+                      {item.Team.Name + ' Jersey #' + item.JerseyNumbers[0]}
+                    </ListItem.Title>
+                    <ListItem.Subtitle
+                      containerStyle={{
+                        color: 'grey'
+                      }}>
+                    {printCompName(item.Competition)}
+                    </ListItem.Subtitle>
+                  </ListItem.Content>
+                  <Badge 
+                      value={this.getBadgeText(item.AggregateStats.Stats, item.AggregateStats.Stats.GameCount)}
+                      containerStyle={{
+                        backgroundColor: 'grey',
+                        paddingRight: 3,
+                        paddingLeft: 3,
+                      }}
+                      />
+                </ListItem>
               </TouchableOpacity>
             )}
           />
           { this.props.teams.length > this.props.count &&
             <ListItem
-              chevron
-              badge={{
-                value: this.props.teams.length || 0,
-                badgeStyle: {
-                  backgroundColor: 'grey',
-                  paddingRight: 3,
-                  paddingLeft: 3,
-                }
-              }}
               containerStyle={{
                 borderWidth: 1,
-              }}
-              title='View All Teams'
-            />}
+              }}>
+              <ListItem.Content>
+                <ListItem.Title>
+                  View All Teams
+                </ListItem.Title>
+              </ListItem.Content>
+              <Badge 
+                  value={this.props.teams.length || 0}
+                  containerStyle={{
+                    backgroundColor: 'grey',
+                    paddingRight: 3,
+                    paddingLeft: 3,
+                  }}/> 
+              <ListItem.Chevron />
+            </ListItem>}
       </View>
     );
   }

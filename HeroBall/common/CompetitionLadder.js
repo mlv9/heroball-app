@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, FlatList, Text } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { Avatar, ListItem } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 
 
@@ -17,14 +17,15 @@ class CompetitionLadder extends React.Component {
             <ListItem
               containerStyle={{
                 borderWidth: 1,
-              }}
-              leftIcon={<Text>{(index+1) + '.'}</Text>}
-              title={item.Team.Name}
-              rightElement={<Text>{item.Won + ' - ' + item.Lost + ' - ' + item.Drawn}</Text>}
-              subtitleStyle={{
-                color: 'grey'
-              }}
-            />
+              }}>
+              <Avatar>{<Text>{(index+1) + '.'}</Text>}</Avatar>
+              <ListItem.Content>
+                <ListItem.Title>
+                  {item.Team.Name}
+                </ListItem.Title>
+              </ListItem.Content>
+              {<Text>{item.Won + ' - ' + item.Lost + ' - ' + item.Drawn}</Text>}
+            </ListItem>
           </TouchableOpacity>
         )} />
     );

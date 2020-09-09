@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Image, ScrollView, ActivityIndicator, Text, View } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { ListItem, Badge } from 'react-native-elements';
 import colorScheme from './Colors';
 import ViewHeader from './ViewHeader';
 import Progress from 'react-native-progress/Circle';
@@ -103,26 +103,30 @@ class PlayerProfile extends React.Component {
 
           }}>
             <ListItem
-              chevron
-              badge={{
-                value: this.state.playerInfo.AggregateStats.Stats.GameCount,
-                badgeStyle: {
-                  backgroundColor: 'lightsteelblue',
-                  paddingRight: 3,
-                  paddingLeft: 3,
-                }
-              }}
-              titleStyle={{
-                fontSize: 14,
-              }}
               containerStyle={{
                 borderWidth: 1,
                 paddingTop: 5,
                 paddingBottom: 5,
                 paddingLeft: 3,
-              }}
-              title='View All Game Stats'
-            />
+              }}>
+              <ListItem.Content>
+                <ListItem.Title 
+                    containerStyle={{
+                    fontSize: 14,
+                  }}>
+                  View All Game Stats
+                </ListItem.Title>
+              </ListItem.Content>
+              <Badge 
+                  value={this.state.playerInfo.AggregateStats.Stats.GameCount}
+                  containerStyle={{
+                    backgroundColor: 'lightsteelblue',
+                    paddingRight: 3,
+                    paddingLeft: 3,
+                  }}
+                />
+              <ListItem.Chevron />
+            </ListItem>
             </TouchableOpacity>}
           <GamesList 
             gamesCursor={this.state.playerInfo.RecentGames}
