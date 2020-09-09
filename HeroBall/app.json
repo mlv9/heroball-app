@@ -3,7 +3,6 @@
     "name": "HeroBall",
     "slug": "HeroBall",
     "privacy": "public",
-    "sdkVersion": "34.0.0",
     "platforms": [
       "ios",
       "android"

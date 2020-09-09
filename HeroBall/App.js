@@ -10,11 +10,15 @@ import PlayerAverageStatResults from './common/PlayerAverageStatResults'
 import PlayerGameStatResults from './common/PlayerGameStatResults'
 import StatisticsView from './common/StatisticsView'
 import {
-  createBottomTabNavigator,
   createSwitchNavigator,
-  createAppContainer,
-  createStackNavigator
+  createAppContainer
   } from 'react-navigation';
+import {
+  createStackNavigator
+} from 'react-navigation-stack';
+import {
+  createBottomTabNavigator
+} from 'react-navigation-tabs';
 import { StatusBar } from 'react-native';
 import colorScheme from './common/Colors'
 
