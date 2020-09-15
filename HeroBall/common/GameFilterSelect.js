@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import colorScheme from './Colors'
 import { Button } from 'react-native-elements';

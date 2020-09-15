@@ -72,7 +72,7 @@ class PlayerProfile extends React.Component {
         }}>
         <ViewHeader name='Player Profile' showBack={true} />
         {this.state.playerInfo === undefined && 
-          <ActivityIndicator style={{marginTop: 50}}/>
+          <ActivityIndicator style={{marginTop: 50}} size={'large'}/>
         }
         { this.state.playerInfo !== undefined && 
          <ScrollView>

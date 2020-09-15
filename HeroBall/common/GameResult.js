@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, View } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faUsers  } from '@fortawesome/free-solid-svg-icons'
-import { ListItem } from 'react-native-elements';
 import moment from 'moment';
 
 class GameResult extends React.Component {

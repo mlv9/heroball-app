@@ -60,7 +60,7 @@ class GameBoxScore extends React.Component {
       <View  style={{flex:1}}>
         <ViewHeader name='Box Score' showBack={true}/>
           {this.state.gameInfo === undefined && (
-            <ActivityIndicator style={{marginTop: 50}}/>
+            <ActivityIndicator style={{marginTop: 50}} size={"large"} />
           )}
           {this.state.gameInfo !== undefined && 
             <View style={{flex:1}}>
