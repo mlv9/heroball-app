@@ -70,12 +70,12 @@ class PlayerTeamsList extends React.Component {
                 </ListItem.Title>
               </ListItem.Content>
               <Badge 
-                  value={this.props.teams.length || 0}
-                  status="primary"
-                  containerStyle={{
-                    paddingRight: 3,
-                    paddingLeft: 3,
-                  }}/> 
+                value={this.props.teams.length || 0}
+                status="primary"
+                containerStyle={{
+                  paddingRight: 3,
+                  paddingLeft: 3,
+                }}/> 
               <ListItem.Chevron />
             </ListItem>}
       </View>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, TouchableOpacity, ActivityIndicator, Image, StyleSheet, ScrollView,  Text, View } from 'react-native';
+import { RefreshControl, Alert, TouchableOpacity, ActivityIndicator, Image, StyleSheet, ScrollView,  Text, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faUsers, faList } from '@fortawesome/free-solid-svg-icons'
 import colorScheme from './Colors';
@@ -16,6 +16,7 @@ class TeamsView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      loading: true,
     }
   }
 
@@ -33,7 +34,7 @@ class TeamsView extends React.Component {
 
     /* for development, lets just show something */
     if (teamIdToLoad == 0) {
-      teamIdToLoad = 1
+      teamIdToLoad = 169
     }
 
     if (this.state.teamInfo !== undefined && teamIdToLoad == this.state.teamInfo.Team.TeamId) {
@@ -42,7 +43,7 @@ class TeamsView extends React.Component {
 
     /* else set blank */
     this.setState({
-      teamInfo: undefined
+      loading: true
     })
 
     return doRPC('v1/get/team/info',
@@ -53,9 +54,13 @@ class TeamsView extends React.Component {
       .then((response) => {
         this.setState({
           teamInfo: response,
+          loading: false,
         })
       })
       .catch((error) => {
+        this.setState({
+          loading: false
+        })
         console.log(error)
         Alert.alert("Error loading team.");
       });
@@ -75,10 +80,16 @@ class TeamsView extends React.Component {
           }
         />
         {this.state.teamInfo === undefined && 
-          <ActivityIndicator style={{marginTop: 50}}/>
+          <ActivityIndicator style={{marginTop: 50}} size={'large'}/>
         }
         {this.state.teamInfo !== undefined && 
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.loading}
+              onRefresh={() => {this.loadTeam()}}
+            />}
+          >
           <Image style={{height:200}}
             source={{uri: `http://www-static2.spulsecdn.net/pics/00/01/54/07/1540783_1_M.jpg`}}
             indicator={Progress.Circle}

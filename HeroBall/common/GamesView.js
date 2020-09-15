@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, RefreshControl, ScrollView, ActivityIndicator, Alert, Text, View } from 'react-native';
+import { TouchableOpacity, RefreshControl, ScrollView, Alert, Text, View } from 'react-native';
 import ViewHeader from './ViewHeader'
 import GamesList from './GamesList'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -177,9 +177,6 @@ class GamesView extends React.Component {
                 <FontAwesomeIcon icon={ faAngleDoubleRight } color={'grey'} size={20}/>
               </TouchableOpacity>        
             </View>
-            {this.state.loading === true && 
-              <ActivityIndicator size='large' style={{marginTop: 20, marginBottom: 20}}/>
-            }
             <DateTimePicker
                 isVisible={this.state.isDateTimePickerVisible}
                 onConfirm={this.handleDatePicked}
