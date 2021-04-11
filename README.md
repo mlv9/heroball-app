@@ -1,9 +1,13 @@
 # Heroball App
-A mobile application written in React-Native.
+A mobile application written in React-Native, and using Expo for development and testing.
+
+## Getting Started
+From the Heroball directory, run `npm install && npm start`.  Then follow the instructions to get it running on an iOS/Android device.
 
 ## Current Issues
 - Missing stats from a game for a team breaks everything
 - Having the same player listed for both teams in a game breaks everything
+- Handle bad DNS/Certs better 
 
 ## General TODO
 - Filter logis is kind of confusing in that it AND (e.g. If you select a comp and a player, its really only that player in that comp - is this intuitive?)
